@@ -1,0 +1,3309 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>[Slimwork] Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc</title>
+
+  <!-- Google Fonts: Be Vietnam Pro (tiếng Việt sắc nét) + Orbitron (KPI, huy hiệu, phần trăm) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- canvas-confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- QRCode.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+            cyber: ['"Orbitron"', 'monospace'],
+          },
+          colors: {
+            deepBg: '#050814',
+            deepCard: '#070b1a',
+            neonCyan: '#00f2fe',
+            neonPurple: '#a855f7',
+            neonPink: '#ec4899',
+            neonEmerald: '#10b981',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* =====================================================================
+       [SLIMWORK] NEON CYBERPUNK & GLASSMORPHISM DESIGN SYSTEM
+       ===================================================================== */
+    :root {
+      --bg-void: #050814;
+      --bg-surface: #070b1a;
+      --neon-cyan: #00f2fe;
+      --neon-purple: #a855f7;
+      --neon-pink: #ec4899;
+      --neon-emerald: #10b981;
+      --neon-amber: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #050814;
+      color: #f8fafc;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(168, 85, 247, 0.17), transparent 38%),
+        radial-gradient(circle at 90% 16%, rgba(0, 242, 254, 0.14), transparent 36%),
+        radial-gradient(circle at 50% 94%, rgba(236, 72, 153, 0.13), transparent 44%),
+        linear-gradient(180deg, #050814 0%, #070b1a 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Custom Neon Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050814;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #00f2fe, #a855f7, #ec4899);
+      border-radius: 9999px;
+    }
+
+    /* Interactive Neural Network Canvas */
+    #neural-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Subtle Tech Grid Overlay */
+    .cyber-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 242, 254, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: radial-gradient(ellipse at center, black 36%, transparent 90%);
+    }
+
+    /* Glassmorphism Containers */
+    .glass-panel {
+      background: linear-gradient(145deg, rgba(14, 21, 44, 0.72), rgba(7, 11, 26, 0.88));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 20px 52px -22px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-panel-neon {
+      position: relative;
+      background: linear-gradient(145deg, rgba(16, 24, 52, 0.82), rgba(5, 8, 20, 0.94));
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      box-shadow: 0 0 42px -12px rgba(0, 242, 254, 0.28), 0 26px 64px -24px rgba(0, 0, 0, 0.92);
+    }
+
+    /* Glowing Interactive Selection Cards */
+    .neon-card {
+      position: relative;
+      background: rgba(11, 18, 38, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      transition: all 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      user-select: none;
+    }
+    .neon-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 242, 254, 0.58);
+      background: rgba(15, 24, 50, 0.88);
+      box-shadow: 0 0 24px -6px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Distinct Neon Active Variants */
+    .neon-card.active-cyan {
+      border-color: #00f2fe;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(168, 85, 247, 0.12));
+      box-shadow: 0 0 26px -4px rgba(0, 242, 254, 0.52), inset 0 0 18px rgba(0, 242, 254, 0.14);
+    }
+    .neon-card.active-purple {
+      border-color: #a855f7;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.22), rgba(0, 242, 254, 0.1));
+      box-shadow: 0 0 26px -4px rgba(168, 85, 247, 0.56), inset 0 0 18px rgba(168, 85, 247, 0.16);
+    }
+    .neon-card.active-pink {
+      border-color: #ec4899;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.13));
+      box-shadow: 0 0 26px -4px rgba(236, 72, 153, 0.54), inset 0 0 18px rgba(236, 72, 153, 0.15);
+    }
+    .neon-card.active-emerald {
+      border-color: #10b981;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(0, 242, 254, 0.1));
+      box-shadow: 0 0 26px -4px rgba(16, 185, 129, 0.54), inset 0 0 18px rgba(16, 185, 129, 0.15);
+    }
+    .neon-card.active-amber {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(236, 72, 153, 0.08));
+      box-shadow: 0 0 26px -4px rgba(245, 158, 11, 0.52), inset 0 0 18px rgba(245, 158, 11, 0.14);
+    }
+    .neon-card.active-indigo {
+      border-color: #6366f1;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.24), rgba(0, 242, 254, 0.11));
+      box-shadow: 0 0 26px -4px rgba(99, 102, 241, 0.56), inset 0 0 18px rgba(99, 102, 241, 0.16);
+    }
+    .neon-card.active-rose {
+      border-color: #f43f5e;
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.22), rgba(168, 85, 247, 0.1));
+      box-shadow: 0 0 26px -4px rgba(244, 63, 94, 0.52), inset 0 0 18px rgba(244, 63, 94, 0.14);
+    }
+    .neon-card.active-slate {
+      border-color: #94a3b8;
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.2), rgba(30, 41, 59, 0.65));
+      box-shadow: 0 0 20px -4px rgba(148, 163, 184, 0.42);
+    }
+
+    /* Neon Gradient Typography */
+    .text-neon-gradient {
+      background: linear-gradient(90deg, #00f2fe 0%, #a855f7 52%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Neon Inputs */
+    .neon-input {
+      background: rgba(5, 8, 20, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      transition: all 0.22s ease;
+    }
+    .neon-input:focus {
+      outline: none;
+      border-color: #00f2fe;
+      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.18), 0 0 24px -4px rgba(0, 242, 254, 0.48);
+    }
+
+    /* Custom Neon Range Slider for Section 3 */
+    .neon-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #334155 0%, #00f2fe 35%, #a855f7 70%, #ec4899 100%);
+      outline: none;
+      cursor: pointer;
+    }
+    .neon-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 9999px;
+      background: #050814;
+      border: 3px solid #00f2fe;
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.9), 0 0 28px rgba(236, 72, 153, 0.65);
+      transition: transform 0.15s ease;
+    }
+    .neon-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .neon-slider::-moz-range-thumb {
+      width: 26px;
+      height: 26px;
+      border-radius: 9999px;
+      background: #050814;
+      border: 3px solid #00f2fe;
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.9);
+      cursor: pointer;
+    }
+
+    /* Animated Primary CTA Button */
+    .cta-neon-btn {
+      background: linear-gradient(90deg, #00f2fe, #a855f7, #ec4899, #00f2fe);
+      background-size: 260% 100%;
+      animation: gradientFlow 4.2s ease infinite;
+      box-shadow: 0 0 34px -4px rgba(0, 242, 254, 0.6), 0 0 52px -10px rgba(236, 72, 153, 0.55);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta-neon-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 0 46px -2px rgba(0, 242, 254, 0.78), 0 0 66px -8px rgba(236, 72, 153, 0.72);
+    }
+    .cta-neon-btn:active {
+      transform: scale(0.985);
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Sticky Neon Energy Progress Bar */
+    .energy-bar-fill {
+      background: linear-gradient(90deg, #00f2fe, #a855f7, #ec4899);
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.85), 0 0 28px rgba(236, 72, 153, 0.65);
+      transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Diagnostic Laser Scanner */
+    @keyframes scanLaser {
+      0% { top: 0%; opacity: 0.25; }
+      50% { top: 94%; opacity: 1; }
+      100% { top: 0%; opacity: 0.25; }
+    }
+    .scanner-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00f2fe, #ec4899, transparent);
+      box-shadow: 0 0 20px #00f2fe;
+      animation: scanLaser 0.85s linear infinite;
+    }
+
+    /* Validation / Wrong Passcode Shake */
+    @keyframes shakeBox {
+      0%, 100% { transform: translateX(0); }
+      18% { transform: translateX(-8px); }
+      36% { transform: translateX(8px); }
+      54% { transform: translateX(-6px); }
+      72% { transform: translateX(6px); }
+      90% { transform: translateX(-3px); }
+    }
+    .shake-error {
+      border-color: #f43f5e !important;
+      box-shadow: 0 0 32px -4px rgba(244, 63, 94, 0.72) !important;
+      animation: shakeBox 0.44s ease;
+    }
+
+    /* Live Pulse Indicator */
+    @keyframes pulseRing {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      75% { transform: scale(2.3); opacity: 0; }
+      100% { transform: scale(2.3); opacity: 0; }
+    }
+    .live-dot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: #10b981;
+      animation: pulseRing 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes fadeUpIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUpIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Dimmed State for Q2.1 when "Chưa sử dụng AI" is chosen */
+    .q21-dimmed {
+      opacity: 0.45;
+      filter: saturate(0.42);
+      transition: all 0.28s ease;
+    }
+    .q21-dimmed:hover {
+      opacity: 0.88;
+      filter: saturate(0.95);
+    }
+
+    /* Crisp Stage QR Code Container */
+    #stage-qr-container img,
+    #stage-qr-container canvas {
+      margin: 0 auto;
+      border-radius: 12px;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body class="text-slate-100 antialiased selection:bg-[#00f2fe]/30 selection:text-cyan-100">
+  <!-- Interactive Neural Network Particle Canvas -->
+  <canvas id="neural-canvas" aria-hidden="true"></canvas>
+  <div class="cyber-grid" aria-hidden="true"></div>
+
+  <!-- =======================================================================
+       TOP STICKY NAVIGATION BAR + REAL-TIME NEON ENERGY PROGRESS BAR
+       ======================================================================= -->
+  <header class="sticky top-0 z-40 border-b border-[#00f2fe]/20 bg-[#050814]/88 backdrop-blur-xl">
+    <div class="mx-auto max-w-7xl px-3 sm:px-6">
+      <div class="flex flex-wrap items-center justify-between gap-2.5 py-2.5 sm:py-3">
+
+        <!-- Brand: [Slimwork] -->
+        <div class="flex items-center gap-2.5 cursor-pointer min-w-0" onclick="handleNavClick('survey')">
+          <div class="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#00f2fe]/25 via-[#a855f7]/30 to-[#ec4899]/25 border border-[#00f2fe]/55 shadow-[0_0_22px_rgba(0,242,254,0.35)]">
+            <svg class="h-5 w-5 text-[#00f2fe]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-cyber text-sm sm:text-base font-black tracking-wider text-neon-gradient">[SLIMWORK]</span>
+              <span class="hidden md:inline-flex rounded-full bg-[#10b981]/15 border border-[#10b981]/45 px-2 py-0.5 font-cyber text-[9px] font-bold text-[#10b981]">AI HUB</span>
+            </div>
+            <p class="truncate text-[10px] sm:text-[11px] text-slate-400 tracking-wide max-w-[180px] sm:max-w-xs md:max-w-md">
+              Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc
+            </p>
+          </div>
+        </div>
+
+        <!-- 2 Switchable Modes: Khảo sát AI & Live Stage (Lock-Protected) -->
+        <nav class="flex items-center gap-1.5 rounded-2xl bg-[#070b1a]/95 p-1 border border-slate-700/75" aria-label="Chế độ ứng dụng">
+          <button id="nav-survey" type="button" onclick="handleNavClick('survey')"
+            class="flex items-center gap-1.5 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold transition-all bg-gradient-to-r from-[#00f2fe]/25 to-[#a855f7]/25 text-[#00f2fe] border border-[#00f2fe]/55 shadow-[0_0_18px_rgba(0,242,254,0.3)]">
+            <span>⚡</span><span>Khảo sát AI</span>
+          </button>
+
+          <button id="nav-stage" type="button" onclick="handleNavClick('stage')"
+            class="flex items-center gap-1.5 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold transition-all text-slate-300 hover:text-white border border-transparent">
+            <span id="nav-lock-icon" class="text-sm transition-transform" title="Yêu cầu mã khóa bảo mật">🔒</span>
+            <span>Live Stage</span>
+          </button>
+        </nav>
+
+        <!-- Progress Energy Indicator + Sci-Fi Audio Toggle -->
+        <div class="flex items-center gap-2">
+          <div id="header-progress-pill" class="hidden sm:flex items-center gap-2 rounded-xl bg-[#070b1a]/95 border border-[#00f2fe]/35 px-3 py-1.5">
+            <span class="text-[11px] font-medium text-slate-400">Tiến độ</span>
+            <span id="progress-percent-text" class="font-cyber text-xs font-extrabold text-[#00f2fe]">0%</span>
+          </div>
+
+          <button id="sound-toggle-btn" type="button" onclick="toggleSound()" title="Bật/Tắt hiệu ứng âm thanh tương tác"
+            class="flex items-center justify-center rounded-xl bg-[#070b1a]/95 hover:bg-slate-800 border border-slate-700/80 px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs font-semibold text-slate-300 transition">
+            <span id="sound-icon">🔇</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Neon Energy Progress Bar -->
+    <div id="energy-bar-wrapper" class="relative h-1.5 w-full bg-[#050814] overflow-hidden">
+      <div id="energy-bar-fill" class="energy-bar-fill h-full w-0 rounded-r-full"></div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       MAIN CONTENT STAGE
+       ======================================================================= -->
+  <main class="relative z-10 mx-auto max-w-5xl px-3 sm:px-6 pb-20 pt-6 sm:pt-9">
+
+    <!-- =====================================================================
+         VIEW 1: CHẾ ĐỘ KHẢO SÁT AI (1 TRANG CUỘN DUY NHẤT, BUNG TRỰC QUAN)
+         ===================================================================== -->
+    <section id="view-survey" class="space-y-6 sm:space-y-7 animate-fade-up">
+
+      <!-- HERO BANNER -->
+      <div class="glass-panel-neon rounded-3xl p-5 sm:p-8 md:p-10 text-center relative overflow-hidden">
+        <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#00f2fe] via-50% to-transparent opacity-95"></div>
+
+        <div class="inline-flex items-center gap-2 rounded-full bg-[#00f2fe]/10 border border-[#00f2fe]/45 px-4 py-1.5 mb-4 shadow-[0_0_24px_rgba(0,242,254,0.22)]">
+          <span class="relative flex h-2.5 w-2.5 live-dot rounded-full bg-[#10b981]"></span>
+          <span class="font-cyber text-[10px] sm:text-xs font-bold tracking-widest text-[#00f2fe] uppercase">
+            [SLIMWORK] • CHƯƠNG TRÌNH CHUYỂN ĐỔI & TỰ ĐỘNG HÓA AI NỘI BỘ
+          </span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-white mb-3">
+          <span class="text-neon-gradient drop-shadow-[0_0_26px_rgba(0,242,254,0.35)]">[Slimwork]</span>
+          <span class="block mt-1">Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc</span>
+        </h1>
+
+        <p class="mx-auto max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed mb-5">
+          Chỉ mất <strong class="text-[#00f2fe]">~60 giây</strong> chạm chọn trực quan trên một trang duy nhất để mở khóa <strong class="text-pink-300">Thẻ Hồ sơ Năng lực AI — Slimwork</strong> và định hình chương trình hỗ trợ, đào tạo sát thực tế nhất cho bộ phận bạn.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-[#a855f7]/45 px-3.5 py-1.5 text-purple-200">
+            ⚡ 1 trang trực quan • Biểu đồ Radar AI cá nhân
+          </span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-[#10b981]/45 px-3.5 py-1.5 text-emerald-300">
+            🔥 <span id="hero-live-count" class="font-cyber">1.268</span> phản hồi đã được ghi nhận
+          </span>
+        </div>
+      </div>
+
+      <!-- SURVEY FORM -->
+      <form id="slimwork-survey-form" novalidate class="space-y-6">
+
+        <!-- ================================================================
+             MỤC 1: THÔNG TIN NHÂN SỰ (1A BỘ PHẬN & 1B HỌ TÊN)
+             ================================================================ -->
+        <div id="sec-1" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#00f2fe]/15 border border-[#00f2fe]/55 font-cyber text-sm font-extrabold text-[#00f2fe] shadow-[0_0_20px_rgba(0,242,254,0.28)]">
+              01
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Thông tin nhân sự
+                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Bắt buộc</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn nhanh bộ phận công tác và nhập họ tên để hệ thống khởi tạo Thẻ Hồ sơ Năng lực AI — Slimwork.</p>
+            </div>
+          </div>
+
+          <!-- 1A: 11 Department Cards (including CSR, Oneteam, TFT, Khác) -->
+          <div class="mb-5">
+            <label class="block text-sm font-bold text-[#00f2fe] mb-3">1A. Bạn đang làm việc tại bộ phận nào? (Chọn 1 thẻ)</label>
+            <div id="dept-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3"></div>
+            <div id="dept-other-wrap" class="hidden mt-3 animate-fade-up">
+              <input type="text" id="dept-other-input" placeholder="Vui lòng nhập tên bộ phận / phòng ban của bạn..."
+                class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
+            </div>
+          </div>
+
+          <!-- 1B: Full Name -->
+          <div>
+            <label for="employee-name" class="block text-sm font-bold text-[#00f2fe] mb-2">1B. Họ và tên của bạn:</label>
+            <div class="relative">
+              <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#00f2fe] text-base">👤</span>
+              <input type="text" id="employee-name" autocomplete="name" required
+                placeholder="VD: Nguyễn Minh Anh"
+                class="neon-input w-full rounded-2xl pl-11 pr-4 py-3.5 text-sm sm:text-base text-white placeholder-slate-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 2 & MỤC 2.1: HIỆN TRẠNG SỬ DỤNG AI & CHI TIẾT CÔNG CỤ AI
+             ================================================================ -->
+        <div id="sec-2" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all space-y-6">
+          <!-- Mục 2 -->
+          <div>
+            <div class="flex items-start gap-3 sm:gap-4 mb-5">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a855f7]/20 border border-[#a855f7]/55 font-cyber text-sm font-extrabold text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                02
+              </div>
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                  Hiện trạng sử dụng AI nội bộ
+                  <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn các nhóm tác vụ bạn đang ứng dụng AI — hoặc chọn "Chưa sử dụng AI vào công việc" nếu chưa bắt đầu.</p>
+              </div>
+            </div>
+
+            <div id="usage-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+            <!-- Reveal Input if "Khác" is checked in Mục 2 -->
+            <div id="usage-other-wrap" class="hidden mt-3.5 animate-fade-up">
+              <input type="text" id="usage-other-input"
+                placeholder="Vui lòng mô tả ngắn cách thức ứng dụng AI khác của bạn trong công việc..."
+                class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
+            </div>
+          </div>
+
+          <!-- Mục 2.1: Specific AI Tools -->
+          <div id="sec-2-1" class="rounded-2xl bg-gradient-to-br from-[#00f2fe]/[0.07] via-[#a855f7]/[0.09] to-[#ec4899]/[0.06] border border-[#00f2fe]/35 p-4 sm:p-6 transition-all relative">
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-4">
+              <div class="flex items-start gap-3">
+                <div class="flex h-9 px-2.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#00f2fe]/25 to-[#ec4899]/25 border border-[#00f2fe]/55 font-cyber text-xs font-black text-[#00f2fe] shadow-[0_0_16px_rgba(0,242,254,0.3)]">
+                  2.1
+                </div>
+                <div>
+                  <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug">
+                    (Nếu có) Vui lòng cho biết chi tiết bạn đã và đang sử dụng công cụ nào?
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Chọn tất cả công cụ AI bạn đang sử dụng. Chạm công cụ bất kỳ sẽ tự động hủy chọn "Chưa sử dụng AI" ở Mục 2.</p>
+                </div>
+              </div>
+
+              <span id="q21-skip-badge" class="hidden items-center gap-1.5 rounded-full bg-slate-800/95 border border-slate-500/60 px-3 py-1 text-xs font-bold text-slate-300">
+                ⏭️ Tự động bỏ qua (Chưa dùng AI)
+              </span>
+            </div>
+
+            <div id="tools-21-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+
+            <!-- Reveal Input when "Khác" is checked in Mục 2.1 -->
+            <div id="tool-other-wrap" class="hidden mt-3.5 animate-fade-up">
+              <input type="text" id="tool-other-input"
+                placeholder="Vui lòng ghi rõ tên công cụ AI khác (VD: Microsoft Copilot, NotebookLM, Perplexity, Midjourney, Cursor...)"
+                class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 3: TỰ ĐÁNH GIÁ MỨC ĐỘ SỬ DỤNG AI (0 - 5, SLIDER + 6 CARDS)
+             ================================================================ -->
+        <div id="sec-3" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#ec4899]/18 border border-[#ec4899]/55 font-cyber text-sm font-extrabold text-pink-300 shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+              03
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Tự đánh giá mức độ sử dụng AI (Nếu đang sử dụng)
+                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Bắt buộc</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Kéo thanh trượt hoặc chạm chọn trực tiếp 1 trong 6 cấp độ từ 0 đến 5 bên dưới.</p>
+            </div>
+          </div>
+
+          <!-- Interactive Neon Slider -->
+          <div class="mb-5 px-1">
+            <div class="flex items-center justify-between text-[11px] font-cyber text-slate-400 mb-2">
+              <span>LVL 0</span><span>LVL 1</span><span>LVL 2</span><span>LVL 3</span><span>LVL 4</span><span>LVL 5</span>
+            </div>
+            <input type="range" id="level-slider" min="0" max="5" step="1" value="0" aria-label="Thanh trượt mức độ sử dụng AI"
+              class="neon-slider" />
+          </div>
+
+          <!-- 6 Clickable Level Cards -->
+          <div id="level-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 mb-5"></div>
+
+          <!-- Dynamic Badge & Description Box -->
+          <div class="rounded-2xl bg-[#050814]/90 border border-[#00f2fe]/25 p-4 sm:p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3.5">
+                <div id="tier-badge-icon" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#070b1a] border border-slate-700 text-2xl">
+                  🌱
+                </div>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span id="tier-badge-name" class="font-cyber text-sm sm:text-base font-extrabold text-[#00f2fe] tracking-wide">
+                      CHỌN CẤP ĐỘ NĂNG LỰC (0 – 5)
+                    </span>
+                    <span id="tier-badge-pill" class="rounded-full bg-slate-800 border border-slate-700 px-2.5 py-0.5 font-cyber text-[11px] font-bold text-slate-300">
+                      LVL —
+                    </span>
+                  </div>
+                  <p id="tier-badge-desc" class="text-xs sm:text-sm text-slate-400 mt-0.5">
+                    Chọn một cấp độ phía trên để hệ thống định danh hồ sơ AI của bạn.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="h-2.5 w-full rounded-full bg-slate-900 overflow-hidden border border-slate-800">
+              <div id="level-gauge-bar" class="h-full w-0 rounded-full transition-all duration-500 bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#ec4899] shadow-[0_0_16px_rgba(0,242,254,0.8)]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 4: CÔNG VIỆC NÊN TỰ ĐỘNG HÓA (4A) & MỨC ĐỘ KHẢ THI (4B)
+             ================================================================ -->
+        <div id="sec-4" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/18 border border-[#10b981]/55 font-cyber text-sm font-extrabold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.28)]">
+              04
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Công việc nào nên được tự động hóa? Mô tả ngắn gọn & Đánh giá mức độ khả thi
+                <span class="text-[11px] font-bold text-emerald-300 bg-[#10b981]/15 border border-[#10b981]/40 rounded-full px-2.5 py-0.5">Ưu tiên cải tiến</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chạm nhanh gợi ý hoặc mô tả ngắn tác vụ lặp lại tốn nhiều thời gian nhất tại phòng ban bạn.</p>
+            </div>
+          </div>
+
+          <!-- 4A -->
+          <div class="mb-5">
+            <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
+              4A. Mô tả ngắn gọn công việc / quy trình cần tự động hóa:
+            </label>
+            <div id="suggestion-chips" class="flex flex-wrap gap-2 mb-3"></div>
+            <textarea id="automation-idea" rows="3"
+              placeholder="VD: Tổng hợp báo cáo định kỳ từ nhiều file Excel, đối chiếu số liệu, dịch tài liệu song ngữ, rà soát chứng từ..."
+              class="neon-input w-full rounded-2xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 resize-y"></textarea>
+          </div>
+
+          <!-- 4B -->
+          <div>
+            <label class="block text-sm font-bold text-emerald-300 mb-3">
+              4B. Đánh giá mức độ khả thi khi tự động hóa công việc trên (Chọn 1):
+            </label>
+            <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 5: BẠN MUỐN ĐÀO TẠO BẰNG HÌNH THỨC NÀO? (ONLINE / OFFLINE / VIDEO)
+             ================================================================ -->
+        <div id="sec-5" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#00f2fe]/15 border border-[#00f2fe]/55 font-cyber text-sm font-extrabold text-[#00f2fe] shadow-[0_0_20px_rgba(0,242,254,0.28)]">
+              05
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Bạn muốn đào tạo bằng hình thức nào?
+                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn một hoặc nhiều hình thức đào tạo phù hợp nhất với lịch trình công việc của bạn.</p>
+            </div>
+          </div>
+
+          <div id="format-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3.5"></div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 6: CHỦ ĐỀ / CÔNG VIỆC MONG MUỐN ĐỘI NGŨ HỖ TRỢ
+             ================================================================ -->
+        <div id="sec-6" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a855f7]/20 border border-[#a855f7]/55 font-cyber text-sm font-extrabold text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+              06
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Bạn mong muốn đội ngũ hỗ trợ bạn các loại công việc / chủ đề nào?
+                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn tất cả hạng mục hỗ trợ giúp tăng tốc hiệu suất trực tiếp cho công việc hàng ngày của bạn.</p>
+            </div>
+          </div>
+
+          <div id="support-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+          <div id="support-other-wrap" class="hidden mt-3.5 animate-fade-up">
+            <textarea id="support-other-input" rows="2"
+              placeholder="Vui lòng ghi rõ loại công việc, chủ đề hoặc tình huống cụ thể bạn muốn đội ngũ Slimwork hỗ trợ..."
+              class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500"></textarea>
+          </div>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <div class="pt-2 text-center space-y-3">
+          <div id="validation-banner" class="hidden mx-auto max-w-2xl rounded-2xl bg-rose-500/15 border border-rose-500/55 px-4 py-3 text-sm text-rose-200 animate-fade-up"></div>
+
+          <button type="submit" id="submit-survey-btn"
+            class="cta-neon-btn w-full sm:w-auto min-w-[290px] sm:min-w-[440px] rounded-2xl px-8 py-4 sm:py-5 text-base sm:text-lg font-black tracking-wide text-slate-950 uppercase cursor-pointer">
+            ⚡ GỬI KHẢO SÁT & PHÂN TÍCH HỒ SƠ AI
+          </button>
+
+          <p class="text-xs text-slate-400">
+            Dữ liệu phản hồi được lưu tự động và đồng bộ trực tiếp về hệ thống tổng hợp [Slimwork].
+          </p>
+        </div>
+      </form>
+    </section>
+
+    <!-- =====================================================================
+         VIEW 2: LIVE STAGE EXECUTIVE DASHBOARD (CHỈ MỞ SAU KHI XÁC THỰC MÃ KHÓA)
+         ===================================================================== -->
+    <section id="view-stage" class="hidden space-y-6 animate-fade-up">
+
+      <!-- Stage Command Header & Admin Controls -->
+      <div class="glass-panel-neon rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-[#10b981]/15 border border-[#10b981]/45 px-3 py-1 mb-2">
+              <span class="relative flex h-2 w-2 live-dot rounded-full bg-[#10b981]"></span>
+              <span class="font-cyber text-[10px] sm:text-[11px] font-bold tracking-widest text-emerald-300 uppercase">
+                LIVE STAGE UNLOCKED • TRÌNH CHIẾU HỘI TRƯỜNG
+              </span>
+            </div>
+            <h2 class="text-xl sm:text-3xl font-black text-white tracking-tight">
+              <span class="text-neon-gradient">[Slimwork]</span> Live Stage Dashboard
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">
+              Tối ưu hóa Hiệu Suất & Tự Động Hóa AI — Thống kê trực tiếp theo Bộ phận, Công cụ AI (2.1), Hình thức Đào tạo (5) & Chủ đề Hỗ trợ (6).
+            </p>
+          </div>
+
+          <!-- Dataset Switcher: Demo + Thực tế vs Chỉ dữ liệu thực tế -->
+          <div class="inline-flex self-start lg:self-center rounded-2xl bg-[#050814]/95 p-1 border border-slate-700/80">
+            <button id="toggle-demo-btn" type="button" onclick="setStageDatasetMode('demo')"
+              class="rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#00f2fe]/25 to-[#a855f7]/25 text-[#00f2fe] border border-[#00f2fe]/50">
+              🌐 Trình diễn (Demo + Thực tế)
+            </button>
+            <button id="toggle-real-btn" type="button" onclick="setStageDatasetMode('real')"
+              class="rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent">
+              🎯 Chỉ dữ liệu thực tế (<span id="real-count-badge" class="font-cyber">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- Stage Action Toolbar -->
+        <div class="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-800/90">
+          <button type="button" onclick="openQRModal()"
+            class="flex items-center gap-1.5 rounded-xl bg-[#00f2fe]/15 hover:bg-[#00f2fe]/25 border border-[#00f2fe]/50 px-3.5 py-2 text-xs font-bold text-[#00f2fe] shadow-[0_0_16px_rgba(0,242,254,0.2)] transition">
+            <span>📱</span><span>Hiện mã QR Sân khấu</span>
+          </button>
+
+          <button type="button" onclick="openConnectModal()"
+            class="flex items-center gap-1.5 rounded-xl bg-[#a855f7]/15 hover:bg-[#a855f7]/25 border border-[#a855f7]/45 px-3.5 py-2 text-xs font-bold text-purple-200 transition">
+            <span>🔌</span><span>Kết nối Webhook / API</span>
+          </button>
+
+          <button type="button" onclick="exportToCSV()"
+            class="flex items-center gap-1.5 rounded-xl bg-[#10b981]/15 hover:bg-[#10b981]/25 border border-[#10b981]/45 px-3.5 py-2 text-xs font-bold text-emerald-300 transition">
+            <span>📥</span><span>Xuất Excel/CSV</span>
+          </button>
+
+          <button type="button" onclick="openChangePasscodeModal()"
+            class="flex items-center gap-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/45 px-3.5 py-2 text-xs font-bold text-amber-200 transition">
+            <span>🔑</span><span>Đổi mã khóa</span>
+          </button>
+
+          <button type="button" onclick="lockLiveStage()"
+            class="ml-auto flex items-center gap-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/50 px-3.5 py-2 text-xs font-bold text-rose-300 transition">
+            <span>🔒</span><span>Khóa lại</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 GLOWING NEON KPI CARDS (ORBITRON FONT + COUNT-UP ANIMATION) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="glass-panel rounded-2xl p-4 sm:p-5 border-t-2 border-t-[#00f2fe]">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tổng phản hồi</div>
+          <div class="mt-2 flex items-baseline gap-1.5">
+            <span id="kpi-total" class="font-cyber text-2xl sm:text-3xl md:text-4xl font-black text-[#00f2fe] drop-shadow-[0_0_12px_rgba(0,242,254,0.45)]">0</span>
+          </div>
+          <div id="kpi-total-note" class="mt-2 text-[11px] text-cyan-200/80">Lượt khảo sát hợp lệ</div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 sm:p-5 border-t-2 border-t-[#a855f7]">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tỷ lệ đã dùng AI</div>
+          <div class="mt-2 flex items-baseline gap-1">
+            <span id="kpi-adoption" class="font-cyber text-2xl sm:text-3xl md:text-4xl font-black text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">0%</span>
+          </div>
+          <div class="mt-2 text-[11px] text-purple-200/80">Đang ứng dụng AI vào công việc</div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 sm:p-5 border-t-2 border-t-[#ec4899]">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Điểm thành thạo TB</div>
+          <div class="mt-2 flex items-baseline gap-1">
+            <span id="kpi-avg-level" class="font-cyber text-2xl sm:text-3xl md:text-4xl font-black text-pink-300 drop-shadow-[0_0_12px_rgba(236,72,153,0.45)]">0.0</span>
+            <span class="font-cyber text-xs text-slate-400">/ 5</span>
+          </div>
+          <div class="mt-2 text-[11px] text-pink-200/80">Thang tự đánh giá 0 – 5</div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 sm:p-5 border-t-2 border-t-[#10b981]">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Ý tưởng tự động hóa</div>
+          <div class="mt-2 flex items-baseline gap-1.5">
+            <span id="kpi-ideas" class="font-cyber text-2xl sm:text-3xl md:text-4xl font-black text-emerald-300 drop-shadow-[0_0_12px_rgba(16,185,129,0.45)]">0</span>
+          </div>
+          <div class="mt-2 text-[11px] text-emerald-200/80">Đề xuất tối ưu quy trình (Mục 4)</div>
+        </div>
+      </div>
+
+      <!-- 4 NEON CHART.JS VISUALIZATIONS -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- Chart 1: Phản hồi theo Bộ phận (đầy đủ CSR, Oneteam, TFT...) -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 lg:col-span-7">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">1. Phản hồi theo Bộ phận</h3>
+              <p class="text-xs text-slate-400">Bao gồm toàn bộ khối văn phòng, nhà máy, CSR, Oneteam, TFT</p>
+            </div>
+            <span class="rounded-lg bg-[#00f2fe]/10 border border-[#00f2fe]/35 px-2.5 py-1 font-cyber text-[10px] text-[#00f2fe]">MỤC 1A</span>
+          </div>
+          <div class="relative h-[300px] sm:h-[320px] w-full">
+            <canvas id="chart-dept"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Top Công cụ AI đang sử dụng (Mục 2.1) -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 lg:col-span-5">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">2. Top Công cụ AI đang sử dụng</h3>
+              <p class="text-xs text-slate-400">ChatGPT, Gemini, Claude, DeepSeek, Grok, Khác</p>
+            </div>
+            <span class="rounded-lg bg-[#a855f7]/15 border border-[#a855f7]/40 px-2.5 py-1 font-cyber text-[10px] text-purple-300">MỤC 2.1</span>
+          </div>
+          <div class="relative h-[300px] sm:h-[320px] w-full">
+            <canvas id="chart-tools"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Hình thức Đào tạo mong muốn (Mục 5) -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 lg:col-span-5">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">3. Hình thức Đào tạo mong muốn</h3>
+              <p class="text-xs text-slate-400">Phân bổ nhu cầu học Online, Offline & Video đào tạo</p>
+            </div>
+            <span class="rounded-lg bg-[#ec4899]/15 border border-[#ec4899]/40 px-2.5 py-1 font-cyber text-[10px] text-pink-300">MỤC 5</span>
+          </div>
+          <div class="relative h-[280px] sm:h-[300px] w-full">
+            <canvas id="chart-format"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Chủ đề & Công việc cần hỗ trợ (Mục 6) -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 lg:col-span-7">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">4. Chủ đề & Công việc cần đội ngũ hỗ trợ</h3>
+              <p class="text-xs text-slate-400">Tạo video, Phân tích dữ liệu, Trình bày báo cáo, Dịch văn bản, Khác</p>
+            </div>
+            <span class="rounded-lg bg-[#10b981]/15 border border-[#10b981]/40 px-2.5 py-1 font-cyber text-[10px] text-emerald-300">MỤC 6</span>
+          </div>
+          <div class="relative h-[280px] sm:h-[300px] w-full">
+            <canvas id="chart-support"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE FEED: Ý TƯỞNG TỰ ĐỘNG HÓA NỔI BẬT -->
+      <div class="glass-panel rounded-3xl p-5 sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <span>⚡</span> Ý tưởng Tự động hóa nổi bật (Cập nhật trực tiếp)
+            </h3>
+            <p class="text-xs text-slate-400">Đề xuất tối ưu hóa quy trình từ các phòng ban kèm đánh giá mức độ khả thi</p>
+          </div>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#10b981]/15 border border-[#10b981]/45 px-3 py-1 font-cyber text-[10px] font-bold text-emerald-300">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#10b981] animate-pulse"></span> LIVE FEED
+          </span>
+        </div>
+
+        <div id="idea-stream-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[360px] overflow-y-auto pr-1"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =======================================================================
+       MODAL 1: SECURITY GATE — CỔNG BẢO MẬT LIVE STAGE (KHÔNG LỘ MÃ KHÓA)
+       ======================================================================= -->
+  <div id="security-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/90 backdrop-blur-lg p-4">
+    <div id="security-modal-box" class="glass-panel-neon w-full max-w-md rounded-3xl p-6 sm:p-7 relative animate-fade-up border border-[#00f2fe]/45">
+      <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#ec4899]"></div>
+
+      <button type="button" onclick="closeSecurityModal()" aria-label="Đóng"
+        class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 text-slate-300">
+        ✕
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="mx-auto mb-3.5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00f2fe]/20 via-[#a855f7]/25 to-[#ec4899]/20 border border-[#00f2fe]/55 shadow-[0_0_30px_rgba(0,242,254,0.35)] text-3xl">
+          🔐
+        </div>
+        <div class="font-cyber text-[10px] font-bold tracking-[0.22em] text-[#00f2fe] uppercase mb-1">SLIMWORK SECURITY GATE</div>
+        <h3 class="text-lg sm:text-xl font-black text-white">CỔNG BẢO MẬT LIVE STAGE</h3>
+        <p class="text-xs text-slate-400 mt-1.5">Nhập mã khóa quản trị để truy cập bảng điều khiển trình chiếu hội trường.</p>
+      </div>
+
+      <form id="security-unlock-form" class="space-y-4">
+        <div class="relative">
+          <input type="password" id="passcode-input" autocomplete="off"
+            placeholder="Nhập mã khóa bảo mật..."
+            class="neon-input w-full rounded-2xl pl-4 pr-12 py-3.5 text-center font-cyber text-base tracking-[0.22em] text-white placeholder-slate-500 placeholder:font-sans placeholder:tracking-normal" />
+          <button type="button" onclick="togglePasscodeVisibility()" id="passcode-eye-btn" title="Ẩn / Hiện mã khóa"
+            class="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 hover:text-[#00f2fe] transition">
+            👁️
+          </button>
+        </div>
+
+        <div id="passcode-error-msg" class="hidden rounded-xl bg-rose-500/15 border border-rose-500/55 px-3.5 py-2.5 text-center text-xs font-bold text-rose-300 shadow-[0_0_18px_rgba(244,63,94,0.3)]">
+          ⛔ Mã khóa không chính xác. Quyền truy cập bị từ chối!
+        </div>
+
+        <button type="submit"
+          class="cta-neon-btn w-full rounded-2xl py-3.5 text-sm font-black tracking-wider text-slate-950 uppercase cursor-pointer">
+          🔓 XÁC THỰC & MỞ LIVE STAGE
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 2: ĐỔI MÃ KHÓA QUẢN TRỊ
+       ======================================================================= -->
+  <div id="change-passcode-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/90 backdrop-blur-lg p-4">
+    <div id="change-passcode-box" class="glass-panel-neon w-full max-w-md rounded-3xl p-6 relative animate-fade-up">
+      <div class="flex items-center justify-between pb-3.5 border-b border-slate-800">
+        <div>
+          <span class="font-cyber text-[10px] font-bold tracking-widest text-purple-300 uppercase">SECURITY SETTINGS</span>
+          <h3 class="text-lg font-black text-white mt-0.5">🔑 Đổi Mã Khóa Live Stage</h3>
+        </div>
+        <button type="button" onclick="closeChangePasscodeModal()" class="flex h-8 w-8 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700 text-slate-300">✕</button>
+      </div>
+
+      <form id="change-passcode-form" class="space-y-3.5 pt-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mã khóa hiện tại:</label>
+          <input type="password" id="old-passcode-input" required autocomplete="off" placeholder="Nhập mã khóa đang sử dụng"
+            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mã khóa mới (tối thiểu 4 ký tự):</label>
+          <input type="password" id="new-passcode-input" required minlength="4" autocomplete="off" placeholder="Nhập mã khóa mới"
+            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Xác nhận mã khóa mới:</label>
+          <input type="password" id="confirm-passcode-input" required minlength="4" autocomplete="off" placeholder="Nhập lại mã khóa mới"
+            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
+        </div>
+
+        <div id="change-passcode-error" class="hidden rounded-xl bg-rose-500/15 border border-rose-500/50 px-3 py-2 text-xs font-bold text-rose-300"></div>
+
+        <div class="flex gap-2.5 pt-2">
+          <button type="button" onclick="closeChangePasscodeModal()"
+            class="flex-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 py-2.5 text-xs font-bold text-slate-200">
+            Hủy bỏ
+          </button>
+          <button type="submit"
+            class="flex-1 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#a855f7] py-2.5 text-xs font-black text-slate-950 uppercase">
+            💾 Lưu mã mới
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 3: MÃ QR SÂN KHẤU (QRCode.js)
+       ======================================================================= -->
+  <div id="qr-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/92 backdrop-blur-xl p-4 overflow-y-auto">
+    <div class="glass-panel-neon w-full max-w-lg rounded-3xl p-6 sm:p-7 relative my-auto text-center animate-fade-up">
+      <button type="button" onclick="closeQRModal()" class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700 text-slate-300">✕</button>
+
+      <div class="inline-flex items-center gap-2 rounded-full bg-[#00f2fe]/15 border border-[#00f2fe]/45 px-3 py-1 mb-2">
+        <span class="font-cyber text-[10px] font-bold tracking-widest text-[#00f2fe] uppercase">SLIMWORK STAGE QR</span>
+      </div>
+      <h3 class="text-xl sm:text-2xl font-black text-white">📱 QUÉT MÃ THAM GIA KHẢO SÁT [SLIMWORK]</h3>
+      <p class="text-xs text-slate-400 mt-1 mb-4">Tự động lấy liên kết hiện tại hoặc nhập link triển khai tùy chỉnh để chiếu lên màn hình LED.</p>
+
+      <div class="flex gap-2 mb-5">
+        <input type="url" id="qr-url-input" placeholder="https://your-slimwork-survey-url.com"
+          class="neon-input flex-1 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono text-[#00f2fe] placeholder-slate-500" />
+        <button type="button" onclick="regenerateStageQR()"
+          class="rounded-xl bg-[#00f2fe]/20 hover:bg-[#00f2fe]/30 border border-[#00f2fe]/55 px-4 py-2.5 text-xs font-bold text-[#00f2fe] whitespace-nowrap">
+          ⚡ Tạo QR
+        </button>
+      </div>
+
+      <div class="mx-auto inline-block rounded-3xl bg-white p-5 shadow-[0_0_52px_rgba(0,242,254,0.45)] border-4 border-[#00f2fe]">
+        <div id="stage-qr-container" class="flex items-center justify-center min-w-[240px] min-h-[240px]"></div>
+      </div>
+
+      <p id="qr-active-url-label" class="mt-3 text-xs font-mono text-slate-300 break-all px-2"></p>
+
+      <div class="mt-5 flex flex-wrap justify-center gap-2.5">
+        <button type="button" onclick="copyStageQRUrl()"
+          class="rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 px-4 py-2.5 text-xs font-bold text-white">
+          📋 Sao chép đường dẫn
+        </button>
+        <button type="button" onclick="downloadStageQR()"
+          class="rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#a855f7] px-4 py-2.5 text-xs font-black text-slate-950">
+          ⬇️ Tải ảnh QR (.PNG)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 4: KẾT NỐI WEBHOOK / API & XUẤT EXCEL / CSV (UTF-8 BOM)
+       ======================================================================= -->
+  <div id="connect-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/90 backdrop-blur-lg p-3 sm:p-5 overflow-y-auto">
+    <div class="glass-panel-neon w-full max-w-2xl rounded-3xl p-5 sm:p-7 relative my-auto animate-fade-up">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div>
+          <span class="font-cyber text-[10px] font-bold uppercase tracking-widest text-[#00f2fe]">SLIMWORK DATA & WEBHOOK HUB</span>
+          <h3 class="text-lg sm:text-xl font-black text-white mt-0.5">🔌 Kết nối Webhook / API & Xuất dữ liệu</h3>
+        </div>
+        <button type="button" onclick="closeConnectModal()" class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700 text-slate-300">✕</button>
+      </div>
+
+      <div class="space-y-5 py-5">
+        <!-- Webhook URL Input -->
+        <div>
+          <label for="webhook-url-input" class="block text-sm font-bold text-[#00f2fe] mb-1">
+            Webhook URL nhận POST JSON (Google Apps Script / n8n / Neon DB API)
+          </label>
+          <p class="text-xs text-slate-400 mb-2.5">Lưu trong localStorage và tự động gửi JSON mỗi khi có nhân sự hoàn tất khảo sát.</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="url" id="webhook-url-input" placeholder="https://script.google.com/macros/s/.../exec hoặc https://n8n.../webhook/slimwork"
+              class="neon-input flex-1 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 font-mono" />
+            <button type="button" onclick="saveWebhookUrl()"
+              class="rounded-xl bg-[#00f2fe]/20 hover:bg-[#00f2fe]/30 border border-[#00f2fe]/55 px-4 py-2.5 text-xs font-bold text-[#00f2fe] whitespace-nowrap">
+              💾 Lưu cấu hình
+            </button>
+          </div>
+          <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
+            <span id="webhook-saved-indicator" class="text-xs text-slate-400">Trạng thái: Chỉ lưu cục bộ (LocalStorage)</span>
+            <button type="button" onclick="testWebhookConnection()" class="text-xs font-bold text-purple-300 hover:text-purple-200 underline">
+              ⚡ Gửi gói tin kiểm tra (Test POST)
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Apps Script Snippet Matching New Schema -->
+        <div class="rounded-2xl bg-[#050814]/95 border border-slate-800 p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-cyber text-[11px] font-bold text-emerald-300">📄 Google Apps Script nhận JSON (Chuẩn cột Slimwork)</span>
+            <button type="button" onclick="copyGasSnippet()"
+              class="rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 px-2.5 py-1 text-[11px] font-bold text-[#00f2fe]">
+              📋 Sao chép mã
+            </button>
+          </div>
+          <pre id="gas-snippet" class="text-[11px] leading-relaxed font-mono text-slate-300 overflow-x-auto max-h-36 p-2.5 rounded-xl bg-slate-900/75">function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var d = JSON.parse(e.postData.contents);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Mã HS','Thời gian','Họ tên','Bộ phận','Đang dùng AI','Hiện trạng AI (Mục 2)','Công cụ AI (Mục 2.1)','Mức độ (0-5)','Danh hiệu','Ý tưởng Tự động hóa (4A)','Khả thi (4B)','Hình thức đào tạo (Mục 5)','Chủ đề hỗ trợ (Mục 6)']);
+  }
+  sheet.appendRow([
+    d.id, d.timestamp, d.name, d.department, d.usingAI ? 'Có' : 'Chưa',
+    (d.usageContexts || []).join('; '), (d.aiTools21 || []).join('; '),
+    d.level, d.tier, d.automationIdea, d.feasibilityLabel,
+    (d.trainingFormats || []).join('; '), (d.supportTopics || []).join('; ')
+  ]);
+  return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
+}</pre>
+        </div>
+
+        <!-- Export CSV & Reset Local -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button type="button" onclick="exportToCSV()"
+            class="flex items-center justify-center gap-2 rounded-2xl bg-[#10b981]/20 hover:bg-[#10b981]/30 border border-[#10b981]/50 px-4 py-3 text-sm font-bold text-emerald-300 transition">
+            📥 Xuất Excel / CSV (UTF-8 BOM)
+          </button>
+          <button type="button" id="reset-local-btn" onclick="handleResetLocalData()"
+            class="flex items-center justify-center gap-2 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/45 px-4 py-3 text-sm font-bold text-rose-300 transition">
+            🗑️ Xóa dữ liệu thực tế (<span id="modal-local-count" class="font-cyber">0</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 5: MÀN HÌNH "WOW" SAU KHI GỬI — THẺ HỒ SƠ NĂNG LỰC AI SLIMWORK
+       ======================================================================= -->
+  <div id="profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/90 backdrop-blur-lg p-3 sm:p-5 overflow-y-auto">
+    <div class="relative w-full max-w-3xl my-auto">
+
+      <!-- Phase 1: 0.7s Futuristic AI Diagnostic Scan -->
+      <div id="scan-phase" class="glass-panel-neon rounded-3xl p-10 text-center relative overflow-hidden">
+        <div class="scanner-line"></div>
+        <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#00f2fe]/15 border border-[#00f2fe]/60 shadow-[0_0_45px_rgba(0,242,254,0.5)] animate-pulse text-4xl">
+          🧠
+        </div>
+        <div class="font-cyber text-xs tracking-[0.25em] text-[#00f2fe] uppercase mb-2">SLIMWORK AI ENGINE</div>
+        <h3 class="text-xl sm:text-2xl font-black text-white">Đang phân tích Hồ sơ Năng lực AI của bạn...</h3>
+        <p class="text-sm text-slate-400 mt-2">Tổng hợp công cụ AI (2.1), hình thức đào tạo (5), chủ đề hỗ trợ (6) & dựng biểu đồ Radar 4 trục</p>
+      </div>
+
+      <!-- Phase 2: Thẻ Hồ sơ Năng lực AI — Slimwork -->
+      <div id="pass-phase" class="hidden glass-panel-neon rounded-3xl p-5 sm:p-7 relative overflow-hidden animate-fade-up">
+        <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#ec4899]"></div>
+
+        <button type="button" onclick="closeProfileModal()" aria-label="Đóng"
+          class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 text-slate-300">
+          ✕
+        </button>
+
+        <!-- Pass Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pr-10 pb-4 border-b border-slate-800">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-[#00f2fe]/15 border border-[#00f2fe]/45 px-3 py-1 mb-2">
+              <span class="font-cyber text-[10px] font-bold tracking-widest text-[#00f2fe] uppercase">THẺ HỒ SƠ NĂNG LỰC AI — SLIMWORK</span>
+            </div>
+            <h3 id="pass-name" class="text-2xl sm:text-3xl font-black text-white tracking-tight">—</h3>
+            <p id="pass-dept" class="text-sm text-slate-300 mt-0.5">—</p>
+          </div>
+
+          <div class="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-[#00f2fe]/15 via-[#a855f7]/20 to-[#ec4899]/15 border border-[#00f2fe]/55 px-4 py-3 shadow-[0_0_28px_rgba(0,242,254,0.28)]">
+            <span id="pass-tier-icon" class="text-3xl">⚡</span>
+            <div>
+              <div id="pass-tier-title" class="font-cyber text-sm sm:text-base font-black text-[#00f2fe]">AI PRACTITIONER</div>
+              <div id="pass-tier-level" class="font-cyber text-[11px] font-bold text-pink-300">LEVEL 3 / 5 • 80/100</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges Summary: Q2.1 Tools, Q5 Formats, Q6 Support Topics -->
+        <div class="py-3.5 border-b border-slate-800/80 space-y-2.5 text-xs">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="font-bold text-slate-400 mr-1">Công cụ AI (2.1):</span>
+            <div id="pass-tool-badges" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="font-bold text-slate-400 mr-1">Hình thức đào tạo (5):</span>
+            <div id="pass-format-badges" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="font-bold text-slate-400 mr-1">Chủ đề hỗ trợ (6):</span>
+            <div id="pass-support-badges" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+
+        <!-- Body: 4-Axis Radar Chart + Personalized 3-Step Action Roadmap -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 py-5 items-center">
+          <div class="md:col-span-5 rounded-2xl bg-[#050814]/90 border border-slate-800 p-3">
+            <div class="text-center font-cyber text-[10px] font-bold text-[#00f2fe] uppercase tracking-wider mb-1">Biểu đồ Radar 4 Trục</div>
+            <div class="relative h-[230px] w-full">
+              <canvas id="pass-radar-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="font-cyber text-xs font-bold uppercase tracking-wider text-purple-300">🎯 Lộ trình Hành động 3 Bước</h4>
+              <span id="pass-webhook-status" class="hidden font-cyber text-[9px] rounded-full px-2.5 py-0.5 border"></span>
+            </div>
+            <div id="pass-roadmap-list" class="space-y-2.5"></div>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
+          <button type="button" onclick="copyProfileSummary()"
+            class="w-full sm:w-auto rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 px-4 py-2.5 text-xs font-bold text-slate-200 transition">
+            📋 Sao chép Hồ sơ AI
+          </button>
+          <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2.5">
+            <button type="button" onclick="resetForNextPerson()"
+              class="w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#a855f7] px-5 py-2.5 text-sm font-black text-slate-950 shadow-[0_0_24px_rgba(0,242,254,0.45)] transition">
+              🔄 Thực hiện khảo sát mới
+            </button>
+            <button type="button" onclick="closeProfileModal()"
+              class="w-full sm:w-auto rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 px-5 py-2.5 text-sm font-bold text-white transition">
+              ✅ Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-blocking Neon Toast Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- =======================================================================
+       APPLICATION JAVASCRIPT
+       ======================================================================= -->
+  <script>
+    /* =====================================================================
+       1. CONSTANTS, SECURITY CONFIG & MASTER DATA ([SLIMWORK])
+       ===================================================================== */
+    const DEFAULT_PASSCODE         = 'Audit@2027';
+    const DEFAULT_WEBHOOK_URL      = '';  // dán URL Apps Script (/exec) vào đây để mọi nhân viên gửi về cùng một nơi
+    const STORAGE_KEY_PASSCODE     = 'slimwork_ai_passcode_v1';
+    const SESSION_KEY_UNLOCKED     = 'slimwork_ai_stage_unlocked_v1';
+    const STORAGE_KEY_RESPONSES    = 'slimwork_ai_responses_v1';
+    const STORAGE_KEY_WEBHOOK      = 'slimwork_ai_webhook_v1';
+
+    // MỤC 1A: 11 lựa chọn bộ phận (đầy đủ CSR, Oneteam, TFT, Khác)
+    const DEPARTMENTS = [
+      { id: 'Sản xuất / Nhà máy',                  icon: '🏭', short: 'Sản xuất / Nhà máy' },
+      { id: 'Kinh doanh (Sales)',                  icon: '📈', short: 'Kinh doanh (Sales)' },
+      { id: 'R&D / Kỹ thuật (Engineering)',        icon: '⚙️', short: 'R&D / Kỹ thuật' },
+      { id: 'Tài chính - Kế toán / Kiểm soát',     icon: '💼', short: 'Tài chính / Kiểm soát' },
+      { id: 'Chuỗi cung ứng / Mua hàng / Kho vận', icon: '🚚', short: 'Chuỗi cung ứng / Kho' },
+      { id: 'Nhân sự - Hành chính',                icon: '🤝', short: 'Nhân sự - Hành chính' },
+      { id: 'Marketing / Khối Văn phòng khác',     icon: '🎯', short: 'Marketing / Văn phòng' },
+      { id: 'CSR',                                 icon: '🌱', short: 'CSR' },
+      { id: 'Oneteam',                             icon: '⚡', short: 'Oneteam' },
+      { id: 'TFT',                                 icon: '🚀', short: 'TFT' },
+      { id: 'Khác',                                icon: '✨', short: 'Khác (Nhập tên)' }
+    ];
+
+    // MỤC 2: Hiện trạng sử dụng AI nội bộ (có mục Khác + loại trừ thông minh)
+    const USAGE_OPTIONS = [
+      {
+        id: 'none',
+        label: 'Chưa sử dụng AI vào công việc',
+        sub: 'Tự động bỏ chọn các mục "Có", bỏ qua Mục 2.1 và đưa Mục 3 về cấp 0',
+        icon: '🌱',
+        accent: 'active-slate',
+        exclusive: true
+      },
+      {
+        id: 'Có — Dùng AI hỏi đáp, soạn thảo, dịch thuật',
+        label: 'Có — Dùng AI hỏi đáp, soạn thảo, dịch thuật',
+        sub: 'Tra cứu kiến thức, viết email, biên tập và dịch văn bản',
+        icon: '💬',
+        accent: 'active-cyan'
+      },
+      {
+        id: 'Có — Dùng AI xử lý file, tóm tắt tài liệu, viết công thức Excel',
+        label: 'Có — Dùng AI xử lý file, tóm tắt tài liệu, viết công thức Excel',
+        sub: 'Đọc báo cáo PDF/Word, tạo hàm Excel và xử lý bảng tính',
+        icon: '📑',
+        accent: 'active-purple'
+      },
+      {
+        id: 'Có — Dùng AI tạo hình ảnh, video hoặc nội dung truyền thông',
+        label: 'Có — Dùng AI tạo hình ảnh, video hoặc nội dung truyền thông',
+        sub: 'Thiết kế slide, hình ảnh minh họa, biên tập video & nội dung',
+        icon: '🎨',
+        accent: 'active-pink'
+      },
+      {
+        id: 'Có — Dùng AI viết code, phân tích dữ liệu chuyên sâu hoặc tự động hóa',
+        label: 'Có — Dùng AI viết code, phân tích dữ liệu chuyên sâu hoặc tự động hóa',
+        sub: 'Python, SQL, Power BI, xây dựng workflow tự động hóa quy trình',
+        icon: '⚡',
+        accent: 'active-emerald'
+      },
+      {
+        id: 'Khác',
+        label: 'Khác (Nhập chi tiết)',
+        sub: 'Ứng dụng AI theo nhu cầu chuyên biệt khác của bộ phận',
+        icon: '🧩',
+        accent: 'active-amber',
+        hasInput: true
+      }
+    ];
+
+    // MỤC 2.1: Chi tiết công cụ AI đang sử dụng
+    const AI_TOOLS_21 = [
+      {
+        id: 'OpenAI ChatGPT',
+        label: 'OpenAI ChatGPT',
+        sub: 'GPT-4o / o1 / Custom GPTs',
+        icon: '🟢',
+        accent: 'active-emerald',
+        badgeStyle: 'bg-[#10b981]/20 border-[#10b981]/55 text-emerald-200',
+        chartColor: '#10b981'
+      },
+      {
+        id: 'Google Gemini',
+        label: 'Google Gemini',
+        sub: 'Gemini Pro / Workspace / NotebookLM',
+        icon: '💎',
+        accent: 'active-cyan',
+        badgeStyle: 'bg-[#00f2fe]/20 border-[#00f2fe]/55 text-[#00f2fe]',
+        chartColor: '#00f2fe'
+      },
+      {
+        id: 'Anthropic Claude',
+        label: 'Anthropic Claude',
+        sub: 'Claude Sonnet / Opus / Artifacts',
+        icon: '🧡',
+        accent: 'active-amber',
+        badgeStyle: 'bg-amber-500/20 border-amber-400/55 text-amber-200',
+        chartColor: '#f59e0b'
+      },
+      {
+        id: 'DeepSeek',
+        label: 'DeepSeek',
+        sub: 'DeepSeek V3 / R1 Reasoning',
+        icon: '🐋',
+        accent: 'active-indigo',
+        badgeStyle: 'bg-indigo-500/20 border-indigo-400/55 text-indigo-200',
+        chartColor: '#6366f1'
+      },
+      {
+        id: 'Grok',
+        label: 'Grok',
+        sub: 'xAI Grok Realtime Intelligence',
+        icon: '🚀',
+        accent: 'active-pink',
+        badgeStyle: 'bg-[#ec4899]/20 border-[#ec4899]/55 text-pink-200',
+        chartColor: '#ec4899'
+      },
+      {
+        id: 'Khác',
+        label: 'Khác',
+        sub: 'Copilot, Perplexity, Midjourney...',
+        icon: '🧩',
+        accent: 'active-purple',
+        badgeStyle: 'bg-[#a855f7]/20 border-[#a855f7]/55 text-purple-200',
+        chartColor: '#a855f7',
+        hasInput: true
+      }
+    ];
+
+    // MỤC 3: 6 cấp độ tự đánh giá từ 0 đến 5
+    const AI_LEVELS = [
+      { level: 0, vn: 'Chưa sử dụng',               title: 'AI Newcomer',     icon: '🌱', desc: 'Chưa sử dụng AI vào công việc — Sẵn sàng khám phá nền tảng Slimwork.' },
+      { level: 1, vn: 'Mới làm quen',               title: 'AI Explorer',     icon: '🧭', desc: 'Mới làm quen, dùng AI để tra cứu, hỏi đáp hoặc dịch câu cơ bản.' },
+      { level: 2, vn: 'Dùng cơ bản',                title: 'AI Starter',      icon: '✨', desc: 'Ứng dụng ở mức cơ bản để soạn thảo email, tóm tắt tài liệu hàng ngày.' },
+      { level: 3, vn: 'Ứng dụng thường xuyên',      title: 'AI Practitioner', icon: '⚡', desc: 'Ứng dụng AI đều đặn vào xử lý file, bảng tính và nghiệp vụ chuyên môn.' },
+      { level: 4, vn: 'Thành thạo & tối ưu prompt', title: 'AI Power User',   icon: '🛠️', desc: 'Thành thạo kỹ thuật viết Prompt nâng cao, kết hợp linh hoạt nhiều công cụ.' },
+      { level: 5, vn: 'Làm chủ & tích hợp quy trình', title: 'AI Master',     icon: '👑', desc: 'Làm chủ AI, tích hợp trực tiếp vào quy trình tự động hóa & lan tỏa nội bộ.' }
+    ];
+
+    // MỤC 4A: Nút gợi ý 1 chạm
+    const QUICK_SUGGESTIONS = [
+      'Tổng hợp báo cáo định kỳ',
+      'Đối chiếu số liệu Excel',
+      'Dịch tài liệu song ngữ',
+      'Rà soát chứng từ',
+      'Tóm tắt biên bản họp'
+    ];
+
+    // MỤC 4B: Đánh giá mức độ khả thi
+    const FEASIBILITY_OPTIONS = [
+      { id: 'high',    label: 'Rất khả thi',                             sub: 'Quy trình lặp lại rõ ràng, dữ liệu số có sẵn',             icon: '🟢', accent: 'active-emerald', badge: 'text-emerald-300 bg-[#10b981]/15 border-[#10b981]/45' },
+      { id: 'medium',  label: 'Khả thi trung bình',                      sub: 'Cần chuẩn hóa biểu mẫu / dữ liệu đầu vào',                 icon: '🟡', accent: 'active-amber',   badge: 'text-amber-300 bg-amber-500/15 border-amber-400/45' },
+      { id: 'low',     label: 'Khó khả thi hiện tại',                    sub: 'Nhiều bước thủ công, bản giấy rời rạc',                    icon: '🔴', accent: 'active-rose',    badge: 'text-rose-300 bg-rose-500/15 border-rose-400/45' },
+      { id: 'unknown', label: 'Chưa rõ — Cần đội ngũ Slimwork khảo sát', sub: 'Đề xuất đội ngũ Slimwork đánh giá trực tiếp tại bộ phận',  icon: '⚪', accent: 'active-slate',   badge: 'text-slate-300 bg-slate-500/15 border-slate-400/45' }
+    ];
+
+    // MỤC 5: Hình thức đào tạo mong muốn (Chọn nhiều, bắt buộc)
+    const TRAINING_FORMATS = [
+      {
+        id: 'Online',
+        label: 'Online',
+        sub: 'Học trực tuyến tương tác trực tiếp qua nền tảng họp online',
+        icon: '💻',
+        accent: 'active-cyan',
+        badgeStyle: 'bg-[#00f2fe]/20 border-[#00f2fe]/55 text-[#00f2fe]',
+        chartColor: '#00f2fe'
+      },
+      {
+        id: 'Offline',
+        label: 'Offline',
+        sub: 'Đào tạo trực tiếp, thực hành cầm tay chỉ việc tại văn phòng / nhà máy',
+        icon: '🏢',
+        accent: 'active-purple',
+        badgeStyle: 'bg-[#a855f7]/20 border-[#a855f7]/55 text-purple-200',
+        chartColor: '#a855f7'
+      },
+      {
+        id: 'Video đào tạo',
+        label: 'Video đào tạo',
+        sub: 'Thư viện video bài bản, chia theo tình huống giúp chủ động xem mọi lúc',
+        icon: '🎬',
+        accent: 'active-pink',
+        badgeStyle: 'bg-[#ec4899]/20 border-[#ec4899]/55 text-pink-200',
+        chartColor: '#ec4899'
+      }
+    ];
+
+    // MỤC 6: Loại công việc / chủ đề mong muốn đội ngũ hỗ trợ (Chọn nhiều, bắt buộc)
+    const SUPPORT_TOPICS = [
+      {
+        id: 'Tạo video',
+        label: 'Tạo video',
+        sub: 'Hướng dẫn công việc, đào tạo, tư vấn trực quan bằng AI',
+        icon: '🎥',
+        accent: 'active-pink',
+        badgeStyle: 'bg-[#ec4899]/20 border-[#ec4899]/55 text-pink-200',
+        chartColor: '#ec4899'
+      },
+      {
+        id: 'Phân tích dữ liệu',
+        label: 'Phân tích dữ liệu',
+        sub: 'Làm sạch dữ liệu, trực quan dữ liệu, tóm tắt báo cáo tự động',
+        icon: '📊',
+        accent: 'active-cyan',
+        badgeStyle: 'bg-[#00f2fe]/20 border-[#00f2fe]/55 text-[#00f2fe]',
+        chartColor: '#00f2fe'
+      },
+      {
+        id: 'Trình bày báo cáo',
+        label: 'Trình bày báo cáo',
+        sub: 'Xây dựng slide PowerPoint, cấu trúc thuyết trình ấn tượng',
+        icon: '📽️',
+        accent: 'active-purple',
+        badgeStyle: 'bg-[#a855f7]/20 border-[#a855f7]/55 text-purple-200',
+        chartColor: '#a855f7'
+      },
+      {
+        id: 'Dịch văn bản',
+        label: 'Dịch văn bản',
+        sub: 'Dịch thuật tài liệu chuyên ngành, email, quy trình đa ngôn ngữ',
+        icon: '🌐',
+        accent: 'active-emerald',
+        badgeStyle: 'bg-[#10b981]/20 border-[#10b981]/55 text-emerald-200',
+        chartColor: '#10b981'
+      },
+      {
+        id: 'Khác',
+        label: 'Khác (Vui lòng ghi rõ)',
+        sub: 'Đề xuất nhu cầu hỗ trợ chuyên biệt khác cho phòng ban bạn',
+        icon: '✨',
+        accent: 'active-amber',
+        badgeStyle: 'bg-amber-500/20 border-amber-400/55 text-amber-200',
+        chartColor: '#f59e0b',
+        hasInput: true
+      }
+    ];
+
+    /* =====================================================================
+       2. DEMO BASELINE FOR LIVE STAGE PRESENTATION (PHỦ ĐỦ CSR, ONETEAM, TFT)
+       ===================================================================== */
+    const DEMO_BASELINE = {
+      totalResponses: 1268,
+      usingAICount: 862,       // ~68.0%
+      totalIdeasCount: 514,    // Ý tưởng tự động hóa đã ghi nhận
+      levelWeightedSum: 3195,  // ~2.52 / 5.0
+      departments: {
+        'Sản xuất / Nhà máy':                  365,
+        'Kinh doanh (Sales)':                  248,
+        'R&D / Kỹ thuật (Engineering)':        134,
+        'Tài chính - Kế toán / Kiểm soát':     102,
+        'Chuỗi cung ứng / Mua hàng / Kho vận': 126,
+        'Nhân sự - Hành chính':                 78,
+        'Marketing / Khối Văn phòng khác':      82,
+        'CSR':                                  42,
+        'Oneteam':                              48,
+        'TFT':                                  43
+      },
+      tools21Counts: {
+        'OpenAI ChatGPT': 712,
+        'Google Gemini':  588,
+        'Anthropic Claude': 205,
+        'DeepSeek':       178,
+        'Grok':           96,
+        'Khác':           132
+      },
+      formatCounts: {
+        'Online':        745,
+        'Offline':       518,
+        'Video đào tạo': 892
+      },
+      supportCounts: {
+        'Tạo video':          540,
+        'Phân tích dữ liệu':  876,
+        'Trình bày báo cáo':  695,
+        'Dịch văn bản':       584,
+        'Khác':               142
+      },
+      sampleIdeas: [
+        { name: 'Trần Quốc Bảo',  department: 'Sản xuất / Nhà máy',              idea: 'Tổng hợp báo cáo định kỳ sản lượng ca máy và cảnh báo hao hụt nguyên liệu tự động.', feasibility: 'high',   isReal: false },
+        { name: 'Lê Minh Thư',    department: 'Tài chính - Kế toán / Kiểm soát', idea: 'Đối chiếu số liệu Excel giữa sổ phụ công nợ và bảng kê hóa đơn đầu vào, tự động gắn cờ lệch.', feasibility: 'high',   isReal: false },
+        { name: 'Nguyễn Ngọc Hân',department: 'CSR',                             idea: 'Tạo video hướng dẫn ngắn về bộ quy tắc đạo đức kinh doanh & chuẩn hóa báo cáo tuân thủ CSR song ngữ.', feasibility: 'high',   isReal: false },
+        { name: 'Phạm Gia Huy',   department: 'Oneteam',                         idea: 'Tóm tắt biên bản họp liên phòng ban và tự động phân rã danh sách đầu việc theo người phụ trách.', feasibility: 'high',   isReal: false },
+        { name: 'Võ Minh Quân',   department: 'TFT',                             idea: 'Xây dashboard tổng hợp tiến độ dự án chuyển đổi liên khối và tự động xuất slide báo cáo tuần.', feasibility: 'medium', isReal: false },
+        { name: 'Đỗ Hải Yến',     department: 'R&D / Kỹ thuật (Engineering)',    idea: 'Dịch tài liệu song ngữ tiêu chuẩn kỹ thuật Hàn – Việt – Anh và tóm tắt nhanh điểm thay đổi.', feasibility: 'medium', isReal: false }
+      ]
+    };
+
+    /* =====================================================================
+       3. APPLICATION STATE
+       ===================================================================== */
+    const surveyState = {
+      department: '',
+      departmentOther: '',
+      name: '',
+      usageContexts: new Set(),
+      usageOther: '',
+      aiTools21: new Set(),
+      toolOther: '',
+      level: null,
+      automationIdea: '',
+      feasibility: '',
+      trainingFormats: new Set(),
+      supportTopics: new Set(),
+      supportOther: ''
+    };
+
+    let currentView = 'survey';     // 'survey' | 'stage'
+    let stageDatasetMode = 'demo';  // 'demo' | 'real'
+    let soundEnabled = false;
+    let audioCtx = null;
+    let lastSubmittedRecord = null;
+    let resetConfirmArmed = false;
+
+    // Chart.js instances
+    let radarChartInst   = null;
+    let deptChartInst    = null;
+    let toolsChartInst   = null;
+    let formatChartInst  = null;
+    let supportChartInst = null;
+
+    /* =====================================================================
+       4. SECURITY GATE (MÃ KHÓA LIVE STAGE — MẶC ĐỊNH "SLIMWORK", KHÔNG LỘ UI)
+       ===================================================================== */
+    function getActivePasscode() {
+      try {
+        return localStorage.getItem(STORAGE_KEY_PASSCODE) || DEFAULT_PASSCODE;
+      } catch (e) {
+        return DEFAULT_PASSCODE;
+      }
+    }
+
+    function isStageUnlocked() {
+      try {
+        return sessionStorage.getItem(SESSION_KEY_UNLOCKED) === 'true';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function updateLockIconUI() {
+      const iconEl = document.getElementById('nav-lock-icon');
+      const unlocked = isStageUnlocked();
+      iconEl.textContent = unlocked ? '🔓' : '🔒';
+      iconEl.title = unlocked ? 'Live Stage đã mở khóa' : 'Yêu cầu mã khóa bảo mật';
+    }
+
+    function handleNavClick(target) {
+      playFx('click');
+      if (target === 'survey') {
+        switchView('survey');
+        return;
+      }
+      if (isStageUnlocked()) {
+        switchView('stage');
+      } else {
+        openSecurityModal();
+      }
+    }
+
+    function openSecurityModal() {
+      const modal = document.getElementById('security-modal');
+      const input = document.getElementById('passcode-input');
+      const errEl = document.getElementById('passcode-error-msg');
+      errEl.classList.add('hidden');
+      input.value = '';
+      input.type = 'password';
+      document.getElementById('passcode-eye-btn').textContent = '👁️';
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => input.focus(), 80);
+    }
+
+    function closeSecurityModal() {
+      const modal = document.getElementById('security-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function togglePasscodeVisibility() {
+      const input = document.getElementById('passcode-input');
+      const btn = document.getElementById('passcode-eye-btn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+      input.focus();
+    }
+
+    document.getElementById('security-unlock-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const input = document.getElementById('passcode-input');
+      const box = document.getElementById('security-modal-box');
+      const errEl = document.getElementById('passcode-error-msg');
+      const entered = input.value.trim();
+
+      if (entered === getActivePasscode()) {
+        try {
+          sessionStorage.setItem(SESSION_KEY_UNLOCKED, 'true');
+        } catch (err) {}
+        playFx('success');
+        updateLockIconUI();
+        closeSecurityModal();
+        switchView('stage');
+        showToast('🔓 Đã mở khóa Live Stage [Slimwork] thành công!', 'emerald');
+      } else {
+        playFx('error');
+        errEl.classList.remove('hidden');
+        box.classList.remove('shake-error');
+        void box.offsetWidth;
+        box.classList.add('shake-error');
+        input.select();
+      }
+    });
+
+    function lockLiveStage() {
+      playFx('click');
+      try {
+        sessionStorage.removeItem(SESSION_KEY_UNLOCKED);
+      } catch (e) {}
+      updateLockIconUI();
+      switchView('survey');
+      showToast('🔒 Đã khóa Live Stage để bảo mật.', 'cyan');
+    }
+
+    function openChangePasscodeModal() {
+      if (!isStageUnlocked()) { openSecurityModal(); return; }
+      playFx('click');
+      document.getElementById('change-passcode-form').reset();
+      document.getElementById('change-passcode-error').classList.add('hidden');
+      const modal = document.getElementById('change-passcode-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => document.getElementById('old-passcode-input').focus(), 80);
+    }
+
+    function closeChangePasscodeModal() {
+      const modal = document.getElementById('change-passcode-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('change-passcode-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const oldVal = document.getElementById('old-passcode-input').value.trim();
+      const newVal = document.getElementById('new-passcode-input').value.trim();
+      const cfmVal = document.getElementById('confirm-passcode-input').value.trim();
+      const errEl  = document.getElementById('change-passcode-error');
+      const box    = document.getElementById('change-passcode-box');
+
+      const showErr = (msg) => {
+        playFx('error');
+        errEl.textContent = msg;
+        errEl.classList.remove('hidden');
+        box.classList.remove('shake-error');
+        void box.offsetWidth;
+        box.classList.add('shake-error');
+      };
+
+      if (oldVal !== getActivePasscode()) { showErr('⛔ Mã khóa hiện tại không chính xác.'); return; }
+      if (newVal.length < 4)              { showErr('⚠️ Mã khóa mới phải có ít nhất 4 ký tự.'); return; }
+      if (newVal !== cfmVal)              { showErr('⚠️ Xác nhận mã khóa mới không khớp.'); return; }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_PASSCODE, newVal);
+      } catch (err) {}
+      playFx('success');
+      closeChangePasscodeModal();
+      showToast('🔑 Đã lưu mã khóa Live Stage mới thành công!', 'emerald');
+    });
+
+    /* =====================================================================
+       5. STAGE QR CODE MODAL (QRCode.js)
+       ===================================================================== */
+    function openQRModal() {
+      if (!isStageUnlocked()) { openSecurityModal(); return; }
+      playFx('click');
+      const input = document.getElementById('qr-url-input');
+      if (!input.value.trim()) input.value = window.location.href;
+
+      const modal = document.getElementById('qr-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      regenerateStageQR();
+    }
+
+    function closeQRModal() {
+      const modal = document.getElementById('qr-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function regenerateStageQR() {
+      const urlVal = document.getElementById('qr-url-input').value.trim() || window.location.href;
+      const container = document.getElementById('stage-qr-container');
+      const label = document.getElementById('qr-active-url-label');
+      container.innerHTML = '';
+      label.textContent = urlVal;
+
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(container, {
+          text: urlVal,
+          width: 248,
+          height: 248,
+          colorDark: '#050814',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        container.innerHTML = '<div class="text-xs text-slate-700 p-6 font-semibold">Không thể tải thư viện QRCode.js khi ngoại tuyến.</div>';
+      }
+    }
+
+    function copyStageQRUrl() {
+      const urlVal = document.getElementById('qr-url-input').value.trim() || window.location.href;
+      copyTextToClipboard(urlVal, '📋 Đã sao chép đường dẫn khảo sát!');
+    }
+
+    function downloadStageQR() {
+      const container = document.getElementById('stage-qr-container');
+      const canvas = container.querySelector('canvas');
+      const img = container.querySelector('img');
+      const dataUrl = canvas ? canvas.toDataURL('image/png') : (img && img.src ? img.src : '');
+
+      if (!dataUrl) {
+        showToast('⚠️ Chưa có ảnh QR để tải xuống.', 'amber');
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = 'Slimwork_AI_Survey_Stage_QR.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('⬇️ Đã tải xuống ảnh mã QR Sân khấu!', 'emerald');
+    }
+
+    /* =====================================================================
+       6. SCI-FI AUDIO FEEDBACK (WEB AUDIO API)
+       ===================================================================== */
+    function playFx(type = 'click') {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(660, now);
+          osc.frequency.exponentialRampToValueAtTime(980, now + 0.055);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+          osc.start(now);
+          osc.stop(now + 0.07);
+        } else if (type === 'level') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(860, now + 0.085);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+          osc.start(now);
+          osc.stop(now + 0.11);
+        } else if (type === 'success') {
+          [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine';
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            const t = now + idx * 0.065;
+            o.frequency.setValueAtTime(f, t);
+            g.gain.setValueAtTime(0.048, t);
+            g.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+            o.start(t);
+            o.stop(t + 0.34);
+          });
+        } else if (type === 'error') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(210, now);
+          osc.frequency.linearRampToValueAtTime(145, now + 0.14);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          osc.start(now);
+          osc.stop(now + 0.17);
+        }
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('sound-icon');
+      const btn  = document.getElementById('sound-toggle-btn');
+      icon.textContent = soundEnabled ? '🔊' : '🔇';
+      btn.classList.toggle('border-[#00f2fe]/55', soundEnabled);
+      btn.classList.toggle('text-[#00f2fe]', soundEnabled);
+      if (soundEnabled) {
+        playFx('click');
+        showToast('🔊 Đã bật âm thanh phản hồi Sci-Fi', 'cyan');
+      }
+    }
+
+    /* =====================================================================
+       7. INTERACTIVE NEURAL NETWORK PARTICLES CANVAS
+       ===================================================================== */
+    function initNeuralCanvas() {
+      const canvas = document.getElementById('neural-canvas');
+      const ctx = canvas.getContext('2d');
+      let w = 0, h = 0;
+      let nodes = [];
+      const mouse = { x: null, y: null, radius: 170 };
+      const palette = ['#00f2fe', '#a855f7', '#ec4899', '#10b981'];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        const count = Math.min(78, Math.max(28, Math.floor((w * h) / 21500)));
+        nodes = Array.from({ length: count }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.52,
+          vy: (Math.random() - 0.5) * 0.52,
+          r: Math.random() * 2.1 + 1.1,
+          color: palette[Math.floor(Math.random() * palette.length)]
+        }));
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+      resize();
+
+      function loop() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+
+          // React gently to mouse cursor with glowing Neon Pink links
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - n.x;
+            const dy = mouse.y - n.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius) {
+              if (dist > 18) {
+                n.x += dx * 0.0052;
+                n.y += dy * 0.0052;
+              }
+              const alpha = (1 - dist / mouse.radius) * 0.36;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(236, 72, 153, ${alpha.toFixed(3)})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
+          }
+
+          // Synaptic links between neighboring particles
+          for (let j = i + 1; j < nodes.length; j++) {
+            const n2 = nodes[j];
+            const dx = n.x - n2.x;
+            const dy = n.y - n2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 138) {
+              const alpha = (1 - dist / 138) * 0.24;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(0, 242, 254, ${alpha.toFixed(3)})`;
+              ctx.lineWidth = 0.85;
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(n2.x, n2.y);
+              ctx.stroke();
+            }
+          }
+
+          // Particle core
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = n.color;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    /* =====================================================================
+       8. RENDER INTERACTIVE SURVEY UI & SMART LINKED LOGIC
+       ===================================================================== */
+    function renderSurveyUI() {
+      // Mục 1A: Bộ phận (bao gồm CSR, Oneteam, TFT, Khác)
+      document.getElementById('dept-grid').innerHTML = DEPARTMENTS.map((d, idx) => `
+        <button type="button" data-dept-idx="${idx}" onclick="selectDepartmentByIdx(${idx})"
+          class="neon-card rounded-2xl p-3 sm:p-3.5 text-left flex flex-col justify-between gap-2 min-h-[82px]">
+          <div class="flex items-center justify-between w-full">
+            <span class="text-xl sm:text-2xl">${d.icon}</span>
+            <span class="dept-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
+          </div>
+          <span class="text-xs sm:text-sm font-semibold text-slate-100 leading-snug">${d.short}</span>
+        </button>
+      `).join('');
+
+      // Mục 2: Hiện trạng sử dụng AI
+      document.getElementById('usage-grid').innerHTML = USAGE_OPTIONS.map((u, idx) => `
+        <button type="button" data-usage-idx="${idx}" onclick="toggleUsageByIdx(${idx})"
+          class="neon-card rounded-2xl p-4 text-left flex items-start gap-3">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700/80 text-xl">${u.icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <span class="text-sm font-bold text-white leading-snug">${u.label}</span>
+              <span class="usage-check flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-slate-600 text-[11px] font-bold text-transparent transition-all">✓</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${u.sub}</p>
+          </div>
+        </button>
+      `).join('');
+
+      // Mục 2.1: Chi tiết công cụ AI
+      document.getElementById('tools-21-grid').innerHTML = AI_TOOLS_21.map((t, idx) => `
+        <button type="button" data-tool-idx="${idx}" onclick="toggleTool21ByIdx(${idx})"
+          class="neon-card rounded-2xl p-3.5 sm:p-4 text-left flex items-start gap-3">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#050814] border border-slate-700/80 text-xl">${t.icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1.5">
+              <span class="text-sm font-extrabold text-white leading-tight">${t.label}</span>
+              <span class="tool21-check flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-slate-600 text-[11px] font-bold text-transparent transition-all">✓</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1 leading-snug">${t.sub}</p>
+          </div>
+        </button>
+      `).join('');
+
+      // Mục 3: 6 cấp độ 0–5
+      document.getElementById('level-grid').innerHTML = AI_LEVELS.map((l) => `
+        <button type="button" data-level="${l.level}" onclick="selectLevel(${l.level})"
+          class="neon-card rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
+          <span class="text-xl">${l.icon}</span>
+          <span class="font-cyber text-lg sm:text-xl font-black text-white">${l.level}</span>
+          <span class="text-[11px] font-bold text-slate-200 leading-tight">${l.vn}</span>
+          <span class="font-cyber text-[9px] text-slate-400 tracking-wide">${l.title}</span>
+        </button>
+      `).join('');
+
+      // Mục 4A: Gợi ý 1 chạm
+      document.getElementById('suggestion-chips').innerHTML = QUICK_SUGGESTIONS.map((text, idx) => `
+        <button type="button" onclick="appendSuggestionByIdx(${idx})"
+          class="rounded-full bg-[#10b981]/10 hover:bg-[#10b981]/25 border border-[#10b981]/40 hover:border-emerald-300 px-3 py-1.5 text-xs font-semibold text-emerald-200 transition active:scale-95">
+          + ${text}
+        </button>
+      `).join('');
+
+      // Mục 4B: Mức độ khả thi
+      document.getElementById('feasibility-grid').innerHTML = FEASIBILITY_OPTIONS.map((f, idx) => `
+        <button type="button" data-feas-idx="${idx}" onclick="selectFeasibilityByIdx(${idx})"
+          class="neon-card rounded-2xl p-4 text-left flex flex-col justify-between gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">${f.icon}</span>
+            <span class="feas-check opacity-0 font-cyber text-[10px] font-bold text-white transition-opacity">✓ CHỌN</span>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-snug">${f.label}</div>
+            <p class="text-xs text-slate-400 mt-1 leading-snug">${f.sub}</p>
+          </div>
+        </button>
+      `).join('');
+
+      // Mục 5: Hình thức đào tạo (Online / Offline / Video đào tạo)
+      document.getElementById('format-grid').innerHTML = TRAINING_FORMATS.map((fmt, idx) => `
+        <button type="button" data-fmt-idx="${idx}" onclick="toggleFormatByIdx(${idx})"
+          class="neon-card rounded-2xl p-4 sm:p-5 text-left flex items-start gap-3.5">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#070b1a] border border-slate-700/80 text-2xl">${fmt.icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-base font-extrabold text-white">${fmt.label}</span>
+              <span class="fmt-check flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-slate-600 text-[11px] font-bold text-transparent transition-all">✓</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">${fmt.sub}</p>
+          </div>
+        </button>
+      `).join('');
+
+      // Mục 6: Chủ đề / công việc mong muốn đội ngũ hỗ trợ
+      document.getElementById('support-grid').innerHTML = SUPPORT_TOPICS.map((sp, idx) => `
+        <button type="button" data-sup-idx="${idx}" onclick="toggleSupportByIdx(${idx})"
+          class="neon-card rounded-2xl p-4 text-left flex items-start gap-3">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700/80 text-xl">${sp.icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <span class="text-sm font-extrabold text-white leading-snug">${sp.label}</span>
+              <span class="sup-check flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-slate-600 text-[11px] font-bold text-transparent transition-all">✓</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${sp.sub}</p>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function bindInputListeners() {
+      document.getElementById('employee-name').addEventListener('input', (e) => {
+        surveyState.name = e.target.value.trim();
+        clearSectionError('sec-1');
+        updateProgressBar();
+      });
+      document.getElementById('dept-other-input').addEventListener('input', (e) => {
+        surveyState.departmentOther = e.target.value.trim();
+        updateProgressBar();
+      });
+      document.getElementById('usage-other-input').addEventListener('input', (e) => {
+        surveyState.usageOther = e.target.value.trim();
+      });
+      document.getElementById('tool-other-input').addEventListener('input', (e) => {
+        surveyState.toolOther = e.target.value.trim();
+      });
+      document.getElementById('level-slider').addEventListener('input', (e) => {
+        selectLevel(Number(e.target.value));
+      });
+      document.getElementById('automation-idea').addEventListener('input', (e) => {
+        surveyState.automationIdea = e.target.value.trim();
+        updateProgressBar();
+      });
+      document.getElementById('support-other-input').addEventListener('input', (e) => {
+        surveyState.supportOther = e.target.value.trim();
+      });
+    }
+
+    function selectDepartmentByIdx(idx) {
+      playFx('click');
+      const deptObj = DEPARTMENTS[idx];
+      if (!deptObj) return;
+      surveyState.department = deptObj.id;
+      clearSectionError('sec-1');
+
+      document.querySelectorAll('#dept-grid [data-dept-idx]').forEach((btn) => {
+        const active = Number(btn.dataset.deptIdx) === idx;
+        btn.classList.toggle('active-cyan', active);
+        btn.querySelector('.dept-check').style.opacity = active ? '1' : '0';
+      });
+
+      const wrap = document.getElementById('dept-other-wrap');
+      if (deptObj.id === 'Khác') {
+        wrap.classList.remove('hidden');
+        document.getElementById('dept-other-input').focus();
+      } else {
+        wrap.classList.add('hidden');
+      }
+      updateProgressBar();
+    }
+
+    // Smart Mutual-Exclusion Logic: Q2 <-> Q2.1 <-> Q3
+    function toggleUsageByIdx(idx) {
+      playFx('click');
+      const item = USAGE_OPTIONS[idx];
+      if (!item) return;
+      clearSectionError('sec-2');
+
+      if (item.exclusive) {
+        if (surveyState.usageContexts.has('none')) {
+          surveyState.usageContexts.delete('none');
+        } else {
+          surveyState.usageContexts.clear();
+          surveyState.usageContexts.add('none');
+          surveyState.usageOther = '';
+          document.getElementById('usage-other-input').value = '';
+          surveyState.aiTools21.clear();
+          surveyState.toolOther = '';
+          document.getElementById('tool-other-input').value = '';
+          selectLevel(0, true);
+        }
+      } else {
+        surveyState.usageContexts.delete('none');
+        if (surveyState.usageContexts.has(item.id)) {
+          surveyState.usageContexts.delete(item.id);
+        } else {
+          surveyState.usageContexts.add(item.id);
+          if (surveyState.level === 0) selectLevel(1, true);
+        }
+      }
+
+      syncUsageAndQ21UI();
+      updateProgressBar();
+    }
+
+    function toggleTool21ByIdx(idx) {
+      playFx('click');
+      const tool = AI_TOOLS_21[idx];
+      if (!tool) return;
+      clearSectionError('sec-2');
+
+      // Tick công cụ ở 2.1 -> tự động bỏ chọn "Chưa sử dụng AI" ở Mục 2
+      if (surveyState.usageContexts.has('none')) {
+        surveyState.usageContexts.delete('none');
+        surveyState.usageContexts.add(USAGE_OPTIONS[1].id);
+        if (surveyState.level === 0) selectLevel(1, true);
+      } else if (surveyState.usageContexts.size === 0) {
+        surveyState.usageContexts.add(USAGE_OPTIONS[1].id);
+      }
+
+      if (surveyState.aiTools21.has(tool.id)) {
+        surveyState.aiTools21.delete(tool.id);
+      } else {
+        surveyState.aiTools21.add(tool.id);
+      }
+
+      syncUsageAndQ21UI();
+      updateProgressBar();
+    }
+
+    function syncUsageAndQ21UI() {
+      const isNone = surveyState.usageContexts.has('none');
+
+      // Sync Mục 2 cards
+      USAGE_OPTIONS.forEach((u, idx) => {
+        const btn = document.querySelector(`#usage-grid [data-usage-idx="${idx}"]`);
+        if (!btn) return;
+        const active = surveyState.usageContexts.has(u.id);
+        btn.classList.remove('active-slate', 'active-cyan', 'active-purple', 'active-pink', 'active-emerald', 'active-amber');
+        const check = btn.querySelector('.usage-check');
+        if (active) {
+          btn.classList.add(u.accent);
+          check.classList.add('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.remove('border-slate-600', 'text-transparent');
+        } else {
+          check.classList.remove('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.add('border-slate-600', 'text-transparent');
+        }
+      });
+
+      // Toggle Mục 2 "Khác" input
+      const usageOtherWrap = document.getElementById('usage-other-wrap');
+      if (surveyState.usageContexts.has('Khác')) {
+        usageOtherWrap.classList.remove('hidden');
+      } else {
+        usageOtherWrap.classList.add('hidden');
+      }
+
+      // Dim / Restore Mục 2.1 container
+      const q21Box = document.getElementById('sec-2-1');
+      const skipBadge = document.getElementById('q21-skip-badge');
+      q21Box.classList.toggle('q21-dimmed', isNone);
+      if (isNone) {
+        skipBadge.classList.remove('hidden');
+        skipBadge.classList.add('inline-flex');
+      } else {
+        skipBadge.classList.add('hidden');
+        skipBadge.classList.remove('inline-flex');
+      }
+
+      // Sync Mục 2.1 tool cards
+      AI_TOOLS_21.forEach((t, idx) => {
+        const btn = document.querySelector(`#tools-21-grid [data-tool-idx="${idx}"]`);
+        if (!btn) return;
+        const active = surveyState.aiTools21.has(t.id);
+        btn.classList.remove('active-emerald', 'active-cyan', 'active-amber', 'active-indigo', 'active-pink', 'active-purple');
+        const check = btn.querySelector('.tool21-check');
+        if (active) {
+          btn.classList.add(t.accent);
+          check.classList.add('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.remove('border-slate-600', 'text-transparent');
+        } else {
+          check.classList.remove('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.add('border-slate-600', 'text-transparent');
+        }
+      });
+
+      // Toggle Mục 2.1 "Khác" input
+      const toolOtherWrap = document.getElementById('tool-other-wrap');
+      if (surveyState.aiTools21.has('Khác')) {
+        toolOtherWrap.classList.remove('hidden');
+      } else {
+        toolOtherWrap.classList.add('hidden');
+      }
+    }
+
+    function selectLevel(lvl, silent = false) {
+      if (!silent) playFx('level');
+      surveyState.level = lvl;
+      clearSectionError('sec-3');
+
+      const slider = document.getElementById('level-slider');
+      if (slider) slider.value = lvl;
+
+      if (lvl > 0 && surveyState.usageContexts.has('none')) {
+        surveyState.usageContexts.delete('none');
+        syncUsageAndQ21UI();
+      }
+
+      document.querySelectorAll('#level-grid [data-level]').forEach((btn) => {
+        const bLvl = Number(btn.dataset.level);
+        const active = bLvl === lvl;
+        btn.classList.remove('active-slate', 'active-cyan', 'active-purple', 'active-pink');
+        if (active) {
+          const acc = lvl === 0 ? 'active-slate' : lvl <= 2 ? 'active-cyan' : lvl <= 4 ? 'active-purple' : 'active-pink';
+          btn.classList.add(acc);
+        }
+      });
+
+      const info = AI_LEVELS[lvl];
+      document.getElementById('tier-badge-icon').textContent = info.icon;
+      document.getElementById('tier-badge-name').textContent = `${info.vn.toUpperCase()} (${info.title.toUpperCase()})`;
+      document.getElementById('tier-badge-pill').textContent = `LEVEL ${lvl} / 5`;
+      document.getElementById('tier-badge-pill').className = 'rounded-full bg-[#00f2fe]/20 border border-[#00f2fe]/55 px-2.5 py-0.5 font-cyber text-[11px] font-bold text-[#00f2fe]';
+      document.getElementById('tier-badge-desc').textContent = info.desc;
+      document.getElementById('level-gauge-bar').style.width = `${Math.max(8, (lvl / 5) * 100)}%`;
+
+      updateProgressBar();
+    }
+
+    function appendSuggestionByIdx(idx) {
+      playFx('click');
+      const text = QUICK_SUGGESTIONS[idx];
+      if (!text) return;
+      const ta = document.getElementById('automation-idea');
+      const cur = ta.value.trim();
+      if (!cur) ta.value = text;
+      else if (!cur.toLowerCase().includes(text.toLowerCase())) ta.value = `${cur}; ${text}`;
+      surveyState.automationIdea = ta.value.trim();
+      ta.focus();
+      updateProgressBar();
+    }
+
+    function selectFeasibilityByIdx(idx) {
+      playFx('click');
+      const fObj = FEASIBILITY_OPTIONS[idx];
+      if (!fObj) return;
+      surveyState.feasibility = fObj.id;
+
+      FEASIBILITY_OPTIONS.forEach((f, i) => {
+        const btn = document.querySelector(`#feasibility-grid [data-feas-idx="${i}"]`);
+        if (!btn) return;
+        const active = i === idx;
+        btn.classList.remove('active-emerald', 'active-amber', 'active-rose', 'active-slate');
+        if (active) btn.classList.add(f.accent);
+        btn.querySelector('.feas-check').style.opacity = active ? '1' : '0';
+      });
+      updateProgressBar();
+    }
+
+    function toggleFormatByIdx(idx) {
+      playFx('click');
+      const fmt = TRAINING_FORMATS[idx];
+      if (!fmt) return;
+      clearSectionError('sec-5');
+
+      if (surveyState.trainingFormats.has(fmt.id)) surveyState.trainingFormats.delete(fmt.id);
+      else surveyState.trainingFormats.add(fmt.id);
+
+      TRAINING_FORMATS.forEach((f, i) => {
+        const btn = document.querySelector(`#format-grid [data-fmt-idx="${i}"]`);
+        if (!btn) return;
+        const active = surveyState.trainingFormats.has(f.id);
+        btn.classList.remove('active-cyan', 'active-purple', 'active-pink');
+        const check = btn.querySelector('.fmt-check');
+        if (active) {
+          btn.classList.add(f.accent);
+          check.classList.add('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.remove('border-slate-600', 'text-transparent');
+        } else {
+          check.classList.remove('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.add('border-slate-600', 'text-transparent');
+        }
+      });
+      updateProgressBar();
+    }
+
+    function toggleSupportByIdx(idx) {
+      playFx('click');
+      const sp = SUPPORT_TOPICS[idx];
+      if (!sp) return;
+      clearSectionError('sec-6');
+
+      if (surveyState.supportTopics.has(sp.id)) surveyState.supportTopics.delete(sp.id);
+      else surveyState.supportTopics.add(sp.id);
+
+      SUPPORT_TOPICS.forEach((s, i) => {
+        const btn = document.querySelector(`#support-grid [data-sup-idx="${i}"]`);
+        if (!btn) return;
+        const active = surveyState.supportTopics.has(s.id);
+        btn.classList.remove('active-pink', 'active-cyan', 'active-purple', 'active-emerald', 'active-amber');
+        const check = btn.querySelector('.sup-check');
+        if (active) {
+          btn.classList.add(s.accent);
+          check.classList.add('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.remove('border-slate-600', 'text-transparent');
+        } else {
+          check.classList.remove('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
+          check.classList.add('border-slate-600', 'text-transparent');
+        }
+      });
+
+      const otherWrap = document.getElementById('support-other-wrap');
+      if (surveyState.supportTopics.has('Khác')) {
+        otherWrap.classList.remove('hidden');
+      } else {
+        otherWrap.classList.add('hidden');
+      }
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      let score = 0;
+      const deptValid = surveyState.department && (surveyState.department !== 'Khác' || surveyState.departmentOther.length > 0);
+      if (deptValid) score += 14;
+      if (surveyState.name.length >= 2) score += 14;
+      if (surveyState.usageContexts.size > 0) score += 14;
+      if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
+      if (surveyState.level !== null) score += 14;
+      if (surveyState.automationIdea.length > 0 || surveyState.feasibility) score += 10;
+      if (surveyState.trainingFormats.size > 0) score += 11;
+      if (surveyState.supportTopics.size > 0) score += 11;
+
+      const pct = Math.min(100, score);
+      document.getElementById('energy-bar-fill').style.width = `${pct}%`;
+      document.getElementById('progress-percent-text').textContent = `${pct}%`;
+    }
+
+    function clearSectionError(secId) {
+      const el = document.getElementById(secId);
+      if (el) el.classList.remove('shake-error');
+      document.getElementById('validation-banner').classList.add('hidden');
+    }
+
+    /* =====================================================================
+       9. FORM SUBMISSION, LOCAL STORAGE, WEBHOOK & SLIMWORK AI PROFILE PASS
+       ===================================================================== */
+    function getSavedResponses() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_RESPONSES);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveResponseLocally(record) {
+      const list = getSavedResponses();
+      list.unshift(record);
+      try {
+        localStorage.setItem(STORAGE_KEY_RESPONSES, JSON.stringify(list));
+      } catch (e) {
+        showToast('⚠️ Bộ nhớ trình duyệt đầy, không thể lưu thêm.', 'rose');
+      }
+      updateLiveCountBadges();
+    }
+
+    function updateLiveCountBadges() {
+      const realList = getSavedResponses();
+      document.getElementById('hero-live-count').textContent = (DEMO_BASELINE.totalResponses + realList.length).toLocaleString('vi-VN');
+      document.getElementById('real-count-badge').textContent = realList.length;
+      document.getElementById('modal-local-count').textContent = realList.length;
+    }
+
+    async function dispatchWebhookIfSet(record) {
+      const url = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
+      const badge = document.getElementById('pass-webhook-status');
+      if (!url) {
+        badge.classList.add('hidden');
+        return;
+      }
+
+      badge.classList.remove('hidden');
+      badge.className = 'font-cyber text-[9px] rounded-full px-2.5 py-0.5 border border-[#00f2fe]/50 bg-[#00f2fe]/15 text-[#00f2fe]';
+      badge.textContent = '⏳ SYNCING...';
+
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(record)
+        });
+        badge.className = 'font-cyber text-[9px] rounded-full px-2.5 py-0.5 border border-[#10b981]/55 bg-[#10b981]/15 text-emerald-300';
+        badge.textContent = '☁️ CLOUD SYNCED';
+      } catch (err) {
+        badge.className = 'font-cyber text-[9px] rounded-full px-2.5 py-0.5 border border-amber-400/55 bg-amber-500/15 text-amber-300';
+        badge.textContent = '💾 SAVED LOCAL';
+      }
+    }
+
+    document.getElementById('slimwork-survey-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const missing = [];
+      if (!surveyState.department || (surveyState.department === 'Khác' && !surveyState.departmentOther) || surveyState.name.length < 2) {
+        missing.push({ sec: 'sec-1', label: 'Mục 01 (Bộ phận & Họ tên)' });
+      }
+      if (surveyState.usageContexts.size === 0) {
+        missing.push({ sec: 'sec-2', label: 'Mục 02 (Hiện trạng sử dụng AI)' });
+      }
+      if (surveyState.level === null) {
+        missing.push({ sec: 'sec-3', label: 'Mục 03 (Mức độ sử dụng AI)' });
+      }
+      if (surveyState.trainingFormats.size === 0) {
+        missing.push({ sec: 'sec-5', label: 'Mục 05 (Hình thức đào tạo)' });
+      }
+      if (surveyState.supportTopics.size === 0) {
+        missing.push({ sec: 'sec-6', label: 'Mục 06 (Chủ đề cần hỗ trợ)' });
+      }
+
+      if (missing.length > 0) {
+        playFx('error');
+        missing.forEach((m) => {
+          const el = document.getElementById(m.sec);
+          el.classList.remove('shake-error');
+          void el.offsetWidth;
+          el.classList.add('shake-error');
+        });
+        const banner = document.getElementById('validation-banner');
+        banner.innerHTML = `⚠️ Vui lòng hoàn thiện các mục bắt buộc: <strong>${missing.map(m => m.label).join(', ')}</strong>`;
+        banner.classList.remove('hidden');
+        document.getElementById(missing[0].sec).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const usingAI = !surveyState.usageContexts.has('none');
+      const deptFinal = surveyState.department === 'Khác' ? `Khác: ${surveyState.departmentOther}` : surveyState.department;
+
+      const usageContextsDisplay = Array.from(surveyState.usageContexts).map((u) => {
+        if (u === 'none') return 'Chưa sử dụng AI vào công việc';
+        if (u === 'Khác' && surveyState.usageOther) return `Khác (${surveyState.usageOther})`;
+        return u;
+      });
+
+      const aiTools21Display = usingAI
+        ? Array.from(surveyState.aiTools21).map((t) =>
+            t === 'Khác' && surveyState.toolOther ? `Khác (${surveyState.toolOther})` : t
+          )
+        : [];
+
+      const trainingFormatsDisplay = Array.from(surveyState.trainingFormats);
+
+      const supportTopicsDisplay = Array.from(surveyState.supportTopics).map((s) =>
+        s === 'Khác' && surveyState.supportOther ? `Khác (${surveyState.supportOther})` : s
+      );
+
+      const levelInfo = AI_LEVELS[surveyState.level];
+      const feasObj = FEASIBILITY_OPTIONS.find((f) => f.id === surveyState.feasibility);
+
+      const record = {
+        id: 'SW-' + Date.now().toString(36).toUpperCase(),
+        timestamp: new Date().toLocaleString('vi-VN'),
+        name: surveyState.name,
+        department: deptFinal,
+        baseDepartment: surveyState.department,
+        usingAI,
+        usageContexts: usageContextsDisplay,
+        aiTools21: aiTools21Display,
+        rawTools21: usingAI ? Array.from(surveyState.aiTools21) : [],
+        level: surveyState.level,
+        tier: levelInfo.title,
+        tierVn: levelInfo.vn,
+        tierIcon: levelInfo.icon,
+        automationIdea: surveyState.automationIdea || '',
+        feasibility: surveyState.feasibility || 'unknown',
+        feasibilityLabel: feasObj ? feasObj.label : 'Chưa rõ — Cần đội ngũ Slimwork khảo sát',
+        trainingFormats: trainingFormatsDisplay,
+        rawFormats: Array.from(surveyState.trainingFormats),
+        supportTopics: supportTopicsDisplay,
+        rawSupportTopics: Array.from(surveyState.supportTopics)
+      };
+
+      lastSubmittedRecord = record;
+      saveResponseLocally(record);
+      openProfileModal(record);
+      dispatchWebhookIfSet(record);
+    });
+
+    function triggerNeonConfetti() {
+      try {
+        if (typeof confetti === 'function') {
+          const colors = ['#00f2fe', '#a855f7', '#ec4899', '#10b981', '#f59e0b'];
+          confetti({ particleCount: 78, spread: 74, origin: { y: 0.55 }, colors });
+          setTimeout(() => {
+            confetti({ particleCount: 46, angle: 60, spread: 58, origin: { x: 0.1, y: 0.65 }, colors });
+            confetti({ particleCount: 46, angle: 120, spread: 58, origin: { x: 0.9, y: 0.65 }, colors });
+          }, 220);
+        }
+      } catch (e) {}
+    }
+
+    function computeRadarScores(rec) {
+      const mastery    = Math.min(100, Math.round((rec.level / 5) * 88 + (rec.usingAI ? 12 : 0)));
+      const toolCount  = rec.rawTools21.length;
+      const diversity  = !rec.usingAI ? 15 : Math.min(100, 34 + toolCount * 16);
+      const autoMind   = rec.automationIdea
+        ? (rec.feasibility === 'high' ? 96 : rec.feasibility === 'medium' ? 84 : 74)
+        : (rec.feasibility && rec.feasibility !== 'unknown' ? 58 : 38);
+      const growthDrive = Math.min(100, 48 + rec.rawFormats.length * 14 + rec.rawSupportTopics.length * 8);
+      const overall    = Math.round((mastery + diversity + autoMind + growthDrive) / 4);
+      return { mastery, diversity, autoMind, growthDrive, overall };
+    }
+
+    function buildRoadmap(rec) {
+      const steps = [];
+
+      // Step 1: Level & Tools
+      if (rec.level <= 1) {
+        steps.push({
+          tag: 'BƯỚC 1 • KHỞI ĐỘNG NỀN TẢNG SLIMWORK',
+          title: `Thiết lập bộ Prompt nền tảng cho khối ${rec.department}`,
+          desc: 'Bắt đầu với các tác vụ nhanh hằng ngày (soạn thảo, dịch văn bản, tóm tắt họp) kết hợp quy tắc an toàn dữ liệu nội bộ.'
+        });
+      } else if (rec.level <= 3) {
+        steps.push({
+          tag: 'BƯỚC 1 • NÂNG CẤP HIỆU SUẤT NGHIỆP VỤ',
+          title: `Khai thác chiều sâu ${rec.aiTools21.length ? rec.aiTools21.slice(0, 2).join(' & ') : 'hệ công cụ AI'}`,
+          desc: 'Chuẩn hóa mẫu Prompt theo quy trình phòng ban để tăng tốc phân tích dữ liệu, trình bày báo cáo và rút ngắn ít nhất 30% thời gian xử lý.'
+        });
+      } else {
+        steps.push({
+          tag: 'BƯỚC 1 • HẠT NHÂN SLIMWORK CHAMPION',
+          title: `Đóng gói kịch bản tối ưu hóa cho ${rec.department}`,
+          desc: 'Chuẩn hóa workflow đang vận hành hiệu quả thành thư viện dùng chung để nhân rộng tốc độ chuyển đổi AI trong toàn đơn vị.'
+        });
+      }
+
+      // Step 2: Automation Priority
+      if (rec.automationIdea) {
+        const clip = rec.automationIdea.length > 74 ? rec.automationIdea.slice(0, 74) + '...' : rec.automationIdea;
+        steps.push({
+          tag: rec.feasibility === 'high' ? 'BƯỚC 2 • QUICK WIN KHẢ THI CAO' : 'BƯỚC 2 • CHUẨN HÓA DỮ LIỆU ĐẦU VÀO',
+          title: `Bài toán ưu tiên: "${clip}"`,
+          desc: rec.feasibility === 'high'
+            ? 'Đề xuất thuộc nhóm khả thi cao — ưu tiên đưa vào danh sách thí điểm tự động hóa Slimwork đợt đầu.'
+            : 'Rà soát biểu mẫu và số hóa dữ liệu đầu vào cùng đội ngũ Slimwork để mở khóa tự động hóa bền vững.'
+        });
+      } else {
+        steps.push({
+          tag: 'BƯỚC 2 • CHỌN ĐIỂM NGHẼN TỰ ĐỘNG HÓA',
+          title: 'Xác định 1 tác vụ lặp lại tốn nhiều công sức nhất mỗi tuần',
+          desc: 'Ghi nhận 1 báo cáo định kỳ hoặc bước xử lý thủ công để đội ngũ Slimwork khảo sát và thiết kế giải pháp phù hợp.'
+        });
+      }
+
+      // Step 3: Training Format (Q5) + Support Topics (Q6)
+      steps.push({
+        tag: `BƯỚC 3 • KÍCH HOẠT ĐÀO TẠO (${rec.rawFormats.join(' / ').toUpperCase()})`,
+        title: `Trọng tâm hỗ trợ: ${rec.rawSupportTopics.slice(0, 3).join(', ')}`,
+        desc: `Đội ngũ Slimwork sẽ ưu tiên phân phối tài nguyên theo hình thức ${rec.rawFormats.join(', ')} sát nhất với nhu cầu công việc của bạn.`
+      });
+
+      return steps;
+    }
+
+    function openProfileModal(rec) {
+      const modal = document.getElementById('profile-modal');
+      const scan  = document.getElementById('scan-phase');
+      const pass  = document.getElementById('pass-phase');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      scan.classList.remove('hidden');
+      pass.classList.add('hidden');
+      playFx('level');
+
+      // 0.7s AI Diagnostic Scan Effect
+      setTimeout(() => {
+        scan.classList.add('hidden');
+        pass.classList.remove('hidden');
+        playFx('success');
+        triggerNeonConfetti();
+
+        const scores = computeRadarScores(rec);
+        document.getElementById('pass-name').textContent = rec.name;
+        document.getElementById('pass-dept').textContent = `Bộ phận: ${rec.department} • Mã hồ sơ: ${rec.id}`;
+        document.getElementById('pass-tier-icon').textContent = rec.tierIcon;
+        document.getElementById('pass-tier-title').textContent = rec.tier.toUpperCase();
+        document.getElementById('pass-tier-level').textContent = `LEVEL ${rec.level} / 5 • CHỈ SỐ ${scores.overall}/100`;
+
+        // Badges: Mục 2.1 Tools
+        const toolBadgesEl = document.getElementById('pass-tool-badges');
+        if (rec.aiTools21.length === 0) {
+          toolBadgesEl.innerHTML = `<span class="rounded-full bg-slate-800 border border-slate-600 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">🌱 Chưa sử dụng công cụ AI</span>`;
+        } else {
+          toolBadgesEl.innerHTML = rec.rawTools21.map((rawId, idx) => {
+            const meta = AI_TOOLS_21.find((t) => t.id === rawId) || AI_TOOLS_21[5];
+            const lbl = rec.aiTools21[idx] || rawId;
+            return `<span class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${meta.badgeStyle}">${meta.icon} ${escapeHTML(lbl)}</span>`;
+          }).join('');
+        }
+
+        // Badges: Mục 5 Training Formats
+        document.getElementById('pass-format-badges').innerHTML = rec.rawFormats.map((fId) => {
+          const meta = TRAINING_FORMATS.find((f) => f.id === fId) || TRAINING_FORMATS[0];
+          return `<span class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${meta.badgeStyle}">${meta.icon} ${escapeHTML(fId)}</span>`;
+        }).join('');
+
+        // Badges: Mục 6 Support Topics
+        document.getElementById('pass-support-badges').innerHTML = rec.rawSupportTopics.map((sId, idx) => {
+          const meta = SUPPORT_TOPICS.find((s) => s.id === sId) || SUPPORT_TOPICS[4];
+          const lbl = rec.supportTopics[idx] || sId;
+          return `<span class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${meta.badgeStyle}">${meta.icon} ${escapeHTML(lbl)}</span>`;
+        }).join('');
+
+        // 3-Step Roadmap
+        document.getElementById('pass-roadmap-list').innerHTML = buildRoadmap(rec).map((s) => `
+          <div class="rounded-2xl bg-[#070b1a]/90 border border-slate-700/75 p-3.5 hover:border-[#00f2fe]/45 transition">
+            <div class="font-cyber text-[10px] font-bold text-[#00f2fe] tracking-wide mb-1">${s.tag}</div>
+            <div class="text-sm font-bold text-white">${escapeHTML(s.title)}</div>
+            <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">${escapeHTML(s.desc)}</p>
+          </div>
+        `).join('');
+
+        // 4-Axis Radar Chart (Chart.js)
+        const ctx = document.getElementById('pass-radar-chart').getContext('2d');
+        if (radarChartInst) radarChartInst.destroy();
+        radarChartInst = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: ['Mức độ\nthành thạo', 'Đa dạng\ncông cụ', 'Tư duy\ntự động hóa', 'Động lực\nhọc & hỗ trợ'],
+            datasets: [{
+              label: 'Năng lực AI',
+              data: [scores.mastery, scores.diversity, scores.autoMind, scores.growthDrive],
+              backgroundColor: 'rgba(0, 242, 254, 0.24)',
+              borderColor: '#00f2fe',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#ec4899',
+              pointBorderColor: '#ffffff',
+              pointRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0, max: 100,
+                ticks: { display: false, stepSize: 25 },
+                grid: { color: 'rgba(148, 163, 184, 0.2)' },
+                angleLines: { color: 'rgba(148, 163, 184, 0.24)' },
+                pointLabels: { color: '#e2e8f0', font: { family: 'Be Vietnam Pro', size: 11, weight: '700' } }
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: 'rgba(5, 8, 20, 0.96)',
+                borderColor: '#00f2fe',
+                borderWidth: 1,
+                callbacks: { label: (c) => ` Điểm: ${c.raw}/100` }
+              }
+            }
+          }
+        });
+      }, 700);
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById('profile-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function resetForNextPerson() {
+      closeProfileModal();
+      surveyState.department = '';
+      surveyState.departmentOther = '';
+      surveyState.name = '';
+      surveyState.usageContexts.clear();
+      surveyState.usageOther = '';
+      surveyState.aiTools21.clear();
+      surveyState.toolOther = '';
+      surveyState.level = null;
+      surveyState.automationIdea = '';
+      surveyState.feasibility = '';
+      surveyState.trainingFormats.clear();
+      surveyState.supportTopics.clear();
+      surveyState.supportOther = '';
+
+      document.getElementById('slimwork-survey-form').reset();
+      document.getElementById('dept-other-wrap').classList.add('hidden');
+      document.getElementById('usage-other-wrap').classList.add('hidden');
+      document.getElementById('tool-other-wrap').classList.add('hidden');
+      document.getElementById('support-other-wrap').classList.add('hidden');
+      document.getElementById('level-slider').value = 0;
+      document.getElementById('tier-badge-icon').textContent = '🌱';
+      document.getElementById('tier-badge-name').textContent = 'CHỌN CẤP ĐỘ NĂNG LỰC (0 – 5)';
+      document.getElementById('tier-badge-pill').textContent = 'LVL —';
+      document.getElementById('tier-badge-desc').textContent = 'Chọn một cấp độ phía trên để hệ thống định danh hồ sơ AI của bạn.';
+      document.getElementById('level-gauge-bar').style.width = '0%';
+
+      renderSurveyUI();
+      syncUsageAndQ21UI();
+      updateProgressBar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('✨ Đã làm mới biểu mẫu [Slimwork] cho lượt khảo sát mới!', 'cyan');
+    }
+
+    function copyProfileSummary() {
+      if (!lastSubmittedRecord) return;
+      const s = computeRadarScores(lastSubmittedRecord);
+      const text = [
+        `⚡ THẺ HỒ SƠ NĂNG LỰC AI — [SLIMWORK]`,
+        `• Họ tên: ${lastSubmittedRecord.name}`,
+        `• Bộ phận: ${lastSubmittedRecord.department}`,
+        `• Cấp độ AI: ${lastSubmittedRecord.tier} (Level ${lastSubmittedRecord.level}/5 — Chỉ số ${s.overall}/100)`,
+        `• Công cụ AI (2.1): ${lastSubmittedRecord.aiTools21.length ? lastSubmittedRecord.aiTools21.join(', ') : 'Chưa sử dụng'}`,
+        `• Hình thức đào tạo (5): ${lastSubmittedRecord.trainingFormats.join(', ')}`,
+        `• Chủ đề hỗ trợ (6): ${lastSubmittedRecord.supportTopics.join(', ')}`,
+        lastSubmittedRecord.automationIdea ? `• Ý tưởng tự động hóa: ${lastSubmittedRecord.automationIdea}` : ''
+      ].filter(Boolean).join('\n');
+      copyTextToClipboard(text, '📋 Đã sao chép Hồ sơ Năng lực AI — Slimwork!');
+    }
+
+    /* =====================================================================
+       10. LIVE STAGE DASHBOARD ENGINE (4 KPIs + 4 CHARTS + LIVE FEED)
+       ===================================================================== */
+    function switchView(view) {
+      currentView = view;
+      const surveySec = document.getElementById('view-survey');
+      const stageSec  = document.getElementById('view-stage');
+      const navSurvey = document.getElementById('nav-survey');
+      const navStage  = document.getElementById('nav-stage');
+      const energyBar = document.getElementById('energy-bar-wrapper');
+      const progPill  = document.getElementById('header-progress-pill');
+
+      const activeStyle = ['bg-gradient-to-r', 'from-[#00f2fe]/25', 'to-[#a855f7]/25', 'text-[#00f2fe]', 'border-[#00f2fe]/55', 'shadow-[0_0_18px_rgba(0,242,254,0.3)]'];
+      const idleStyle   = ['text-slate-300', 'border-transparent'];
+
+      if (view === 'survey') {
+        surveySec.classList.remove('hidden');
+        stageSec.classList.add('hidden');
+        energyBar.classList.remove('hidden');
+        progPill.classList.remove('hidden');
+
+        navSurvey.classList.add(...activeStyle);
+        navSurvey.classList.remove(...idleStyle);
+        navStage.classList.remove(...activeStyle);
+        navStage.classList.add(...idleStyle);
+      } else {
+        surveySec.classList.add('hidden');
+        stageSec.classList.remove('hidden');
+        energyBar.classList.add('hidden');
+        progPill.classList.add('hidden');
+
+        navStage.classList.add(...activeStyle);
+        navStage.classList.remove(...idleStyle);
+        navSurvey.classList.remove(...activeStyle);
+        navSurvey.classList.add(...idleStyle);
+
+        renderLiveStageDashboard();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setStageDatasetMode(mode) {
+      playFx('click');
+      stageDatasetMode = mode;
+      const demoBtn = document.getElementById('toggle-demo-btn');
+      const realBtn = document.getElementById('toggle-real-btn');
+      if (mode === 'demo') {
+        demoBtn.className = 'rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#00f2fe]/25 to-[#a855f7]/25 text-[#00f2fe] border border-[#00f2fe]/50';
+        realBtn.className = 'rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent';
+      } else {
+        realBtn.className = 'rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#10b981]/25 to-[#00f2fe]/25 text-emerald-300 border border-[#10b981]/50';
+        demoBtn.className = 'rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent';
+      }
+      renderLiveStageDashboard();
+    }
+
+    function aggregateStageMetrics() {
+      const realList = getSavedResponses();
+      const useDemo  = stageDatasetMode === 'demo';
+
+      let total        = useDemo ? DEMO_BASELINE.totalResponses : 0;
+      let usingAI      = useDemo ? DEMO_BASELINE.usingAICount : 0;
+      let ideasCount   = useDemo ? DEMO_BASELINE.totalIdeasCount : 0;
+      let levelSum     = useDemo ? DEMO_BASELINE.levelWeightedSum : 0;
+
+      const deptCounts = {};
+      Object.keys(DEMO_BASELINE.departments).forEach((k) => {
+        deptCounts[k] = useDemo ? DEMO_BASELINE.departments[k] : 0;
+      });
+      deptCounts['Khác'] = 0;
+
+      const tools21Counts = useDemo
+        ? { ...DEMO_BASELINE.tools21Counts }
+        : { 'OpenAI ChatGPT': 0, 'Google Gemini': 0, 'Anthropic Claude': 0, 'DeepSeek': 0, 'Grok': 0, 'Khác': 0 };
+
+      const formatCounts = useDemo
+        ? { ...DEMO_BASELINE.formatCounts }
+        : { 'Online': 0, 'Offline': 0, 'Video đào tạo': 0 };
+
+      const supportCounts = useDemo
+        ? { ...DEMO_BASELINE.supportCounts }
+        : { 'Tạo video': 0, 'Phân tích dữ liệu': 0, 'Trình bày báo cáo': 0, 'Dịch văn bản': 0, 'Khác': 0 };
+
+      realList.forEach((r) => {
+        total += 1;
+        if (r.usingAI) usingAI += 1;
+        if (r.automationIdea && r.automationIdea.trim().length > 0) ideasCount += 1;
+        levelSum += Math.min(5, Math.max(0, Number(r.level || 0)));
+
+        const dKey = deptCounts[r.baseDepartment] !== undefined ? r.baseDepartment : 'Khác';
+        deptCounts[dKey] += 1;
+
+        (r.rawTools21 || []).forEach((tId) => {
+          if (tools21Counts[tId] !== undefined) tools21Counts[tId] += 1;
+        });
+
+        (r.rawFormats || []).forEach((fId) => {
+          if (formatCounts[fId] !== undefined) formatCounts[fId] += 1;
+        });
+
+        (r.rawSupportTopics || []).forEach((sId) => {
+          if (supportCounts[sId] !== undefined) supportCounts[sId] += 1;
+        });
+      });
+
+      if (deptCounts['Khác'] === 0) delete deptCounts['Khác'];
+
+      const adoptionPct = total > 0 ? (usingAI / total) * 100 : 0;
+      const avgLevel    = total > 0 ? levelSum / total : 0;
+
+      const realIdeas = realList
+        .filter((r) => r.automationIdea && r.automationIdea.trim().length > 0)
+        .map((r) => ({
+          name: r.name,
+          department: r.department,
+          idea: r.automationIdea,
+          feasibility: r.feasibility || 'unknown',
+          isReal: true
+        }));
+
+      const ideas = useDemo ? [...realIdeas, ...DEMO_BASELINE.sampleIdeas] : realIdeas;
+
+      return { total, adoptionPct, avgLevel, ideasCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas };
+    }
+
+    function animateValue(el, target, formatFn) {
+      const start = performance.now();
+      const duration = 620;
+      function frame(now) {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = formatFn(target * eased);
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function renderLiveStageDashboard() {
+      const m = aggregateStageMetrics();
+      updateLiveCountBadges();
+
+      // 4 KPI Cards
+      animateValue(document.getElementById('kpi-total'), m.total, (v) => Math.round(v).toLocaleString('vi-VN'));
+      document.getElementById('kpi-total-note').textContent = stageDatasetMode === 'demo'
+        ? 'Tổng hợp Trình diễn (Demo + Thực tế)'
+        : 'Chỉ tổng hợp dữ liệu thực tế trên thiết bị';
+      animateValue(document.getElementById('kpi-adoption'), m.adoptionPct, (v) => `${v.toFixed(1)}%`);
+      animateValue(document.getElementById('kpi-avg-level'), m.avgLevel, (v) => v.toFixed(2));
+      animateValue(document.getElementById('kpi-ideas'), m.ideasCount, (v) => Math.round(v).toLocaleString('vi-VN'));
+
+      // CHART 1: Phản hồi theo Bộ phận (đầy đủ CSR, Oneteam, TFT...)
+      const deptEntries = Object.entries(m.deptCounts).sort((a, b) => b[1] - a[1]);
+      const deptLabels  = deptEntries.map(([k]) => DEPARTMENTS.find(d => d.id === k)?.short || k);
+      const deptVals    = deptEntries.map(([, v]) => v);
+      const deptPalette = ['#00f2fe', '#a855f7', '#ec4899', '#10b981', '#38bdf8', '#c084fc', '#f472b6', '#34d399', '#f59e0b', '#6366f1', '#94a3b8'];
+
+      const ctxDept = document.getElementById('chart-dept').getContext('2d');
+      if (deptChartInst) deptChartInst.destroy();
+      deptChartInst = new Chart(ctxDept, {
+        type: 'bar',
+        data: {
+          labels: deptLabels,
+          datasets: [{
+            label: 'Số phản hồi',
+            data: deptVals,
+            backgroundColor: deptVals.map((_, i) => deptPalette[i % deptPalette.length] + 'CC'),
+            borderColor: deptVals.map((_, i) => deptPalette[i % deptPalette.length]),
+            borderWidth: 1.5,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { color: '#cbd5e1', font: { family: 'Orbitron', size: 10 } }, grid: { color: 'rgba(148,163,184,0.12)' } },
+            y: { ticks: { color: '#f8fafc', font: { family: 'Be Vietnam Pro', size: 11, weight: '700' } }, grid: { display: false } }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: 'rgba(5,8,20,0.96)', borderColor: '#00f2fe', borderWidth: 1 }
+          }
+        }
+      });
+
+      // CHART 2: Top Công cụ AI đang sử dụng (Mục 2.1)
+      const toolEntries = Object.entries(m.tools21Counts).sort((a, b) => b[1] - a[1]);
+      const toolLabels  = toolEntries.map(([k]) => k);
+      const toolVals    = toolEntries.map(([, v]) => v);
+      const toolColors  = toolLabels.map((lbl) => (AI_TOOLS_21.find(t => t.id === lbl)?.chartColor || '#a855f7'));
+
+      const ctxTools = document.getElementById('chart-tools').getContext('2d');
+      if (toolsChartInst) toolsChartInst.destroy();
+      toolsChartInst = new Chart(ctxTools, {
+        type: 'bar',
+        data: {
+          labels: toolLabels,
+          datasets: [{
+            label: 'Lượt chọn',
+            data: toolVals,
+            backgroundColor: toolColors.map(c => c + 'CC'),
+            borderColor: toolColors,
+            borderWidth: 1.5,
+            borderRadius: 10
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { color: '#cbd5e1', font: { family: 'Orbitron', size: 10 } }, grid: { color: 'rgba(148,163,184,0.12)' } },
+            y: { ticks: { color: '#f8fafc', font: { family: 'Be Vietnam Pro', size: 11, weight: '700' } }, grid: { display: false } }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: 'rgba(5,8,20,0.96)', borderColor: '#a855f7', borderWidth: 1 }
+          }
+        }
+      });
+
+      // CHART 3: Hình thức Đào tạo mong muốn (Mục 5: Online, Offline, Video đào tạo)
+      const fmtLabels = Object.keys(m.formatCounts);
+      const fmtVals   = Object.values(m.formatCounts);
+      const fmtZero   = fmtVals.every((v) => v === 0);
+
+      const ctxFormat = document.getElementById('chart-format').getContext('2d');
+      if (formatChartInst) formatChartInst.destroy();
+      formatChartInst = new Chart(ctxFormat, {
+        type: 'doughnut',
+        data: {
+          labels: fmtLabels,
+          datasets: [{
+            data: fmtZero ? [1] : fmtVals,
+            backgroundColor: fmtZero ? ['rgba(51,65,85,0.4)'] : ['#00f2fe', '#a855f7', '#ec4899'],
+            borderColor: '#050814',
+            borderWidth: 3,
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '58%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#f1f5f9', padding: 14, boxWidth: 13, font: { family: 'Be Vietnam Pro', size: 12, weight: '700' } }
+            },
+            tooltip: {
+              enabled: !fmtZero,
+              backgroundColor: 'rgba(5,8,20,0.96)',
+              borderColor: '#ec4899',
+              borderWidth: 1
+            }
+          }
+        }
+      });
+
+      // CHART 4: Chủ đề & Công việc cần hỗ trợ (Mục 6)
+      const supEntries = Object.entries(m.supportCounts).sort((a, b) => b[1] - a[1]);
+      const supLabels  = supEntries.map(([k]) => k);
+      const supVals    = supEntries.map(([, v]) => v);
+      const supColors  = supLabels.map((lbl) => (SUPPORT_TOPICS.find(s => s.id === lbl)?.chartColor || '#10b981'));
+
+      const ctxSupport = document.getElementById('chart-support').getContext('2d');
+      if (supportChartInst) supportChartInst.destroy();
+      supportChartInst = new Chart(ctxSupport, {
+        type: 'bar',
+        data: {
+          labels: supLabels,
+          datasets: [{
+            label: 'Lượt đăng ký hỗ trợ',
+            data: supVals,
+            backgroundColor: supColors.map(c => c + 'CC'),
+            borderColor: supColors,
+            borderWidth: 1.5,
+            borderRadius: 10
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { color: '#f1f5f9', font: { family: 'Be Vietnam Pro', size: 11, weight: '700' } }, grid: { display: false } },
+            y: { ticks: { color: '#cbd5e1', font: { family: 'Orbitron', size: 10 } }, grid: { color: 'rgba(148,163,184,0.12)' } }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: 'rgba(5,8,20,0.96)', borderColor: '#10b981', borderWidth: 1 }
+          }
+        }
+      });
+
+      // LIVE FEED: Ý tưởng Tự động hóa nổi bật
+      const streamEl = document.getElementById('idea-stream-list');
+      if (m.ideas.length === 0) {
+        streamEl.innerHTML = `
+          <div class="md:col-span-2 rounded-2xl border border-dashed border-slate-700 p-8 text-center text-sm text-slate-400">
+            Chưa có ý tưởng tự động hóa thực tế nào. Hãy gửi thử 1 lượt ở tab <strong>⚡ Khảo sát AI</strong>!
+          </div>`;
+      } else {
+        streamEl.innerHTML = m.ideas.map((item) => {
+          const feas = FEASIBILITY_OPTIONS.find((f) => f.id === item.feasibility) || FEASIBILITY_OPTIONS[3];
+          return `
+            <div class="rounded-2xl bg-[#070b1a]/88 border ${item.isReal ? 'border-[#00f2fe]/60 shadow-[0_0_20px_-6px_rgba(0,242,254,0.45)]' : 'border-slate-800'} p-4 transition hover:border-[#00f2fe]/45">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  ${item.isReal ? '<span class="rounded-full bg-[#00f2fe] px-2 py-0.5 font-cyber text-[9px] font-black text-slate-950">LIVE MỚI</span>' : ''}
+                  <span class="text-xs font-bold text-white">${escapeHTML(item.name)}</span>
+                  <span class="text-[11px] text-slate-400">• ${escapeHTML(item.department)}</span>
+                </div>
+                <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold ${feas.badge}">${feas.icon} ${feas.label}</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">"${escapeHTML(item.idea)}"</p>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    /* =====================================================================
+       11. WEBHOOK CONFIGURATION, CSV EXPORT (UTF-8 BOM) & LOCAL RESET
+       ===================================================================== */
+    function openConnectModal() {
+      if (!isStageUnlocked()) { openSecurityModal(); return; }
+      playFx('click');
+      resetConfirmArmed = false;
+      updateResetBtnUI();
+      const savedUrl = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
+      document.getElementById('webhook-url-input').value = savedUrl;
+      updateWebhookStatusUI(savedUrl);
+      updateLiveCountBadges();
+
+      const modal = document.getElementById('connect-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeConnectModal() {
+      const modal = document.getElementById('connect-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function updateWebhookStatusUI(url) {
+      const el = document.getElementById('webhook-saved-indicator');
+      el.innerHTML = url
+        ? 'Trạng thái: <span class="text-emerald-300 font-bold">Đang bật đồng bộ Live JSON POST</span>'
+        : 'Trạng thái: <span class="text-slate-400">Chỉ lưu cục bộ (LocalStorage)</span>';
+    }
+
+    function saveWebhookUrl() {
+      playFx('click');
+      const val = document.getElementById('webhook-url-input').value.trim();
+      if (val && !val.startsWith('http')) {
+        showToast('⚠️ Đường dẫn Webhook phải bắt đầu bằng https:// hoặc http://', 'rose');
+        return;
+      }
+      if (val) {
+        localStorage.setItem(STORAGE_KEY_WEBHOOK, val);
+        showToast('✅ Đã lưu cấu hình Webhook đồng bộ trực tiếp!', 'emerald');
+      } else {
+        localStorage.removeItem(STORAGE_KEY_WEBHOOK);
+        showToast('ℹ️ Đã ngắt kết nối Webhook, lưu cục bộ.', 'cyan');
+      }
+      updateWebhookStatusUI(val);
+    }
+
+    async function testWebhookConnection() {
+      const url = document.getElementById('webhook-url-input').value.trim();
+      if (!url) {
+        showToast('⚠️ Vui lòng nhập Webhook URL trước khi kiểm tra.', 'amber');
+        return;
+      }
+      playFx('click');
+      const sample = {
+        id: 'SW-TEST-PING',
+        timestamp: new Date().toLocaleString('vi-VN'),
+        name: 'Kiểm thử kết nối [Slimwork]',
+        department: 'TFT',
+        usingAI: true,
+        usageContexts: ['Có — Dùng AI viết code, phân tích dữ liệu chuyên sâu hoặc tự động hóa'],
+        aiTools21: ['OpenAI ChatGPT', 'Google Gemini', 'Anthropic Claude'],
+        level: 5,
+        tier: 'AI Master',
+        automationIdea: 'Kiểm thử luồng đồng bộ Webhook từ Live Stage Slimwork',
+        feasibilityLabel: 'Rất khả thi',
+        trainingFormats: ['Online', 'Video đào tạo'],
+        supportTopics: ['Phân tích dữ liệu', 'Trình bày báo cáo']
+      };
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(sample)
+        });
+        showToast('🚀 Đã gửi gói tin kiểm tra (POST JSON). Hãy kiểm tra bảng dữ liệu đích!', 'emerald');
+      } catch (e) {
+        showToast('❌ Gửi gói tin thất bại. Vui lòng kiểm tra lại URL.', 'rose');
+      }
+    }
+
+    function copyGasSnippet() {
+      copyTextToClipboard(document.getElementById('gas-snippet').textContent, '📋 Đã sao chép mã Google Apps Script!');
+    }
+
+    function exportToCSV() {
+      playFx('click');
+      const realList = getSavedResponses();
+      if (realList.length === 0) {
+        showToast('ℹ️ Chưa có bản ghi thực tế nào trên thiết bị để xuất CSV.', 'amber');
+        return;
+      }
+
+      const headers = [
+        'Mã hồ sơ',
+        'Thời gian',
+        'Họ tên',
+        'Bộ phận',
+        'Đang dùng AI',
+        'Hiện trạng sử dụng AI (Mục 2)',
+        'Công cụ AI đang dùng (Mục 2.1)',
+        'Mức độ AI (0-5)',
+        'Danh hiệu AI',
+        'Ý tưởng Tự động hóa (4A)',
+        'Mức độ khả thi (4B)',
+        'Hình thức đào tạo mong muốn (Mục 5)',
+        'Chủ đề & Công việc cần hỗ trợ (Mục 6)'
+      ];
+
+      const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const rows = realList.map((r) => [
+        r.id,
+        r.timestamp,
+        r.name,
+        r.department,
+        r.usingAI ? 'Có' : 'Chưa',
+        (r.usageContexts || []).join('; '),
+        (r.aiTools21 || []).join('; '),
+        r.level,
+        r.tier,
+        r.automationIdea,
+        r.feasibilityLabel,
+        (r.trainingFormats || []).join('; '),
+        (r.supportTopics || []).join('; ')
+      ].map(esc).join(','));
+
+      // UTF-8 BOM để mở trực tiếp trên Microsoft Excel không lỗi dấu tiếng Việt
+      const csvContent = '\uFEFF' + [headers.map(esc).join(','), ...rows].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Slimwork_AI_Survey_Export_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`📥 Đã xuất ${realList.length} phản hồi thực tế chuẩn Excel/CSV (UTF-8 BOM)!`, 'emerald');
+    }
+
+    function updateResetBtnUI() {
+      const cnt = getSavedResponses().length;
+      const btn = document.getElementById('reset-local-btn');
+      if (resetConfirmArmed) {
+        btn.innerHTML = `⚠️ Bấm lần nữa để XÁC NHẬN XÓA (${cnt})`;
+        btn.classList.add('bg-rose-600/40', 'border-rose-400');
+      } else {
+        btn.innerHTML = `🗑️ Xóa dữ liệu thực tế (<span id="modal-local-count" class="font-cyber">${cnt}</span>)`;
+        btn.classList.remove('bg-rose-600/40', 'border-rose-400');
+      }
+    }
+
+    function handleResetLocalData() {
+      const cnt = getSavedResponses().length;
+      if (cnt === 0) {
+        showToast('ℹ️ Dữ liệu thực tế cục bộ hiện đang trống.', 'cyan');
+        return;
+      }
+      if (!resetConfirmArmed) {
+        playFx('click');
+        resetConfirmArmed = true;
+        updateResetBtnUI();
+        setTimeout(() => { resetConfirmArmed = false; updateResetBtnUI(); }, 4500);
+        return;
+      }
+      localStorage.removeItem(STORAGE_KEY_RESPONSES);
+      resetConfirmArmed = false;
+      updateLiveCountBadges();
+      updateResetBtnUI();
+      if (currentView === 'stage') renderLiveStageDashboard();
+      showToast('🗑️ Đã xóa sạch toàn bộ dữ liệu thực tế trên thiết bị.', 'rose');
+    }
+
+    /* =====================================================================
+       12. UTILITIES & KEYBOARD SHORTCUTS
+       ===================================================================== */
+    function copyTextToClipboard(text, successMsg) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        playFx('click');
+        showToast(successMsg, 'cyan');
+      } catch (e) {
+        showToast('⚠️ Trình duyệt không cho phép sao chép tự động.', 'amber');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function escapeHTML(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showToast(message, tone = 'cyan') {
+      const container = document.getElementById('toast-container');
+      const toneMap = {
+        cyan:    'border-[#00f2fe]/60 bg-[#050814]/95 text-[#00f2fe] shadow-[0_0_24px_rgba(0,242,254,0.3)]',
+        emerald: 'border-[#10b981]/60 bg-[#050814]/95 text-emerald-200 shadow-[0_0_24px_rgba(16,185,129,0.3)]',
+        amber:   'border-amber-400/60 bg-[#050814]/95 text-amber-200 shadow-[0_0_24px_rgba(245,158,11,0.3)]',
+        rose:    'border-rose-500/65 bg-[#050814]/95 text-rose-200 shadow-[0_0_24px_rgba(244,63,94,0.35)]'
+      };
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto rounded-2xl border px-4 py-3 text-xs sm:text-sm font-bold backdrop-blur-xl animate-fade-up ${toneMap[tone] || toneMap.cyan}`;
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(8px)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 320);
+      }, 3200);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSecurityModal();
+        closeChangePasscodeModal();
+        closeQRModal();
+        closeConnectModal();
+        closeProfileModal();
+      }
+    });
+
+    /* =====================================================================
+       13. BOOTSTRAP
+       ===================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      initNeuralCanvas();
+      renderSurveyUI();
+      bindInputListeners();
+      syncUsageAndQ21UI();
+      updateLockIconUI();
+      updateLiveCountBadges();
+      updateProgressBar();
+    });
+  </script>
+</body>
+</html>
