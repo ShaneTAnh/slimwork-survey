@@ -492,17 +492,17 @@
           <!-- 1A: 11 Department Cards (including CSR, Oneteam, TFT, Khác) -->
           <div class="mb-5">
             <label class="block text-sm font-bold text-[#00f2fe] mb-3">1A. Bạn đang làm việc tại bộ phận nào? (Chọn 1 thẻ)</label>
-            <div id="dept-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3"></div>
+            <div id="dept-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3"></div>
             <div id="dept-note-wrap" class="mt-3">
               <label for="dept-note-input" class="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">Ghi rõ bộ phận nhỏ của bạn trong khối/team đã chọn <span class="text-rose-400">*</span></label>
-              <input type="text" id="dept-note-input" placeholder="VD: Acc / HR / Sale 1 / Sale 2 / R&D 1 / R&D 2..."
+              <input type="text" id="dept-note-input" placeholder="VD: Kế toán, Nhân Sự, Sale 1, Sale 2, R&D 1, R&D 2..."
                 class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
             </div>
           </div>
 
           <!-- 1B: Full Name -->
           <div>
-            <label for="employee-name" class="block text-sm font-bold text-[#00f2fe] mb-2">1B. Họ và tên của bạn:</label>
+            <label for="employee-name" class="block text-sm font-bold text-[#00f2fe] mb-2">1B. Họ và tên của bạn: <span class="text-rose-400">*</span></label>
             <div class="relative">
               <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#00f2fe] text-base">👤</span>
               <input type="text" id="employee-name" autocomplete="name" required
@@ -1960,12 +1960,10 @@
       // Mục 1A: Bộ phận (bao gồm CSR, Oneteam, TFT, Khác)
       document.getElementById('dept-grid').innerHTML = DEPARTMENTS.map((d, idx) => `
         <button type="button" data-dept-idx="${idx}" onclick="selectDepartmentByIdx(${idx})"
-          class="neon-card rounded-2xl p-3 sm:p-3.5 text-left flex flex-col justify-between gap-2 min-h-[82px]">
-          <div class="flex items-center justify-between w-full">
-            <span class="text-xl sm:text-2xl">${d.icon}</span>
-            <span class="dept-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
-          </div>
-          <span class="text-xs sm:text-sm font-semibold text-slate-100 leading-snug">${d.short}</span>
+          class="neon-card rounded-2xl px-3.5 py-3 text-left flex items-center gap-3 min-h-[56px]">
+          <span class="text-xl sm:text-2xl shrink-0">${d.icon}</span>
+          <span class="flex-1 text-sm font-semibold text-slate-100 leading-snug">${d.short}</span>
+          <span class="dept-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
         </button>
       `).join('');
 
@@ -2482,8 +2480,12 @@
       e.preventDefault();
 
       const missing = [];
-      if (!surveyState.department || !surveyState.departmentNote || surveyState.name.length < 2) {
-        missing.push({ sec: 'sec-1', label: 'Mục 01 (Bộ phận, ghi chú bộ phận nhỏ & Họ tên)' });
+      const sec1Missing = [];
+      if (!surveyState.department) sec1Missing.push('chọn Khối/Team (1A)');
+      if (!surveyState.departmentNote) sec1Missing.push('ghi rõ bộ phận nhỏ');
+      if (surveyState.name.length < 2) sec1Missing.push('nhập Họ và tên (1B)');
+      if (sec1Missing.length > 0) {
+        missing.push({ sec: 'sec-1', label: 'Mục 01 (' + sec1Missing.join(', ') + ')' });
       }
       if (surveyState.usageContexts.size === 0) {
         missing.push({ sec: 'sec-2', label: 'Mục 02 (Hiện trạng sử dụng AI)' });
