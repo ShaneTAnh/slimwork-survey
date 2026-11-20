@@ -2422,20 +2422,19 @@
 
     // So phan hoi thuc te cua toan bo nhan vien: lay tu webhook (Google Sheet); loi mang thi dung so luu tren thiet bi nay.
     let sharedResponseCount = null;
+    let sharedStats = null;
     async function refreshSharedCount() {
       const base = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
       if (!base) return;
       try {
-        const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=count');
+        const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=stats');
         const data = await res.json();
-        if (typeof data.count === 'number') {
-          sharedResponseCount = data.count;
+        if (data && data.status === 'ok' && typeof data.total === 'number') {
+          const changed = JSON.stringify(data) !== JSON.stringify(sharedStats);
+          sharedStats = data;
+          sharedResponseCount = data.total;
           updateLiveCountBadges();
-          const kpiTotal = document.getElementById('kpi-total');
-          if (kpiTotal && stageDatasetMode === 'real') {
-            kpiTotal.textContent = data.count.toLocaleString('vi-VN');
-            document.getElementById('kpi-total-note').textContent = 'Tổng số bài trong Google Sheet (toàn bộ nhân viên)';
-          }
+          if (changed && currentView === 'stage') renderLiveStageDashboard();
         }
       } catch (err) { /* giu so cuc bo */ }
     }
@@ -2816,6 +2815,7 @@
        ===================================================================== */
     function switchView(view) {
       currentView = view;
+      if (view === 'stage') refreshSharedCount();
       const surveySec = document.getElementById('view-survey');
       const stageSec  = document.getElementById('view-stage');
       const navSurvey = document.getElementById('nav-survey');
@@ -2920,6 +2920,26 @@
         });
       });
 
+      let sharedMode = false;
+      if (stageDatasetMode === 'real' && sharedStats) {
+        sharedMode = true;
+        total = sharedStats.total || 0;
+        usingAI = sharedStats.usingAI || 0;
+        ideasCount = sharedStats.ideas || 0;
+        levelSum = sharedStats.levelSum || 0;
+        paidCount = sharedStats.paid || 0;
+        freeCount = sharedStats.free || 0;
+        Object.keys(deptCounts).forEach((k) => { deptCounts[k] = 0; });
+        Object.entries(sharedStats.depts || {}).forEach(([k, v]) => {
+          const key = deptCounts[k] !== undefined ? k : 'Khác';
+          deptCounts[key] += v;
+        });
+        [[tools21Counts, sharedStats.tools], [formatCounts, sharedStats.formats], [supportCounts, sharedStats.support]].forEach(([target, src]) => {
+          Object.keys(target).forEach((k) => { target[k] = 0; });
+          Object.entries(src || {}).forEach(([k, v]) => { if (target[k] !== undefined) target[k] += v; });
+        });
+      }
+
       if (deptCounts['Khác'] === 0) delete deptCounts['Khác'];
 
       const adoptionPct = total > 0 ? (usingAI / total) * 100 : 0;
@@ -2937,7 +2957,7 @@
 
       const ideas = useDemo ? [...realIdeas, ...DEMO_BASELINE.sampleIdeas] : realIdeas;
 
-      return { total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas };
+      return { shared: sharedMode, total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas };
     }
 
     function animateValue(el, target, formatFn) {
@@ -2962,7 +2982,6 @@
       document.getElementById('kpi-total-note').textContent = stageDatasetMode === 'demo'
         ? 'Tổng hợp Trình diễn (Demo + Thực tế)'
         : (useShared ? 'Tổng số bài trong Google Sheet (toàn bộ nhân viên)' : 'Chỉ tổng hợp dữ liệu thực tế trên thiết bị');
-      refreshSharedCount();
       animateValue(document.getElementById('kpi-adoption'), m.adoptionPct, (v) => `${v.toFixed(1)}%`);
       animateValue(document.getElementById('kpi-avg-level'), m.avgLevel, (v) => v.toFixed(2));
       animateValue(document.getElementById('kpi-ideas'), m.ideasCount, (v) => Math.round(v).toLocaleString('vi-VN'));
@@ -3118,7 +3137,9 @@
       if (m.ideas.length === 0) {
         streamEl.innerHTML = `
           <div class="md:col-span-2 rounded-2xl border border-dashed border-slate-700 p-8 text-center text-sm text-slate-400">
-            Chưa có ý tưởng tự động hóa thực tế nào. Hãy gửi thử 1 lượt ở tab <strong>⚡ Khảo sát AI</strong>!
+            ${m.shared
+              ? 'Nội dung ý tưởng của từng nhân viên không hiển thị ở đây vì lý do bảo mật. Xem chi tiết trong Google Sheet.'
+              : 'Chưa có ý tưởng tự động hóa thực tế nào. Hãy gửi thử 1 lượt ở tab <strong>⚡ Khảo sát AI</strong>!'}
           </div>`;
       } else {
         streamEl.innerHTML = m.ideas.map((item) => {
@@ -3388,6 +3409,9 @@
       updateLiveCountBadges();
       refreshSharedCount();
       updateProgressBar();
+      setInterval(() => {
+        if (currentView === 'stage' && !document.hidden) refreshSharedCount();
+      }, 60000);
     });
   </script>
 </body>
