@@ -19,6 +19,9 @@
   <!-- canvas-confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+  <!-- html2canvas CDN (lưu Thẻ Hồ sơ Năng lực AI thành ảnh PNG) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <!-- QRCode.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -1147,7 +1150,7 @@
       <div id="pass-phase" class="hidden glass-panel-neon rounded-3xl p-5 sm:p-7 relative overflow-hidden animate-fade-up">
         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#ec4899]"></div>
 
-        <button type="button" onclick="closeProfileModal()" aria-label="Đóng"
+        <button type="button" data-no-capture onclick="closeProfileModal()" aria-label="Đóng"
           class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 text-slate-300">
           ✕
         </button>
@@ -1199,18 +1202,24 @@
           <div class="md:col-span-7 space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <h4 class="font-cyber text-xs font-bold uppercase tracking-wider text-purple-300">🎯 Lộ trình Hành động 3 Bước</h4>
-              <span id="pass-webhook-status" class="hidden font-cyber text-[9px] rounded-full px-2.5 py-0.5 border"></span>
+              <span id="pass-webhook-status" data-no-capture class="hidden font-cyber text-[9px] rounded-full px-2.5 py-0.5 border"></span>
             </div>
             <div id="pass-roadmap-list" class="space-y-2.5"></div>
           </div>
         </div>
 
         <!-- Footer Actions -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
-          <button type="button" onclick="copyProfileSummary()"
-            class="w-full sm:w-auto rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 px-4 py-2.5 text-xs font-bold text-slate-200 transition">
-            📋 Sao chép Hồ sơ AI
-          </button>
+        <div data-no-capture class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
+          <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2.5">
+            <button type="button" id="save-png-btn" onclick="saveProfilePNG()"
+              class="w-full sm:w-auto rounded-xl bg-[#00f2fe]/15 hover:bg-[#00f2fe]/25 border border-[#00f2fe]/55 px-4 py-2.5 text-xs font-bold text-[#00f2fe] transition">
+              🖼️ Lưu ảnh PNG về máy
+            </button>
+            <button type="button" onclick="copyProfileSummary()"
+              class="w-full sm:w-auto rounded-xl bg-[#070b1a] hover:bg-slate-800 border border-slate-700 px-4 py-2.5 text-xs font-bold text-slate-200 transition">
+              📋 Sao chép Hồ sơ AI
+            </button>
+          </div>
           <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2.5">
             <button type="button" onclick="resetForNextPerson()"
               class="w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#a855f7] px-5 py-2.5 text-sm font-black text-slate-950 shadow-[0_0_24px_rgba(0,242,254,0.45)] transition">
@@ -2706,7 +2715,7 @@
         radarChartInst = new Chart(ctx, {
           type: 'radar',
           data: {
-            labels: ['Mức độ\nthành thạo', 'Đa dạng\ncông cụ', 'Tư duy\ntự động hóa', 'Động lực\nhọc & hỗ trợ'],
+            labels: [['Mức độ', 'thành thạo'], ['Đa dạng', 'công cụ'], ['Tư duy', 'tự động hóa'], ['Động lực', 'học & hỗ trợ']],
             datasets: [{
               label: 'Năng lực AI',
               data: [scores.mastery, scores.diversity, scores.autoMind, scores.growthDrive],
@@ -2721,13 +2730,14 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { left: 26, right: 26, top: 6, bottom: 6 } },
             scales: {
               r: {
                 min: 0, max: 100,
                 ticks: { display: false, stepSize: 25 },
                 grid: { color: 'rgba(148, 163, 184, 0.2)' },
                 angleLines: { color: 'rgba(148, 163, 184, 0.24)' },
-                pointLabels: { color: '#e2e8f0', font: { family: 'Be Vietnam Pro', size: 11, weight: '700' } }
+                pointLabels: { color: '#e2e8f0', font: { family: 'Be Vietnam Pro', size: 10, weight: '700' } }
               }
             },
             plugins: {
@@ -2742,6 +2752,57 @@
           }
         });
       }, 700);
+    }
+
+    async function saveProfilePNG() {
+      const card = document.getElementById('pass-phase');
+      const btn = document.getElementById('save-png-btn');
+      if (typeof html2canvas !== 'function') {
+        showToast('⚠️ Chưa tải được thư viện tạo ảnh. Kiểm tra mạng rồi thử lại.', 'amber');
+        return;
+      }
+      const oldLabel = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang tạo ảnh...';
+      try {
+        const canvas = await html2canvas(card, {
+          backgroundColor: '#0a1024',
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: 480,   // dựng theo bố cục điện thoại (1 cột) để ảnh xem rõ trên điện thoại
+          ignoreElements: (el) => el.hasAttribute && el.hasAttribute('data-no-capture'),
+          onclone: (doc) => {
+            const c = doc.getElementById('pass-phase');
+            c.style.animation = 'none';
+            c.style.opacity = '1';
+            c.style.transform = 'none';
+            c.style.background = '#0a1024';
+            c.style.backdropFilter = 'none';
+            c.style.webkitBackdropFilter = 'none';
+          }
+        });
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+        if (!blob) throw new Error('Không tạo được ảnh');
+        const rec = lastSubmittedRecord || {};
+        const safeName = String(rec.name || 'NhanVien').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'NhanVien';
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Slimwork_Ho-so-AI_${safeName}_${rec.id || ''}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        showToast('⬇️ Đã lưu Thẻ Hồ sơ AI dạng ảnh PNG!', 'emerald');
+      } catch (err) {
+        showToast('⚠️ Không lưu được ảnh. Thử lại hoặc chụp màn hình thẻ.', 'amber');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = oldLabel;
+      }
     }
 
     function closeProfileModal() {
