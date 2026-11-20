@@ -910,6 +910,15 @@
         </div>
       </div>
 
+      <!-- BỘ PHẬN NHỎ DO NHÂN VIÊN GHI (MỤC 1A) -->
+      <div class="glass-panel rounded-3xl p-5 sm:p-6">
+        <div class="mb-4">
+          <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2"><span>🏷️</span> Bộ phận nhỏ do nhân viên ghi (Mục 1A)</h3>
+          <p class="text-xs text-slate-400">Số phản hồi theo Khối/Team › bộ phận nhỏ, sắp xếp từ nhiều đến ít</p>
+        </div>
+        <div id="sub-dept-list" class="flex flex-wrap gap-2"></div>
+      </div>
+
       <!-- LIVE FEED: Ý TƯỞNG TỰ ĐỘNG HÓA NỔI BẬT -->
       <div class="glass-panel rounded-3xl p-5 sm:p-6">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -2957,7 +2966,18 @@
 
       const ideas = useDemo ? [...realIdeas, ...DEMO_BASELINE.sampleIdeas] : realIdeas;
 
-      return { shared: sharedMode, total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas };
+      let ideasOut = useDemo ? [...realIdeas, ...DEMO_BASELINE.sampleIdeas] : realIdeas;
+      if (sharedMode) {
+        ideasOut = (sharedStats.ideaList || []).map((it) => ({
+          name: it.dept,
+          department: '',
+          idea: it.idea,
+          feasibility: (FEASIBILITY_OPTIONS.find((f) => f.label === it.feas) || FEASIBILITY_OPTIONS[3]).id,
+          isReal: false
+        }));
+      }
+
+      return { shared: sharedMode, total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas: ideasOut };
     }
 
     function animateValue(el, target, formatFn) {
@@ -3132,14 +3152,31 @@
         }
       });
 
+      // Bộ phận nhỏ (Khối › ghi chú): từ Google Sheet nếu có, không thì từ dữ liệu trên máy
+      let subEntries;
+      if (m.shared && sharedStats && Array.isArray(sharedStats.subs)) {
+        subEntries = sharedStats.subs;
+      } else {
+        const tally = {};
+        getSavedResponses().forEach((r) => {
+          const lab = r.departmentNote ? `${r.baseDepartment} › ${r.departmentNote}` : (r.baseDepartment || r.department || '');
+          if (lab) tally[lab] = (tally[lab] || 0) + 1;
+        });
+        subEntries = Object.entries(tally).sort((a, b) => b[1] - a[1]);
+      }
+      document.getElementById('sub-dept-list').innerHTML = subEntries.length === 0
+        ? '<span class="text-sm text-slate-400">Chưa có dữ liệu bộ phận nhỏ.</span>'
+        : subEntries.map(([label, n]) => `
+            <span class="inline-flex items-center gap-2 rounded-full bg-[#070b1a]/90 border border-[#00f2fe]/35 px-3 py-1.5 text-xs text-slate-200">
+              ${escapeHTML(label)} <strong class="font-cyber text-[#00f2fe]">${n}</strong>
+            </span>`).join('');
+
       // LIVE FEED: Ý tưởng Tự động hóa nổi bật
       const streamEl = document.getElementById('idea-stream-list');
       if (m.ideas.length === 0) {
         streamEl.innerHTML = `
           <div class="md:col-span-2 rounded-2xl border border-dashed border-slate-700 p-8 text-center text-sm text-slate-400">
-            ${m.shared
-              ? 'Nội dung ý tưởng của từng nhân viên không hiển thị ở đây vì lý do bảo mật. Xem chi tiết trong Google Sheet.'
-              : 'Chưa có ý tưởng tự động hóa thực tế nào. Hãy gửi thử 1 lượt ở tab <strong>⚡ Khảo sát AI</strong>!'}
+            Chưa có ý tưởng tự động hóa thực tế nào. Hãy gửi thử 1 lượt ở tab <strong>⚡ Khảo sát AI</strong>!
           </div>`;
       } else {
         streamEl.innerHTML = m.ideas.map((item) => {
@@ -3150,7 +3187,7 @@
                 <div class="flex items-center gap-1.5 flex-wrap">
                   ${item.isReal ? '<span class="rounded-full bg-[#00f2fe] px-2 py-0.5 font-cyber text-[9px] font-black text-slate-950">LIVE MỚI</span>' : ''}
                   <span class="text-xs font-bold text-white">${escapeHTML(item.name)}</span>
-                  <span class="text-[11px] text-slate-400">• ${escapeHTML(item.department)}</span>
+                  ${item.department ? `<span class="text-[11px] text-slate-400">• ${escapeHTML(item.department)}</span>` : ''}
                 </div>
                 <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold ${feas.badge}">${feas.icon} ${feas.label}</span>
               </div>
