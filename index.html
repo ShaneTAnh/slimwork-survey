@@ -1208,6 +1208,14 @@
           </div>
         </div>
 
+        <!-- Nút tham gia group Zalo (không đưa vào ảnh PNG) -->
+        <div data-no-capture class="pb-4">
+          <button type="button" id="zalo-join-btn" onclick="openZaloGroup()"
+            class="w-full rounded-2xl bg-gradient-to-r from-[#0068ff] to-[#00c6ff] px-5 py-3.5 text-sm sm:text-base font-black text-white shadow-[0_0_26px_rgba(0,104,255,0.45)] hover:brightness-110 transition">
+            💬 Tham dự ngay vào group Zalo: AI &amp; Cải tiến liên tục
+          </button>
+        </div>
+
         <!-- Footer Actions -->
         <div data-no-capture class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
           <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2.5">
@@ -1246,6 +1254,7 @@
        1. CONSTANTS, SECURITY CONFIG & MASTER DATA ([SLIMWORK])
        ===================================================================== */
     const DEFAULT_PASSCODE         = 'Audit@2027';
+    const ZALO_GROUP_URL           = '';  // dán link mời group Zalo "AI & Cải tiến liên tục" vào đây (dạng https://zalo.me/g/...)
     const DEFAULT_WEBHOOK_URL      = 'https://script.google.com/macros/s/AKfycbyG_0TDJuRO4759-Y477dzh5g9AQkqAPA6Ewdt1wnfFYNhefW6uBTs1714HEL0vqEwQAQ/exec';  // dán URL Apps Script (/exec) vào đây để mọi nhân viên gửi về cùng một nơi
     const STORAGE_KEY_PASSCODE     = 'slimwork_ai_passcode_v1';
     const SESSION_KEY_UNLOCKED     = 'slimwork_ai_stage_unlocked_v1';
@@ -2802,6 +2811,15 @@
       } finally {
         btn.disabled = false;
         btn.textContent = oldLabel;
+      }
+    }
+
+    function openZaloGroup() {
+      playFx('click');
+      if (ZALO_GROUP_URL) {
+        window.open(ZALO_GROUP_URL, '_blank', 'noopener');
+      } else {
+        showToast('💬 Link group Zalo sẽ được cập nhật sớm. Bạn quay lại sau nhé!', 'cyan');
       }
     }
 
