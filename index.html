@@ -2432,6 +2432,7 @@
     // So phan hoi thuc te cua toan bo nhan vien: lay tu webhook (Google Sheet); loi mang thi dung so luu tren thiet bi nay.
     let sharedResponseCount = null;
     let sharedStats = null;
+    let knownIdeaKeys = null;   // ý tưởng đã có khi mở Live Stage; cái đến sau gắn nhãn LIVE MỚI
     async function refreshSharedCount() {
       const base = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
       if (!base) return;
@@ -2968,12 +2969,15 @@
 
       let ideasOut = useDemo ? [...realIdeas, ...DEMO_BASELINE.sampleIdeas] : realIdeas;
       if (sharedMode) {
-        ideasOut = (sharedStats.ideaList || []).map((it) => ({
-          name: it.dept,
-          department: '',
+        const ideaList = sharedStats.ideaList || [];
+        const ideaKey = (it) => `${it.name || ''}|${it.dept}|${it.idea}`;
+        if (knownIdeaKeys === null) knownIdeaKeys = new Set(ideaList.map(ideaKey));
+        ideasOut = ideaList.map((it) => ({
+          name: it.name || it.dept,
+          department: it.name ? it.dept : '',
           idea: it.idea,
           feasibility: (FEASIBILITY_OPTIONS.find((f) => f.label === it.feas) || FEASIBILITY_OPTIONS[3]).id,
-          isReal: false
+          isReal: !knownIdeaKeys.has(ideaKey(it))
         }));
       }
 
