@@ -2433,6 +2433,11 @@
         if (typeof data.count === 'number') {
           sharedResponseCount = data.count;
           updateLiveCountBadges();
+          const kpiTotal = document.getElementById('kpi-total');
+          if (kpiTotal && stageDatasetMode === 'real') {
+            kpiTotal.textContent = data.count.toLocaleString('vi-VN');
+            document.getElementById('kpi-total-note').textContent = 'Tổng số bài trong Google Sheet (toàn bộ nhân viên)';
+          }
         }
       } catch (err) { /* giu so cuc bo */ }
     }
@@ -2441,7 +2446,7 @@
       const realList = getSavedResponses();
       const heroCount = (sharedResponseCount !== null) ? sharedResponseCount : realList.length;
       document.getElementById('hero-live-count').textContent = heroCount.toLocaleString('vi-VN');
-      document.getElementById('real-count-badge').textContent = realList.length;
+      document.getElementById('real-count-badge').textContent = heroCount.toLocaleString('vi-VN');
       document.getElementById('modal-local-count').textContent = realList.length;
     }
 
@@ -2950,10 +2955,12 @@
       updateLiveCountBadges();
 
       // 4 KPI Cards
-      animateValue(document.getElementById('kpi-total'), m.total, (v) => Math.round(v).toLocaleString('vi-VN'));
+      const useShared = (stageDatasetMode === 'real' && sharedResponseCount !== null);
+      animateValue(document.getElementById('kpi-total'), useShared ? sharedResponseCount : m.total, (v) => Math.round(v).toLocaleString('vi-VN'));
       document.getElementById('kpi-total-note').textContent = stageDatasetMode === 'demo'
         ? 'Tổng hợp Trình diễn (Demo + Thực tế)'
-        : 'Chỉ tổng hợp dữ liệu thực tế trên thiết bị';
+        : (useShared ? 'Tổng số bài trong Google Sheet (toàn bộ nhân viên)' : 'Chỉ tổng hợp dữ liệu thực tế trên thiết bị');
+      refreshSharedCount();
       animateValue(document.getElementById('kpi-adoption'), m.adoptionPct, (v) => `${v.toFixed(1)}%`);
       animateValue(document.getElementById('kpi-avg-level'), m.avgLevel, (v) => v.toFixed(2));
       animateValue(document.getElementById('kpi-ideas'), m.ideasCount, (v) => Math.round(v).toLocaleString('vi-VN'));
