@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>[Slimwork] Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc</title>
+  <title>[CSR] - Khảo sát nhu cầu Slimwork thông qua ứng dụng A.I</title>
 
   <!-- Google Fonts: Be Vietnam Pro (tiếng Việt sắc nét) + Orbitron (KPI, huy hiệu, phần trăm) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -378,7 +378,7 @@
               <span class="hidden md:inline-flex rounded-full bg-[#10b981]/15 border border-[#10b981]/45 px-2 py-0.5 font-cyber text-[9px] font-bold text-[#10b981]">AI HUB</span>
             </div>
             <p class="truncate text-[10px] sm:text-[11px] text-slate-400 tracking-wide max-w-[180px] sm:max-w-xs md:max-w-md">
-              Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc
+              Khảo sát nhu cầu Slimwork thông qua ứng dụng A.I
             </p>
           </div>
         </div>
@@ -440,12 +440,23 @@
         </div>
 
         <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-white mb-3">
-          <span class="text-neon-gradient drop-shadow-[0_0_26px_rgba(0,242,254,0.35)]">[Slimwork]</span>
-          <span class="block mt-1">Tối ưu hóa Hiệu Suất & Tự Động Hóa AI trong công việc</span>
+          <span class="text-neon-gradient drop-shadow-[0_0_26px_rgba(0,242,254,0.35)]">[CSR]</span>
+          <span class="block mt-1">Khảo sát nhu cầu Slimwork thông qua ứng dụng A.I</span>
         </h1>
 
+        <!-- Giới thiệu đợt khảo sát -->
+        <div class="mx-auto max-w-2xl mb-5 rounded-2xl bg-[#070b1a]/80 border border-[#00f2fe]/30 px-4 py-3.5 sm:px-6 sm:py-4 text-left">
+          <p class="text-sm sm:text-base font-bold text-white leading-relaxed mb-2.5">
+            Hãy chia sẻ cùng chúng tôi để cùng trao đổi, tìm giải pháp tự động hóa &amp; tăng hiệu suất công việc
+          </p>
+          <ul class="space-y-1.5 text-sm text-slate-300">
+            <li>⏱️ <strong class="text-[#00f2fe]">Thời gian khảo sát:</strong> 20/11 ~ 27/11/2026</li>
+            <li>👥 <strong class="text-[#00f2fe]">Đối tượng khảo sát:</strong> Nhân viên các Bộ phận/Phòng ban tại HQ (Pearl Plaza)</li>
+          </ul>
+        </div>
+
         <p class="mx-auto max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed mb-5">
-          Chỉ mất <strong class="text-[#00f2fe]">~60 giây</strong> chạm chọn trực quan trên một trang duy nhất để mở khóa <strong class="text-pink-300">Thẻ Hồ sơ Năng lực AI — Slimwork</strong> và định hình chương trình hỗ trợ, đào tạo sát thực tế nhất cho bộ phận bạn.
+          Chỉ mất <strong class="text-[#00f2fe]">~60 giây</strong> chạm chọn trực quan trên một trang duy nhất để mở khóa <strong class="text-pink-300">Thẻ Hồ sơ Năng lực AI — Slimwork</strong>.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold">
@@ -453,7 +464,7 @@
             ⚡ 1 trang trực quan • Biểu đồ Radar AI cá nhân
           </span>
           <span class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-[#10b981]/45 px-3.5 py-1.5 text-emerald-300">
-            🔥 <span id="hero-live-count" class="font-cyber">1.268</span> phản hồi đã được ghi nhận
+            🔥 <span id="hero-live-count" class="font-cyber">0</span> phản hồi đã được ghi nhận
           </span>
         </div>
       </div>
@@ -482,8 +493,9 @@
           <div class="mb-5">
             <label class="block text-sm font-bold text-[#00f2fe] mb-3">1A. Bạn đang làm việc tại bộ phận nào? (Chọn 1 thẻ)</label>
             <div id="dept-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3"></div>
-            <div id="dept-other-wrap" class="hidden mt-3 animate-fade-up">
-              <input type="text" id="dept-other-input" placeholder="Vui lòng nhập tên bộ phận / phòng ban của bạn..."
+            <div id="dept-note-wrap" class="mt-3">
+              <label for="dept-note-input" class="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">Ghi rõ bộ phận nhỏ của bạn trong khối/team đã chọn <span class="text-rose-400">*</span></label>
+              <input type="text" id="dept-note-input" placeholder="VD: Acc / HR / Sale 1 / Sale 2 / R&D 1 / R&D 2..."
                 class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
             </div>
           </div>
@@ -637,7 +649,8 @@
           <!-- 4A -->
           <div class="mb-5">
             <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
-              4A. Mô tả ngắn gọn công việc / quy trình cần tự động hóa:
+              4A. Mô tả ngắn gọn công việc / quy trình cần tự động hóa: <span class="text-rose-400">*</span>
+              <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
             </label>
             <div id="suggestion-chips" class="flex flex-wrap gap-2 mb-3"></div>
             <textarea id="automation-idea" rows="3"
@@ -742,11 +755,11 @@
           <!-- Dataset Switcher: Demo + Thực tế vs Chỉ dữ liệu thực tế -->
           <div class="inline-flex self-start lg:self-center rounded-2xl bg-[#050814]/95 p-1 border border-slate-700/80">
             <button id="toggle-demo-btn" type="button" onclick="setStageDatasetMode('demo')"
-              class="rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#00f2fe]/25 to-[#a855f7]/25 text-[#00f2fe] border border-[#00f2fe]/50">
+              class="hidden rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#00f2fe]/25 to-[#a855f7]/25 text-[#00f2fe] border border-[#00f2fe]/50">
               🌐 Trình diễn (Demo + Thực tế)
             </button>
             <button id="toggle-real-btn" type="button" onclick="setStageDatasetMode('real')"
-              class="rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent">
+              class="rounded-xl px-3 sm:px-3.5 py-2 text-xs font-bold transition-all bg-gradient-to-r from-[#10b981]/25 to-[#00f2fe]/25 text-emerald-300 border border-[#10b981]/50">
               🎯 Chỉ dữ liệu thực tế (<span id="real-count-badge" class="font-cyber">0</span>)
             </button>
           </div>
@@ -1220,19 +1233,19 @@
     const STORAGE_KEY_RESPONSES    = 'slimwork_ai_responses_v1';
     const STORAGE_KEY_WEBHOOK      = 'slimwork_ai_webhook_v1';
 
-    // MỤC 1A: 11 lựa chọn bộ phận (đầy đủ CSR, Oneteam, TFT, Khác)
+    // MỤC 1A: 11 khối/team + 1 ô ghi chú bộ phận nhỏ (Acc / HR / Sale 1 / R&D 2...)
     const DEPARTMENTS = [
-      { id: 'Sản xuất / Nhà máy',                  icon: '🏭', short: 'Sản xuất / Nhà máy' },
-      { id: 'Kinh doanh (Sales)',                  icon: '📈', short: 'Kinh doanh (Sales)' },
-      { id: 'R&D / Kỹ thuật (Engineering)',        icon: '⚙️', short: 'R&D / Kỹ thuật' },
-      { id: 'Tài chính - Kế toán / Kiểm soát',     icon: '💼', short: 'Tài chính / Kiểm soát' },
-      { id: 'Chuỗi cung ứng / Mua hàng / Kho vận', icon: '🚚', short: 'Chuỗi cung ứng / Kho' },
-      { id: 'Nhân sự - Hành chính',                icon: '🤝', short: 'Nhân sự - Hành chính' },
-      { id: 'Marketing / Khối Văn phòng khác',     icon: '🎯', short: 'Marketing / Văn phòng' },
-      { id: 'CSR',                                 icon: '🌱', short: 'CSR' },
-      { id: 'Oneteam',                             icon: '⚡', short: 'Oneteam' },
-      { id: 'TFT',                                 icon: '🚀', short: 'TFT' },
-      { id: 'Khác',                                icon: '✨', short: 'Khác (Nhập tên)' }
+      { id: 'Khối Production',          icon: '🏭', short: 'Khối Production' },
+      { id: 'Khối Sale',                icon: '📈', short: 'Khối Sale' },
+      { id: 'Khối R&D',                 icon: '⚙️', short: 'Khối R&D' },
+      { id: 'Business Management Team', icon: '🧭', short: 'Business Management Team' },
+      { id: 'Business Support Team',    icon: '🛠️', short: 'Business Support Team' },
+      { id: 'ONE Team',                 icon: '⚡', short: 'ONE Team' },
+      { id: 'Sales Transformation TFT', icon: '🚀', short: 'Sales Transformation TFT' },
+      { id: 'SCM Team',                 icon: '🚚', short: 'SCM Team' },
+      { id: 'New Business Part',        icon: '💡', short: 'New Business Part' },
+      { id: 'Global Business Team',     icon: '🌏', short: 'Global Business Team' },
+      { id: 'Marketing Team',           icon: '🎯', short: 'Marketing Team' }
     ];
 
     // MỤC 2: Hiện trạng sử dụng AI nội bộ (có mục Khác + loại trừ thông minh)
@@ -1505,7 +1518,7 @@
        ===================================================================== */
     const surveyState = {
       department: '',
-      departmentOther: '',
+      departmentNote: '',
       name: '',
       usageContexts: new Set(),
       usageOther: '',
@@ -1520,7 +1533,7 @@
     };
 
     let currentView = 'survey';     // 'survey' | 'stage'
-    let stageDatasetMode = 'demo';  // 'demo' | 'real'
+    let stageDatasetMode = 'real';  // 'demo' | 'real'
     let soundEnabled = false;
     let audioCtx = null;
     let lastSubmittedRecord = null;
@@ -2036,8 +2049,9 @@
         clearSectionError('sec-1');
         updateProgressBar();
       });
-      document.getElementById('dept-other-input').addEventListener('input', (e) => {
-        surveyState.departmentOther = e.target.value.trim();
+      document.getElementById('dept-note-input').addEventListener('input', (e) => {
+        surveyState.departmentNote = e.target.value.trim();
+        clearSectionError('sec-1');
         updateProgressBar();
       });
       document.getElementById('usage-other-input').addEventListener('input', (e) => {
@@ -2071,13 +2085,6 @@
         btn.querySelector('.dept-check').style.opacity = active ? '1' : '0';
       });
 
-      const wrap = document.getElementById('dept-other-wrap');
-      if (deptObj.id === 'Khác') {
-        wrap.classList.remove('hidden');
-        document.getElementById('dept-other-input').focus();
-      } else {
-        wrap.classList.add('hidden');
-      }
       updateProgressBar();
     }
 
@@ -2333,13 +2340,13 @@
 
     function updateProgressBar() {
       let score = 0;
-      const deptValid = surveyState.department && (surveyState.department !== 'Khác' || surveyState.departmentOther.length > 0);
+      const deptValid = surveyState.department && surveyState.departmentNote.length > 0;
       if (deptValid) score += 14;
       if (surveyState.name.length >= 2) score += 14;
       if (surveyState.usageContexts.size > 0) score += 14;
       if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
       if (surveyState.level !== null) score += 14;
-      if (surveyState.automationIdea.length > 0 || surveyState.feasibility) score += 10;
+      if (surveyState.automationIdea.length > 0) score += 10;
       if (surveyState.trainingFormats.size > 0) score += 11;
       if (surveyState.supportTopics.size > 0) score += 11;
 
@@ -2377,9 +2384,25 @@
       updateLiveCountBadges();
     }
 
+    // So phan hoi thuc te cua toan bo nhan vien: lay tu webhook (Google Sheet); loi mang thi dung so luu tren thiet bi nay.
+    let sharedResponseCount = null;
+    async function refreshSharedCount() {
+      const base = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
+      if (!base) return;
+      try {
+        const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=count');
+        const data = await res.json();
+        if (typeof data.count === 'number') {
+          sharedResponseCount = data.count;
+          updateLiveCountBadges();
+        }
+      } catch (err) { /* giu so cuc bo */ }
+    }
+
     function updateLiveCountBadges() {
       const realList = getSavedResponses();
-      document.getElementById('hero-live-count').textContent = (DEMO_BASELINE.totalResponses + realList.length).toLocaleString('vi-VN');
+      const heroCount = (sharedResponseCount !== null) ? sharedResponseCount : realList.length;
+      document.getElementById('hero-live-count').textContent = heroCount.toLocaleString('vi-VN');
       document.getElementById('real-count-badge').textContent = realList.length;
       document.getElementById('modal-local-count').textContent = realList.length;
     }
@@ -2405,6 +2428,7 @@
         });
         badge.className = 'font-cyber text-[9px] rounded-full px-2.5 py-0.5 border border-[#10b981]/55 bg-[#10b981]/15 text-emerald-300';
         badge.textContent = '☁️ CLOUD SYNCED';
+        setTimeout(refreshSharedCount, 2500);
       } catch (err) {
         badge.className = 'font-cyber text-[9px] rounded-full px-2.5 py-0.5 border border-amber-400/55 bg-amber-500/15 text-amber-300';
         badge.textContent = '💾 SAVED LOCAL';
@@ -2415,14 +2439,17 @@
       e.preventDefault();
 
       const missing = [];
-      if (!surveyState.department || (surveyState.department === 'Khác' && !surveyState.departmentOther) || surveyState.name.length < 2) {
-        missing.push({ sec: 'sec-1', label: 'Mục 01 (Bộ phận & Họ tên)' });
+      if (!surveyState.department || !surveyState.departmentNote || surveyState.name.length < 2) {
+        missing.push({ sec: 'sec-1', label: 'Mục 01 (Bộ phận, ghi chú bộ phận nhỏ & Họ tên)' });
       }
       if (surveyState.usageContexts.size === 0) {
         missing.push({ sec: 'sec-2', label: 'Mục 02 (Hiện trạng sử dụng AI)' });
       }
       if (surveyState.level === null) {
         missing.push({ sec: 'sec-3', label: 'Mục 03 (Mức độ sử dụng AI)' });
+      }
+      if (surveyState.automationIdea.length === 0) {
+        missing.push({ sec: 'sec-4', label: 'Mục 04 (Câu 4A: công việc cần tự động hóa)' });
       }
       if (surveyState.trainingFormats.size === 0) {
         missing.push({ sec: 'sec-5', label: 'Mục 05 (Hình thức đào tạo)' });
@@ -2447,7 +2474,7 @@
       }
 
       const usingAI = !surveyState.usageContexts.has('none');
-      const deptFinal = surveyState.department === 'Khác' ? `Khác: ${surveyState.departmentOther}` : surveyState.department;
+      const deptFinal = `${surveyState.department} (${surveyState.departmentNote})`;
 
       const usageContextsDisplay = Array.from(surveyState.usageContexts).map((u) => {
         if (u === 'none') return 'Chưa sử dụng AI vào công việc';
@@ -2475,6 +2502,7 @@
         timestamp: new Date().toLocaleString('vi-VN'),
         name: surveyState.name,
         department: deptFinal,
+        departmentNote: surveyState.departmentNote,
         baseDepartment: surveyState.department,
         usingAI,
         usageContexts: usageContextsDisplay,
@@ -2688,7 +2716,7 @@
     function resetForNextPerson() {
       closeProfileModal();
       surveyState.department = '';
-      surveyState.departmentOther = '';
+      surveyState.departmentNote = '';
       surveyState.name = '';
       surveyState.usageContexts.clear();
       surveyState.usageOther = '';
@@ -2702,7 +2730,6 @@
       surveyState.supportOther = '';
 
       document.getElementById('slimwork-survey-form').reset();
-      document.getElementById('dept-other-wrap').classList.add('hidden');
       document.getElementById('usage-other-wrap').classList.add('hidden');
       document.getElementById('tool-other-wrap').classList.add('hidden');
       document.getElementById('support-other-wrap').classList.add('hidden');
@@ -2802,8 +2829,8 @@
       let levelSum     = useDemo ? DEMO_BASELINE.levelWeightedSum : 0;
 
       const deptCounts = {};
-      Object.keys(DEMO_BASELINE.departments).forEach((k) => {
-        deptCounts[k] = useDemo ? DEMO_BASELINE.departments[k] : 0;
+      DEPARTMENTS.forEach((d) => {
+        deptCounts[d.id] = useDemo ? (DEMO_BASELINE.departments[d.id] || 0) : 0;
       });
       deptCounts['Khác'] = 0;
 
@@ -3302,6 +3329,7 @@
       syncUsageAndQ21UI();
       updateLockIconUI();
       updateLiveCountBadges();
+      refreshSharedCount();
       updateProgressBar();
     });
   </script>
