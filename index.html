@@ -1105,31 +1105,6 @@
           </div>
         </div>
 
-        <!-- Google Apps Script Snippet Matching New Schema -->
-        <div class="rounded-2xl bg-[#050814]/95 border border-slate-800 p-4">
-          <div class="flex items-center justify-between mb-2">
-            <span class="font-cyber text-[11px] font-bold text-emerald-300">📄 Google Apps Script nhận JSON (Chuẩn cột Slimwork)</span>
-            <button type="button" onclick="copyGasSnippet()"
-              class="rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 px-2.5 py-1 text-[11px] font-bold text-[#00f2fe]">
-              📋 Sao chép mã
-            </button>
-          </div>
-          <pre id="gas-snippet" class="text-[11px] leading-relaxed font-mono text-slate-300 overflow-x-auto max-h-36 p-2.5 rounded-xl bg-slate-900/75">function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var d = JSON.parse(e.postData.contents);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['Mã HS','Thời gian','Họ tên','Bộ phận','Đang dùng AI','Hiện trạng AI (Mục 2)','Công cụ AI (Mục 2.1)','Mức độ (0-5)','Danh hiệu','Ý tưởng Tự động hóa (4A)','Khả thi (4B)','Hình thức đào tạo (Mục 5)','Chủ đề hỗ trợ (Mục 6)']);
-  }
-  sheet.appendRow([
-    d.id, d.timestamp, d.name, d.department, d.usingAI ? 'Có' : 'Chưa',
-    (d.usageContexts || []).join('; '), (d.aiTools21 || []).join('; '),
-    d.level, d.tier, d.automationIdea, d.feasibilityLabel,
-    (d.trainingFormats || []).join('; '), (d.supportTopics || []).join('; ')
-  ]);
-  return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
-}</pre>
-        </div>
-
         <!-- Mở Google Sheet chứa toàn bộ phản hồi -->
         <a href="https://docs.google.com/spreadsheets/d/1lCQo9jtgcFv99djULUgs2zUJxG9XlmUalqGCT5VXJOg/edit" target="_blank" rel="noopener noreferrer"
           class="flex items-center justify-center gap-2 rounded-2xl bg-[#00f2fe]/15 hover:bg-[#00f2fe]/25 border border-[#00f2fe]/55 px-4 py-3 text-sm font-bold text-[#00f2fe] transition">
@@ -3289,10 +3264,6 @@
       } catch (e) {
         showToast('❌ Gửi gói tin thất bại. Vui lòng kiểm tra lại URL.', 'rose');
       }
-    }
-
-    function copyGasSnippet() {
-      copyTextToClipboard(document.getElementById('gas-snippet').textContent, '📋 Đã sao chép mã Google Apps Script!');
     }
 
     function exportToCSV() {
