@@ -278,6 +278,39 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* Khối mở khóa ở phần giới thiệu (hiệu ứng FOMO) */
+    .unlock-card {
+      position: relative;
+      background: rgba(7, 11, 26, 0.86);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    .unlock-card.special {
+      border: 1.5px solid transparent;
+      background:
+        linear-gradient(rgba(20, 9, 34, 0.96), rgba(20, 9, 34, 0.96)) padding-box,
+        linear-gradient(90deg, #ec4899, #a855f7, #00f2fe, #ec4899) border-box;
+      background-size: 100% 100%, 260% 100%;
+      animation: gradientFlow 3.2s ease infinite, fomoGlow 2.4s ease-in-out infinite;
+    }
+    @keyframes fomoGlow {
+      0%, 100% { box-shadow: 0 0 16px -6px rgba(236, 72, 153, 0.5); }
+      50% { box-shadow: 0 0 34px -4px rgba(236, 72, 153, 0.85); }
+    }
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(-8deg); }
+    }
+    .float-icon { display: inline-block; animation: floatIcon 2.2s ease-in-out infinite; }
+    @keyframes ctaRing {
+      0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.55), 0 0 34px -4px rgba(0, 242, 254, 0.6); }
+      70% { box-shadow: 0 0 0 14px rgba(236, 72, 153, 0), 0 0 34px -4px rgba(0, 242, 254, 0.6); }
+      100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0), 0 0 34px -4px rgba(0, 242, 254, 0.6); }
+    }
+    .cta-ring { animation: gradientFlow 4.2s ease infinite, ctaRing 1.9s ease-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .unlock-card.special, .float-icon, .cta-ring { animation: none; }
+    }
+
     /* Sticky Neon Energy Progress Bar */
     .energy-bar-fill {
       background: linear-gradient(90deg, #00f2fe, #a855f7, #ec4899);
@@ -463,16 +496,44 @@
           </ul>
         </div>
 
-        <p class="mx-auto max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed mb-5">
-          Chỉ mất <strong class="text-[#00f2fe]">~60 giây</strong> – mở khóa <strong class="text-pink-300">Thẻ Hồ sơ Năng lực AI</strong> và đặc biệt là <strong class="text-pink-200">“Rút quẻ từ Vị Thần Quyết Định”</strong>. Ngay thôi nào!
-        </p>
+        <!-- Khối mở khóa: ~60 giây → Thẻ Hồ sơ → Rút quẻ (FOMO) -->
+        <div class="mx-auto max-w-2xl mb-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+            <div class="unlock-card rounded-2xl px-4 py-3 sm:py-4 flex sm:flex-col items-center gap-3 sm:gap-1.5 text-left sm:text-center">
+              <span class="text-2xl sm:text-3xl shrink-0">⏱️</span>
+              <div>
+                <div class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-slate-400">Chỉ mất</div>
+                <div class="text-xl sm:text-2xl font-black text-[#00f2fe] leading-tight">~60 giây</div>
+              </div>
+            </div>
+            <div class="unlock-card rounded-2xl px-4 py-3 sm:py-4 flex sm:flex-col items-center gap-3 sm:gap-1.5 text-left sm:text-center">
+              <span class="text-2xl sm:text-3xl shrink-0">🪪</span>
+              <div>
+                <div class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-slate-400">Mở khóa</div>
+                <div class="text-base sm:text-lg font-black text-white leading-tight">Thẻ Hồ sơ Năng lực AI</div>
+              </div>
+            </div>
+            <div class="unlock-card special rounded-2xl px-4 py-3 sm:py-4 flex sm:flex-col items-center gap-3 sm:gap-1.5 text-left sm:text-center">
+              <span class="absolute -top-2.5 right-3 rounded-full bg-gradient-to-r from-[#ec4899] to-[#a855f7] px-2.5 py-0.5 text-[10px] font-black tracking-wide text-white shadow-[0_0_14px_rgba(236,72,153,0.7)]">🔥 100 QUẺ</span>
+              <span class="float-icon text-2xl sm:text-3xl shrink-0">🔮</span>
+              <div>
+                <div class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-pink-300/90">✨ Đặc biệt là</div>
+                <div class="text-base sm:text-lg font-black text-pink-200 leading-tight">“Rút quẻ từ Vị Thần Quyết Định”</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" onclick="startSurveyNow()"
+            class="cta-neon-btn cta-ring mt-4 w-full sm:w-auto rounded-2xl px-10 py-3.5 text-base sm:text-lg font-black tracking-wide text-slate-950 cursor-pointer">
+            🚀 Ngay thôi nào!
+          </button>
+        </div>
 
         <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-[#a855f7]/45 px-3.5 py-1.5 text-purple-200">
-            ⚡ 1 trang trực quan • Biểu đồ Radar AI cá nhân
-          </span>
           <span class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-[#10b981]/45 px-3.5 py-1.5 text-emerald-300">
-            🔥 <span id="hero-live-count" class="font-cyber">0</span> phản hồi đã được ghi nhận
+            🔥 <span id="hero-live-count" class="font-cyber">0</span> đồng nghiệp đã mở thẻ
+          </span>
+          <span id="hero-deadline" class="inline-flex items-center gap-1.5 rounded-full bg-[#070b1a]/90 border border-amber-400/50 px-3.5 py-1.5 text-amber-300">
+            ⏳ Khảo sát đóng 05/12
           </span>
         </div>
       </div>
@@ -2525,7 +2586,24 @@
       } catch (err) { /* giu so cuc bo */ }
     }
 
+    // Đếm ngược tới hạn khảo sát (05/12/2026 23:59 giờ Việt Nam) — số thật, không giả lập
+    function updateDeadlineBadge() {
+      const el = document.getElementById('hero-deadline');
+      if (!el) return;
+      const days = Math.ceil((new Date('2026-12-05T23:59:59+07:00') - new Date()) / 86400000);
+      el.textContent = days > 1 ? `⏳ Còn ${days} ngày • đóng 05/12`
+        : days === 1 ? '⏳ Hôm nay là ngày cuối • đóng 23:59'
+        : '⏳ Khảo sát đã đóng 05/12';
+    }
+
+    function startSurveyNow() {
+      playFx('click');
+      const el = document.getElementById('sec-1');
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+    }
+
     function updateLiveCountBadges() {
+      updateDeadlineBadge();
       const realList = getSavedResponses();
       const heroCount = (sharedResponseCount !== null) ? sharedResponseCount : realList.length;
       document.getElementById('hero-live-count').textContent = heroCount.toLocaleString('vi-VN');
