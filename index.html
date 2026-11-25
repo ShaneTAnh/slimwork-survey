@@ -658,22 +658,30 @@
             </div>
             <div>
               <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
-                Công việc nào nên được tự động hóa? Mô tả ngắn gọn & Đánh giá mức độ khả thi
+                Quy trình công việc nào cần tự động hóa? Mô tả & Đánh giá mức độ khả thi
                 <span class="text-[11px] font-bold text-emerald-300 bg-[#10b981]/15 border border-[#10b981]/40 rounded-full px-2.5 py-0.5">Ưu tiên cải tiến</span>
               </h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chạm nhanh gợi ý hoặc mô tả ngắn tác vụ lặp lại tốn nhiều thời gian nhất tại phòng ban bạn.</p>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Mô tả quy trình bạn đang làm hằng ngày / tuần / tháng và chỉ rõ bước nào lặp lại, tốn thời gian cần tự động hóa.</p>
             </div>
           </div>
 
           <!-- 4A -->
           <div class="mb-5">
             <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
-              4A. Mô tả ngắn gọn công việc / quy trình cần tự động hóa: <span class="text-rose-400">*</span>
+              4A. Mô tả quy trình công việc hiện tại và bước nào cần tự động hóa: <span class="text-rose-400">*</span>
               <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
             </label>
-            <div id="suggestion-chips" class="flex flex-wrap gap-2 mb-3"></div>
-            <textarea id="automation-idea" rows="3"
-              placeholder="VD: Tổng hợp báo cáo định kỳ từ nhiều file Excel, đối chiếu số liệu, dịch tài liệu song ngữ, rà soát chứng từ..."
+            <div class="mb-3 rounded-2xl border border-[#10b981]/30 bg-[#10b981]/[0.06] px-4 py-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p class="font-semibold text-emerald-200 mb-1.5">Gợi ý cách viết: <span class="font-normal text-slate-300">hiện tại bạn làm thế nào → bước nào muốn máy làm thay.</span></p>
+              <p class="text-slate-400 mb-1">Ví dụ:</p>
+              <ul class="list-disc pl-5 space-y-1 text-slate-400">
+                <li>Mỗi ngày phải làm 1 file Excel, cuối tuần / cuối tháng lại gộp thành file tổng hợp → muốn tự động gộp và tổng hợp.</li>
+                <li>Xuất data từ hệ thống xong phải làm sạch thủ công trước khi phân tích → muốn tự động làm sạch dữ liệu.</li>
+                <li>Thường xuyên dịch văn bản tiếng Việt sang tiếng Anh, tiếng Việt sang tiếng Hàn, hoặc dịch văn bản tiếng Hàn → muốn dịch nhanh, đúng thuật ngữ.</li>
+              </ul>
+            </div>
+            <textarea id="automation-idea" rows="5"
+              placeholder="Quy trình hiện tại: ...&#10;Bước muốn tự động hóa: ..."
               class="neon-input w-full rounded-2xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 resize-y"></textarea>
           </div>
 
@@ -1442,15 +1450,6 @@
       { level: 5, vn: 'Làm chủ & tích hợp quy trình', title: 'AI Master',     icon: '👑', desc: 'Làm chủ AI, tích hợp trực tiếp vào quy trình tự động hóa & lan tỏa nội bộ.' }
     ];
 
-    // MỤC 4A: Nút gợi ý 1 chạm
-    const QUICK_SUGGESTIONS = [
-      'Tổng hợp báo cáo định kỳ',
-      'Đối chiếu số liệu Excel',
-      'Dịch tài liệu song ngữ',
-      'Rà soát chứng từ',
-      'Tóm tắt biên bản họp'
-    ];
-
     // MỤC 4B: Đánh giá mức độ khả thi
     const FEASIBILITY_OPTIONS = [
       { id: 'high',    label: 'Rất khả thi',                             sub: 'Quy trình lặp lại rõ ràng, dữ liệu số có sẵn',             icon: '🟢', accent: 'active-emerald', badge: 'text-emerald-300 bg-[#10b981]/15 border-[#10b981]/45' },
@@ -2065,14 +2064,6 @@
         </button>
       `).join('');
 
-      // Mục 4A: Gợi ý 1 chạm
-      document.getElementById('suggestion-chips').innerHTML = QUICK_SUGGESTIONS.map((text, idx) => `
-        <button type="button" onclick="appendSuggestionByIdx(${idx})"
-          class="rounded-full bg-[#10b981]/10 hover:bg-[#10b981]/25 border border-[#10b981]/40 hover:border-emerald-300 px-3 py-1.5 text-xs font-semibold text-emerald-200 transition active:scale-95">
-          + ${text}
-        </button>
-      `).join('');
-
       // Mục 4B: Mức độ khả thi
       document.getElementById('feasibility-grid').innerHTML = FEASIBILITY_OPTIONS.map((f, idx) => `
         <button type="button" data-feas-idx="${idx}" onclick="selectFeasibilityByIdx(${idx})"
@@ -2402,19 +2393,6 @@
         collapseChoice('level-grid', levelGrid.querySelector(`[data-level="${lvl}"]`), ['level-slider-wrap']);
       }
 
-      updateProgressBar();
-    }
-
-    function appendSuggestionByIdx(idx) {
-      playFx('click');
-      const text = QUICK_SUGGESTIONS[idx];
-      if (!text) return;
-      const ta = document.getElementById('automation-idea');
-      const cur = ta.value.trim();
-      if (!cur) ta.value = text;
-      else if (!cur.toLowerCase().includes(text.toLowerCase())) ta.value = `${cur}; ${text}`;
-      surveyState.automationIdea = ta.value.trim();
-      ta.focus();
       updateProgressBar();
     }
 
