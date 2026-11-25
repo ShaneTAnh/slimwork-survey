@@ -135,6 +135,14 @@
       box-shadow: 0 0 42px -12px rgba(0, 242, 254, 0.28), 0 26px 64px -24px rgba(0, 0, 0, 0.92);
     }
 
+    /* Mục trọng tâm của khảo sát (Mục 02) */
+    .glass-panel.focus-panel {
+      position: relative;
+      border: 2px solid rgba(16, 185, 129, 0.65);
+      background: linear-gradient(145deg, rgba(9, 38, 36, 0.80), rgba(7, 11, 26, 0.92));
+      box-shadow: 0 0 46px -10px rgba(16, 185, 129, 0.55), 0 20px 52px -22px rgba(0, 0, 0, 0.88);
+    }
+
     /* Glowing Interactive Selection Cards */
     .neon-card {
       position: relative;
@@ -526,18 +534,26 @@
         <!-- ================================================================
              MỤC 02: CÔNG VIỆC LẶP LẠI (2A), CÓ CẦN TỰ ĐỘNG HÓA (2B), MỨC ĐỘ KHẢ THI (2C)
              ================================================================ -->
-        <div id="sec-4" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
-          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+        <div id="sec-4" class="glass-panel focus-panel rounded-3xl p-5 sm:p-7 pt-7 sm:pt-8 transition-all">
+          <div class="absolute -top-3.5 left-5 sm:left-7 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#10b981] to-[#00f2fe] px-3.5 py-1 text-[11px] sm:text-xs font-black tracking-wide text-slate-950 shadow-[0_0_18px_rgba(16,185,129,0.6)]">⭐ MỤC TRỌNG TÂM</div>
+          <div class="flex items-start gap-3 sm:gap-4 mb-4">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/18 border border-[#10b981]/55 font-cyber text-sm font-extrabold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.28)]">
               02
             </div>
             <div>
               <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
                 Công việc lặp lại & nhu cầu tự động hóa
-                <span class="text-[11px] font-bold text-emerald-300 bg-[#10b981]/15 border border-[#10b981]/40 rounded-full px-2.5 py-0.5">Ưu tiên cải tiến</span>
               </h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Bắt đầu từ chính công việc của bạn: việc gì đang lặp đi lặp lại, có cần tự động hóa không và khả thi đến đâu.</p>
             </div>
+          </div>
+
+          <div class="mb-5 rounded-2xl border border-[#10b981]/55 bg-gradient-to-r from-[#10b981]/20 via-[#00f2fe]/10 to-[#a855f7]/15 px-4 py-3.5 sm:px-5 sm:py-4">
+            <p class="text-sm sm:text-base font-extrabold text-white leading-relaxed">
+              💡 Bắt đầu từ chính công việc của bạn: <span class="text-emerald-300">việc gì đang lặp đi lặp lại</span>, <span class="text-[#00f2fe]">có cần tự động hóa không</span> và <span class="text-pink-300">khả thi đến đâu</span>.
+            </p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+              Chỉ cần 2–3 câu thật lòng — mô tả càng cụ thể, đội ngũ Slimwork càng dễ thiết kế giải pháp giúp bạn và cả phòng bớt việc lặp lại. 🙌
+            </p>
           </div>
 
           <!-- 2A -->
@@ -546,15 +562,9 @@
               2A. Các loại công việc lặp lại nào bạn đang gặp phải trong quá trình làm việc? Hãy mô tả ngắn gọn: <span class="text-rose-400">*</span>
               <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
             </label>
-            <div class="mb-3 rounded-2xl border border-[#10b981]/30 bg-[#10b981]/[0.06] px-4 py-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <p class="font-semibold text-emerald-200 mb-1.5">Gợi ý cách viết: <span class="font-normal text-slate-300">hiện tại bạn làm thế nào → bước nào muốn máy làm thay.</span></p>
-              <p class="text-slate-400 mb-1">Ví dụ:</p>
-              <ul class="list-disc pl-5 space-y-1 text-slate-400">
-                <li>Mỗi ngày phải làm 1 file Excel, cuối tuần / cuối tháng lại gộp thành file tổng hợp → muốn tự động gộp và tổng hợp.</li>
-                <li>Xuất data từ hệ thống xong phải làm sạch thủ công trước khi phân tích → muốn tự động làm sạch dữ liệu.</li>
-                <li>Thường xuyên dịch văn bản tiếng Việt sang tiếng Anh, tiếng Việt sang tiếng Hàn, hoặc dịch văn bản tiếng Hàn → muốn dịch nhanh, đúng thuật ngữ.</li>
-              </ul>
-            </div>
+            <p class="mb-3 rounded-2xl border border-[#10b981]/30 bg-[#10b981]/[0.06] px-4 py-2.5 text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <span class="font-semibold text-emerald-200">Ví dụ:</span> Mỗi ngày làm file Excel, cuối tháng gộp tổng hợp thủ công → muốn tự động gộp; hoặc thường xuyên dịch văn bản Việt – Hàn – Anh → muốn dịch nhanh, đúng thuật ngữ.
+            </p>
             <textarea id="automation-idea" rows="5"
               placeholder="Công việc lặp lại: ...&#10;Bước muốn tự động hóa: ..."
               class="neon-input w-full rounded-2xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 resize-y"></textarea>
@@ -566,7 +576,7 @@
               2B. Công việc trên có cần tự động hóa không? (Chọn 1) <span class="text-rose-400">*</span>
               <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
             </label>
-            <div id="need-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+            <div id="need-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
           </div>
 
           <!-- 2C -->
@@ -574,7 +584,7 @@
             <label class="block text-sm font-bold text-emerald-300 mb-3">
               2C. Đánh giá mức độ khả thi khi tự động hóa công việc trên (Chọn 1):
             </label>
-            <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+            <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
           </div>
         </div>
 
@@ -1961,30 +1971,26 @@
       // Mục 2C: Mức độ khả thi
       document.getElementById('feasibility-grid').innerHTML = FEASIBILITY_OPTIONS.map((f, idx) => `
         <button type="button" data-feas-idx="${idx}" onclick="selectFeasibilityByIdx(${idx})"
-          class="neon-card rounded-2xl p-4 text-left flex flex-col justify-between gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-lg">${f.icon}</span>
-            <span class="feas-check opacity-0 font-cyber text-[10px] font-bold text-white transition-opacity">✓ CHỌN</span>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-white leading-snug">${f.label}</div>
-            <p class="text-xs text-slate-400 mt-1 leading-snug">${f.sub}</p>
-          </div>
+          class="neon-card rounded-2xl px-3.5 py-3 text-left flex items-center gap-3">
+          <span class="text-xl shrink-0">${f.icon}</span>
+          <span class="flex-1 min-w-0">
+            <span class="block text-sm font-bold text-white leading-snug">${f.label}</span>
+            <span class="block text-[11px] sm:text-xs text-slate-400 leading-snug mt-0.5">${f.sub}</span>
+          </span>
+          <span class="feas-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
         </button>
       `).join('');
 
       // Mục 2B: Có cần tự động hóa không
       document.getElementById('need-grid').innerHTML = NEED_OPTIONS.map((n, idx) => `
         <button type="button" data-need-idx="${idx}" onclick="selectNeedByIdx(${idx})"
-          class="neon-card rounded-2xl p-4 text-left flex flex-col justify-between gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-lg">${n.icon}</span>
-            <span class="need-check opacity-0 font-cyber text-[10px] font-bold text-white transition-opacity">✓ CHỌN</span>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-white leading-snug">${n.label}</div>
-            <p class="text-xs text-slate-400 mt-1 leading-snug">${n.sub}</p>
-          </div>
+          class="neon-card rounded-2xl px-3.5 py-3 text-left flex items-center gap-3">
+          <span class="text-xl shrink-0">${n.icon}</span>
+          <span class="flex-1 min-w-0">
+            <span class="block text-sm font-bold text-white leading-snug">${n.label}</span>
+            <span class="block text-[11px] sm:text-xs text-slate-400 leading-snug mt-0.5">${n.sub}</span>
+          </span>
+          <span class="need-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
         </button>
       `).join('');
 
