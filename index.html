@@ -551,11 +551,34 @@
             <p class="text-sm sm:text-base font-extrabold text-white leading-relaxed">
               💡 Bắt đầu từ chính công việc của bạn: <span class="text-emerald-300">việc gì đang lặp đi lặp lại</span>, <span class="text-[#00f2fe]">có cần tự động hóa không</span> và <span class="text-pink-300">khả thi đến đâu</span>.
             </p>
-            <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
-              Chỉ cần 2–3 câu thật lòng — mô tả càng cụ thể, đội ngũ Slimwork càng dễ thiết kế giải pháp giúp bạn và cả phòng bớt việc lặp lại. 🙌
+          </div>
+
+          <!-- 2: Có muốn dùng AI không? (Không -> bỏ qua toàn bộ các câu bên dưới) -->
+          <div class="mb-5">
+            <label class="block text-sm font-bold text-emerald-300 mb-3">
+              2. Bạn muốn sử dụng AI trong công việc nhằm nâng cao hiệu suất không? <span class="text-rose-400">*</span>
+              <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
+            </label>
+            <div id="wantai-grid" class="grid grid-cols-2 gap-2.5">
+              <button type="button" data-want="yes" onclick="selectWantAI('yes')"
+                class="neon-card rounded-2xl px-4 py-3 text-left flex items-center gap-3">
+                <span class="text-xl shrink-0">👍</span>
+                <span class="flex-1 text-sm font-bold text-white">Có</span>
+                <span class="want-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
+              </button>
+              <button type="button" data-want="no" onclick="selectWantAI('no')"
+                class="neon-card rounded-2xl px-4 py-3 text-left flex items-center gap-3">
+                <span class="text-xl shrink-0">✋</span>
+                <span class="flex-1 text-sm font-bold text-white">Không</span>
+                <span class="want-check opacity-0 transition-opacity text-[#00f2fe] text-xs font-cyber font-bold">✓</span>
+              </button>
+            </div>
+            <p id="wantai-skip-note" class="hidden mt-3 rounded-2xl border border-slate-600 bg-slate-800/60 px-4 py-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Bạn đã chọn <strong class="text-white">Không</strong> — các câu bên dưới được bỏ qua. Bấm <strong class="text-white">Gửi khảo sát</strong> để hoàn tất nhé!
             </p>
           </div>
 
+          <div id="sec2-rest">
           <!-- 2A -->
           <div class="mb-5">
             <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
@@ -585,6 +608,7 @@
               2C. Đánh giá mức độ khả thi khi tự động hóa công việc trên (Chọn 1):
             </label>
             <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+          </div>
           </div>
         </div>
 
@@ -1541,6 +1565,7 @@
       automationIdea: '',
       feasibility: '',
       automationNeed: '',   // '' | 'high' | 'medium' | 'none'
+      wantAI: '',           // '' | 'yes' | 'no' (câu 2; 'no' = bỏ qua các câu bên dưới)
       supportTopics: new Set(),
       supportOther: ''
     };
@@ -2321,6 +2346,30 @@
       updateProgressBar();
     }
 
+    // Câu 2: Có muốn dùng AI không? Chọn "Không" thì ẩn và bỏ qua toàn bộ các câu bên dưới
+    function syncWantAIUI() {
+      const val = surveyState.wantAI;
+      document.querySelectorAll('#wantai-grid [data-want]').forEach((btn) => {
+        const active = btn.dataset.want === val;
+        btn.classList.toggle('active-emerald', active && val === 'yes');
+        btn.classList.toggle('active-slate', active && val === 'no');
+        btn.querySelector('.want-check').style.opacity = active ? '1' : '0';
+      });
+      const skip = val === 'no';
+      ['sec2-rest', 'sec-6', 'sec-2', 'sec-3'].forEach((id) => document.getElementById(id).classList.toggle('hidden', skip));
+      document.getElementById('wantai-skip-note').classList.toggle('hidden', !skip);
+    }
+
+    function selectWantAI(val) {
+      playFx('click');
+      surveyState.wantAI = val;
+      clearSectionError('sec-4');
+      syncWantAIUI();
+      collapseChoice('wantai-grid', document.querySelector(`#wantai-grid [data-want="${val}"]`));
+      scrollToNext(document.getElementById(val === 'no' ? 'submit-survey-btn' : 'automation-idea'));
+      updateProgressBar();
+    }
+
     function selectNeedByIdx(idx) {
       playFx('click');
       const nObj = NEED_OPTIONS[idx];
@@ -2380,12 +2429,16 @@
       const deptValid = surveyState.department && surveyState.departmentNote.length > 0;
       if (deptValid) score += 14;
       if (surveyState.name.length >= 2 && surveyState.employeeId) score += 14;
-      if (surveyState.usageContexts.size > 0) score += 14;
-      if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
-      if (surveyState.level !== null) score += 14;
-      if (surveyState.automationIdea.length > 0) score += 10;
-      if (surveyState.automationNeed) score += 11;
-      if (surveyState.supportTopics.size > 0) score += 11;
+      if (surveyState.wantAI === 'no') {
+        score += 72;   // các câu còn lại được bỏ qua
+      } else {
+        if (surveyState.usageContexts.size > 0) score += 14;
+        if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
+        if (surveyState.level !== null) score += 14;
+        if (surveyState.automationIdea.length > 0) score += 10;
+        if (surveyState.automationNeed) score += 11;
+        if (surveyState.supportTopics.size > 0) score += 11;
+      }
 
       const pct = Math.min(100, score);
       document.getElementById('energy-bar-fill').style.width = `${pct}%`;
@@ -2520,22 +2573,28 @@
       if (sec1Missing.length > 0) {
         missing.push({ sec: 'sec-1', label: 'Mục 01 (' + sec1Missing.join(', ') + ')' });
       }
-      if (surveyState.automationIdea.length === 0) {
-        missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2A: công việc lặp lại)' });
+      const skipRest = surveyState.wantAI === 'no';
+      if (!surveyState.wantAI) {
+        missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2: có muốn dùng AI không)' });
       }
-      if (!surveyState.automationNeed) {
-        missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2B: có cần tự động hóa không)' });
-      }
-      if (surveyState.supportTopics.size === 0) {
-        missing.push({ sec: 'sec-6', label: 'Mục 03 (Công việc cần đội ngũ hỗ trợ)' });
-      }
-      if (surveyState.usageContexts.size === 0) {
-        missing.push({ sec: 'sec-2', label: 'Mục 04 (Hiện trạng sử dụng AI)' });
-      } else if (!surveyState.usageContexts.has('none') && !surveyState.paidAI) {
-        missing.push({ sec: 'sec-2', label: 'Mục 04 (câu Có trả phí / Không trả phí ở 4.1)' });
-      }
-      if (surveyState.level === null) {
-        missing.push({ sec: 'sec-3', label: 'Mục 04 (câu 4.2: Mức độ sử dụng AI)' });
+      if (!skipRest) {
+        if (surveyState.automationIdea.length === 0) {
+          missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2A: công việc lặp lại)' });
+        }
+        if (!surveyState.automationNeed) {
+          missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2B: có cần tự động hóa không)' });
+        }
+        if (surveyState.supportTopics.size === 0) {
+          missing.push({ sec: 'sec-6', label: 'Mục 03 (Công việc cần đội ngũ hỗ trợ)' });
+        }
+        if (surveyState.usageContexts.size === 0) {
+          missing.push({ sec: 'sec-2', label: 'Mục 04 (Hiện trạng sử dụng AI)' });
+        } else if (!surveyState.usageContexts.has('none') && !surveyState.paidAI) {
+          missing.push({ sec: 'sec-2', label: 'Mục 04 (câu Có trả phí / Không trả phí ở 4.1)' });
+        }
+        if (surveyState.level === null) {
+          missing.push({ sec: 'sec-3', label: 'Mục 04 (câu 4.2: Mức độ sử dụng AI)' });
+        }
       }
 
       if (missing.length > 0) {
@@ -2553,7 +2612,7 @@
         return;
       }
 
-      const usingAI = !surveyState.usageContexts.has('none');
+      const usingAI = !skipRest && !surveyState.usageContexts.has('none');
       const deptFinal = `${surveyState.department} (${surveyState.departmentNote})`;
 
       const usageContextsDisplay = Array.from(surveyState.usageContexts).map((u) => {
@@ -2574,7 +2633,8 @@
         s === 'Khác' && surveyState.supportOther ? `Khác (${surveyState.supportOther})` : s
       );
 
-      const levelInfo = AI_LEVELS[surveyState.level];
+      const levelValue = skipRest ? 0 : surveyState.level;
+      const levelInfo = AI_LEVELS[levelValue];
       const feasObj = FEASIBILITY_OPTIONS.find((f) => f.id === surveyState.feasibility);
 
       const record = {
@@ -2591,7 +2651,7 @@
         rawTools21: usingAI ? Array.from(surveyState.aiTools21) : [],
         paidAI: usingAI ? surveyState.paidAI : '',
         paidAILabel: !usingAI ? 'Không áp dụng' : (surveyState.paidAI === 'paid' ? 'Có trả phí' : surveyState.paidAI === 'free' ? 'Không trả phí' : 'Chưa trả lời'),
-        level: surveyState.level,
+        level: levelValue,
         tier: levelInfo.title,
         tierVn: levelInfo.vn,
         tierIcon: levelInfo.icon,
@@ -2601,8 +2661,18 @@
         automationNeed: surveyState.automationNeed,
         automationNeedLabel: needObj ? needObj.label : '',
         supportTopics: supportTopicsDisplay,
-        rawSupportTopics: Array.from(surveyState.supportTopics)
+        rawSupportTopics: Array.from(surveyState.supportTopics),
+        wantAI: surveyState.wantAI,
+        wantAILabel: skipRest ? 'Không' : 'Có'
       };
+      if (skipRest) {
+        Object.assign(record, {
+          usageContexts: [], aiTools21: [], rawTools21: [],
+          automationIdea: '', feasibility: '', feasibilityLabel: '',
+          automationNeed: '', automationNeedLabel: '',
+          supportTopics: [], rawSupportTopics: []
+        });
+      }
 
       lastSubmittedRecord = record;
       saveResponseLocally(record);
@@ -2680,7 +2750,9 @@
       // Step 3: Hỗ trợ mong muốn (Mục 03) theo mức cần tự động hóa (2B)
       steps.push({
         tag: rec.automationNeed === 'high' ? 'BƯỚC 3 • ƯU TIÊN HỖ TRỢ SỚM' : 'BƯỚC 3 • KÍCH HOẠT HỖ TRỢ SLIMWORK',
-        title: `Trọng tâm hỗ trợ: ${rec.rawSupportTopics.slice(0, 3).join(', ')}`,
+        title: rec.rawSupportTopics.length
+          ? `Trọng tâm hỗ trợ: ${rec.rawSupportTopics.slice(0, 3).join(', ')}`
+          : 'Khi bạn sẵn sàng, đội ngũ Slimwork luôn sẵn lòng đồng hành',
         desc: rec.automationNeed === 'high'
           ? 'Bạn đánh giá công việc trên “Rất cần” tự động hóa — đội ngũ Slimwork sẽ ưu tiên làm việc trực tiếp cùng bộ phận của bạn.'
           : 'Đội ngũ Slimwork sẽ ưu tiên hỗ trợ đúng các hạng mục bạn chọn, sát nhất với công việc hằng ngày của bạn.'
@@ -3584,6 +3656,7 @@
       surveyState.automationIdea = '';
       surveyState.feasibility = '';
       surveyState.automationNeed = '';
+      surveyState.wantAI = '';
       surveyState.supportTopics.clear();
       surveyState.supportOther = '';
 
@@ -3599,7 +3672,8 @@
       document.getElementById('level-gauge-bar').style.width = '0%';
 
       renderSurveyUI();
-      ['dept-grid', 'need-grid', 'paid-grid', 'level-grid', 'feasibility-grid'].forEach(expandChoice);
+      ['dept-grid', 'wantai-grid', 'need-grid', 'paid-grid', 'level-grid', 'feasibility-grid'].forEach(expandChoice);
+      syncWantAIUI();
       syncUsageAndQ21UI();
       updateProgressBar();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4113,7 +4187,8 @@
         'Mức độ khả thi (2C)',
         'Mức cần tự động hóa (2B)',
         'Công việc cần hỗ trợ (Mục 03)',
-        'Trả phí AI (4.1)'
+        'Trả phí AI (4.1)',
+        'Muốn dùng AI (Mục 2)'
       ];
 
       const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -4132,7 +4207,8 @@
         r.feasibilityLabel,
         r.automationNeedLabel || '',
         (r.supportTopics || []).join('; '),
-        r.paidAILabel || ''
+        r.paidAILabel || '',
+        r.wantAILabel || ''
       ].map(esc).join(','));
 
       // UTF-8 BOM để mở trực tiếp trên Microsoft Excel không lỗi dấu tiếng Việt
