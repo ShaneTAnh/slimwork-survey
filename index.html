@@ -524,21 +524,102 @@
         </div>
 
         <!-- ================================================================
-             MỤC 2 & MỤC 2.1: HIỆN TRẠNG SỬ DỤNG AI & CHI TIẾT CÔNG CỤ AI
+             MỤC 02: CÔNG VIỆC LẶP LẠI (2A), CÓ CẦN TỰ ĐỘNG HÓA (2B), MỨC ĐỘ KHẢ THI (2C)
+             ================================================================ -->
+        <div id="sec-4" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/18 border border-[#10b981]/55 font-cyber text-sm font-extrabold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.28)]">
+              02
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Công việc lặp lại & nhu cầu tự động hóa
+                <span class="text-[11px] font-bold text-emerald-300 bg-[#10b981]/15 border border-[#10b981]/40 rounded-full px-2.5 py-0.5">Ưu tiên cải tiến</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Bắt đầu từ chính công việc của bạn: việc gì đang lặp đi lặp lại, có cần tự động hóa không và khả thi đến đâu.</p>
+            </div>
+          </div>
+
+          <!-- 2A -->
+          <div class="mb-5">
+            <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
+              2A. Các loại công việc lặp lại nào bạn đang gặp phải trong quá trình làm việc? Hãy mô tả ngắn gọn: <span class="text-rose-400">*</span>
+              <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
+            </label>
+            <div class="mb-3 rounded-2xl border border-[#10b981]/30 bg-[#10b981]/[0.06] px-4 py-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p class="font-semibold text-emerald-200 mb-1.5">Gợi ý cách viết: <span class="font-normal text-slate-300">hiện tại bạn làm thế nào → bước nào muốn máy làm thay.</span></p>
+              <p class="text-slate-400 mb-1">Ví dụ:</p>
+              <ul class="list-disc pl-5 space-y-1 text-slate-400">
+                <li>Mỗi ngày phải làm 1 file Excel, cuối tuần / cuối tháng lại gộp thành file tổng hợp → muốn tự động gộp và tổng hợp.</li>
+                <li>Xuất data từ hệ thống xong phải làm sạch thủ công trước khi phân tích → muốn tự động làm sạch dữ liệu.</li>
+                <li>Thường xuyên dịch văn bản tiếng Việt sang tiếng Anh, tiếng Việt sang tiếng Hàn, hoặc dịch văn bản tiếng Hàn → muốn dịch nhanh, đúng thuật ngữ.</li>
+              </ul>
+            </div>
+            <textarea id="automation-idea" rows="5"
+              placeholder="Công việc lặp lại: ...&#10;Bước muốn tự động hóa: ..."
+              class="neon-input w-full rounded-2xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 resize-y"></textarea>
+          </div>
+
+          <!-- 2B -->
+          <div class="mb-5">
+            <label class="block text-sm font-bold text-emerald-300 mb-3">
+              2B. Công việc trên có cần tự động hóa không? (Chọn 1) <span class="text-rose-400">*</span>
+              <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
+            </label>
+            <div id="need-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+          </div>
+
+          <!-- 2C -->
+          <div>
+            <label class="block text-sm font-bold text-emerald-300 mb-3">
+              2C. Đánh giá mức độ khả thi khi tự động hóa công việc trên (Chọn 1):
+            </label>
+            <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 03: CÔNG VIỆC MONG MUỐN ĐỘI NGŨ HỖ TRỢ
+             ================================================================ -->
+        <div id="sec-6" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
+          <div class="flex items-start gap-3 sm:gap-4 mb-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a855f7]/20 border border-[#a855f7]/55 font-cyber text-sm font-extrabold text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+              03
+            </div>
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
+                Để hoàn thành tốt công việc trên, bạn mong muốn đội ngũ hỗ trợ bạn các loại công việc nào?
+                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn tất cả hạng mục bạn cần đội ngũ Slimwork hỗ trợ để giải quyết công việc ở Mục 02.</p>
+            </div>
+          </div>
+
+          <div id="support-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+          <div id="support-other-wrap" class="hidden mt-3.5 animate-fade-up">
+            <textarea id="support-other-input" rows="2"
+              placeholder="Vui lòng ghi rõ loại công việc, chủ đề hoặc tình huống cụ thể bạn muốn đội ngũ Slimwork hỗ trợ..."
+              class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500"></textarea>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             MỤC 04 & 4.1: KHẢO SÁT AI — HIỆN TRẠNG SỬ DỤNG & CÔNG CỤ AI
              ================================================================ -->
         <div id="sec-2" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all space-y-6">
           <!-- Mục 2 -->
           <div>
             <div class="flex items-start gap-3 sm:gap-4 mb-5">
               <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a855f7]/20 border border-[#a855f7]/55 font-cyber text-sm font-extrabold text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
-                02
+                04
               </div>
               <div>
                 <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
-                  Hiện trạng sử dụng AI nội bộ
+                  Khảo sát AI: hiện trạng sử dụng AI nội bộ
                   <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
                 </h2>
-                <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn các nhóm tác vụ bạn đang ứng dụng AI — hoặc chọn "Chưa sử dụng AI vào công việc" nếu chưa bắt đầu.</p>
+                <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Giúp đội ngũ thiết kế công cụ phù hợp với bạn. Chọn các nhóm tác vụ bạn đang ứng dụng AI — hoặc chọn "Chưa sử dụng AI vào công việc" nếu chưa bắt đầu.</p>
               </div>
             </div>
 
@@ -557,13 +638,13 @@
             <div class="flex flex-wrap items-start justify-between gap-2 mb-4">
               <div class="flex items-start gap-3">
                 <div class="flex h-9 px-2.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#00f2fe]/25 to-[#ec4899]/25 border border-[#00f2fe]/55 font-cyber text-xs font-black text-[#00f2fe] shadow-[0_0_16px_rgba(0,242,254,0.3)]">
-                  2.1
+                  4.1
                 </div>
                 <div>
                   <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug">
                     (Nếu có) Vui lòng cho biết chi tiết bạn đã và đang sử dụng công cụ nào?
                   </h3>
-                  <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Chọn tất cả công cụ AI bạn đang sử dụng. Chạm công cụ bất kỳ sẽ tự động hủy chọn "Chưa sử dụng AI" ở Mục 2.</p>
+                  <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Chọn tất cả công cụ AI bạn đang sử dụng. Chạm công cụ bất kỳ sẽ tự động hủy chọn "Chưa sử dụng AI" ở Mục 04.</p>
                 </div>
               </div>
 
@@ -603,12 +684,12 @@
         </div>
 
         <!-- ================================================================
-             MỤC 3: TỰ ĐÁNH GIÁ MỨC ĐỘ SỬ DỤNG AI (0 - 5, SLIDER + 6 CARDS)
+             MỤC 4.2: TỰ ĐÁNH GIÁ MỨC ĐỘ SỬ DỤNG AI (0 - 5, SLIDER + 6 CARDS)
              ================================================================ -->
         <div id="sec-3" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
           <div class="flex items-start gap-3 sm:gap-4 mb-5">
             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#ec4899]/18 border border-[#ec4899]/55 font-cyber text-sm font-extrabold text-pink-300 shadow-[0_0_20px_rgba(236,72,153,0.3)]">
-              03
+              4.2
             </div>
             <div>
               <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
@@ -659,98 +740,6 @@
           </div>
         </div>
 
-        <!-- ================================================================
-             MỤC 4: CÔNG VIỆC NÊN TỰ ĐỘNG HÓA (4A) & MỨC ĐỘ KHẢ THI (4B)
-             ================================================================ -->
-        <div id="sec-4" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
-          <div class="flex items-start gap-3 sm:gap-4 mb-5">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/18 border border-[#10b981]/55 font-cyber text-sm font-extrabold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.28)]">
-              04
-            </div>
-            <div>
-              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
-                Quy trình công việc nào cần tự động hóa? Mô tả & Đánh giá mức độ khả thi
-                <span class="text-[11px] font-bold text-emerald-300 bg-[#10b981]/15 border border-[#10b981]/40 rounded-full px-2.5 py-0.5">Ưu tiên cải tiến</span>
-              </h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Mô tả quy trình bạn đang làm hằng ngày / tuần / tháng và chỉ rõ bước nào lặp lại, tốn thời gian cần tự động hóa.</p>
-            </div>
-          </div>
-
-          <!-- 4A -->
-          <div class="mb-5">
-            <label for="automation-idea" class="block text-sm font-bold text-emerald-300 mb-2.5">
-              4A. Mô tả quy trình công việc hiện tại và bước nào cần tự động hóa: <span class="text-rose-400">*</span>
-              <span class="text-[11px] font-semibold text-rose-300">(bắt buộc)</span>
-            </label>
-            <div class="mb-3 rounded-2xl border border-[#10b981]/30 bg-[#10b981]/[0.06] px-4 py-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <p class="font-semibold text-emerald-200 mb-1.5">Gợi ý cách viết: <span class="font-normal text-slate-300">hiện tại bạn làm thế nào → bước nào muốn máy làm thay.</span></p>
-              <p class="text-slate-400 mb-1">Ví dụ:</p>
-              <ul class="list-disc pl-5 space-y-1 text-slate-400">
-                <li>Mỗi ngày phải làm 1 file Excel, cuối tuần / cuối tháng lại gộp thành file tổng hợp → muốn tự động gộp và tổng hợp.</li>
-                <li>Xuất data từ hệ thống xong phải làm sạch thủ công trước khi phân tích → muốn tự động làm sạch dữ liệu.</li>
-                <li>Thường xuyên dịch văn bản tiếng Việt sang tiếng Anh, tiếng Việt sang tiếng Hàn, hoặc dịch văn bản tiếng Hàn → muốn dịch nhanh, đúng thuật ngữ.</li>
-              </ul>
-            </div>
-            <textarea id="automation-idea" rows="5"
-              placeholder="Quy trình hiện tại: ...&#10;Bước muốn tự động hóa: ..."
-              class="neon-input w-full rounded-2xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 resize-y"></textarea>
-          </div>
-
-          <!-- 4B -->
-          <div>
-            <label class="block text-sm font-bold text-emerald-300 mb-3">
-              4B. Đánh giá mức độ khả thi khi tự động hóa công việc trên (Chọn 1):
-            </label>
-            <div id="feasibility-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
-          </div>
-        </div>
-
-        <!-- ================================================================
-             MỤC 5: BẠN MUỐN ĐÀO TẠO BẰNG HÌNH THỨC NÀO? (ONLINE / OFFLINE / VIDEO)
-             ================================================================ -->
-        <div id="sec-5" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
-          <div class="flex items-start gap-3 sm:gap-4 mb-5">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#00f2fe]/15 border border-[#00f2fe]/55 font-cyber text-sm font-extrabold text-[#00f2fe] shadow-[0_0_20px_rgba(0,242,254,0.28)]">
-              05
-            </div>
-            <div>
-              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
-                Bạn muốn đào tạo bằng hình thức nào?
-                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
-              </h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn một hoặc nhiều hình thức đào tạo phù hợp nhất với lịch trình công việc của bạn.</p>
-            </div>
-          </div>
-
-          <div id="format-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3.5"></div>
-        </div>
-
-        <!-- ================================================================
-             MỤC 6: CHỦ ĐỀ / CÔNG VIỆC MONG MUỐN ĐỘI NGŨ HỖ TRỢ
-             ================================================================ -->
-        <div id="sec-6" class="glass-panel rounded-3xl p-5 sm:p-7 transition-all">
-          <div class="flex items-start gap-3 sm:gap-4 mb-5">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a855f7]/20 border border-[#a855f7]/55 font-cyber text-sm font-extrabold text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
-              06
-            </div>
-            <div>
-              <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2">
-                Bạn mong muốn đội ngũ hỗ trợ bạn các loại công việc / chủ đề nào?
-                <span class="text-[11px] font-bold text-pink-300 bg-[#ec4899]/15 border border-[#ec4899]/40 rounded-full px-2.5 py-0.5">Chọn nhiều • Bắt buộc</span>
-              </h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Chọn tất cả hạng mục hỗ trợ giúp tăng tốc hiệu suất trực tiếp cho công việc hàng ngày của bạn.</p>
-            </div>
-          </div>
-
-          <div id="support-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-
-          <div id="support-other-wrap" class="hidden mt-3.5 animate-fade-up">
-            <textarea id="support-other-input" rows="2"
-              placeholder="Vui lòng ghi rõ loại công việc, chủ đề hoặc tình huống cụ thể bạn muốn đội ngũ Slimwork hỗ trợ..."
-              class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500"></textarea>
-          </div>
-        </div>
-
         <!-- SUBMIT BUTTON -->
         <div class="pt-2 text-center space-y-3">
           <div id="validation-banner" class="hidden mx-auto max-w-2xl rounded-2xl bg-rose-500/15 border border-rose-500/55 px-4 py-3 text-sm text-rose-200 animate-fade-up"></div>
@@ -786,7 +775,7 @@
               <span class="text-neon-gradient">[Slimwork]</span> Live Stage Dashboard
             </h2>
             <p class="text-xs sm:text-sm text-slate-400 mt-1">
-              Khảo sát nhu cầu Slimwork công việc thông qua ứng dụng A.I — Thống kê trực tiếp theo Bộ phận, Công cụ AI (2.1), Hình thức Đào tạo (5) & Chủ đề Hỗ trợ (6).
+              Khảo sát nhu cầu Slimwork công việc thông qua ứng dụng A.I — Thống kê trực tiếp theo Bộ phận, Mức cần tự động hóa (2B), Chủ đề Hỗ trợ (3) & Công cụ AI (4.1).
             </p>
           </div>
 
@@ -859,7 +848,7 @@
           <div class="mt-2 flex items-baseline gap-1.5">
             <span id="kpi-ideas" class="font-cyber text-2xl sm:text-3xl md:text-4xl font-black text-emerald-300 drop-shadow-[0_0_12px_rgba(16,185,129,0.45)]">0</span>
           </div>
-          <div class="mt-2 text-[11px] text-emerald-200/80">Đề xuất tối ưu quy trình (Mục 4)</div>
+          <div class="mt-2 text-[11px] text-emerald-200/80">Đề xuất tối ưu quy trình (Mục 02)</div>
         </div>
       </div>
 
@@ -887,7 +876,7 @@
               <h3 class="text-base sm:text-lg font-bold text-white">2. Top Công cụ AI đang sử dụng</h3>
               <p class="text-xs text-slate-400">ChatGPT, Gemini, Claude, DeepSeek, Grok, Khác</p>
             </div>
-            <span class="rounded-lg bg-[#a855f7]/15 border border-[#a855f7]/40 px-2.5 py-1 font-cyber text-[10px] text-purple-300">MỤC 2.1</span>
+            <span class="rounded-lg bg-[#a855f7]/15 border border-[#a855f7]/40 px-2.5 py-1 font-cyber text-[10px] text-purple-300">MỤC 4.1</span>
           </div>
           <div class="relative h-[300px] sm:h-[320px] w-full">
             <canvas id="chart-tools"></canvas>
@@ -895,14 +884,14 @@
           <p id="paid-stat" class="mt-3 text-xs sm:text-sm font-semibold text-slate-300 text-center"></p>
         </div>
 
-        <!-- Chart 3: Hình thức Đào tạo mong muốn (Mục 5) -->
+        <!-- Chart 3: Mức cần tự động hóa (Mục 2B) -->
         <div class="glass-panel rounded-3xl p-5 sm:p-6 lg:col-span-5">
           <div class="flex items-center justify-between gap-2 mb-4">
             <div>
-              <h3 class="text-base sm:text-lg font-bold text-white">3. Hình thức Đào tạo mong muốn</h3>
-              <p class="text-xs text-slate-400">Phân bổ nhu cầu học Online, Offline & Video đào tạo</p>
+              <h3 class="text-base sm:text-lg font-bold text-white">3. Mức cần tự động hóa</h3>
+              <p class="text-xs text-slate-400">Công việc lặp lại có cần tự động hóa không</p>
             </div>
-            <span class="rounded-lg bg-[#ec4899]/15 border border-[#ec4899]/40 px-2.5 py-1 font-cyber text-[10px] text-pink-300">MỤC 5</span>
+            <span class="rounded-lg bg-[#ec4899]/15 border border-[#ec4899]/40 px-2.5 py-1 font-cyber text-[10px] text-pink-300">MỤC 2B</span>
           </div>
           <div class="relative h-[280px] sm:h-[300px] w-full">
             <canvas id="chart-format"></canvas>
@@ -916,7 +905,7 @@
               <h3 class="text-base sm:text-lg font-bold text-white">4. Chủ đề & Công việc cần đội ngũ hỗ trợ</h3>
               <p class="text-xs text-slate-400">Tạo video, Phân tích dữ liệu, Trình bày báo cáo, Dịch văn bản, Khác</p>
             </div>
-            <span class="rounded-lg bg-[#10b981]/15 border border-[#10b981]/40 px-2.5 py-1 font-cyber text-[10px] text-emerald-300">MỤC 6</span>
+            <span class="rounded-lg bg-[#10b981]/15 border border-[#10b981]/40 px-2.5 py-1 font-cyber text-[10px] text-emerald-300">MỤC 03</span>
           </div>
           <div class="relative h-[280px] sm:h-[300px] w-full">
             <canvas id="chart-support"></canvas>
@@ -1108,7 +1097,7 @@
         </div>
         <div class="font-cyber text-xs tracking-[0.25em] text-[#00f2fe] uppercase mb-2">SLIMWORK AI ENGINE</div>
         <h3 class="text-xl sm:text-2xl font-black text-white">Đang phân tích Hồ sơ Năng lực AI của bạn...</h3>
-        <p class="text-sm text-slate-400 mt-2">Tổng hợp công cụ AI (2.1), hình thức đào tạo (5), chủ đề hỗ trợ (6) & dựng biểu đồ Radar 4 trục</p>
+        <p class="text-sm text-slate-400 mt-2">Tổng hợp mức cần tự động hóa (2B), chủ đề hỗ trợ (3), công cụ AI (4.1) & dựng biểu đồ Radar 4 trục</p>
       </div>
 
       <!-- Phase 2: Thẻ Hồ sơ Năng lực AI — Slimwork -->
@@ -1146,15 +1135,15 @@
         <!-- Badges Summary: Q2.1 Tools, Q5 Formats, Q6 Support Topics -->
         <div class="py-3.5 border-b border-slate-800/80 space-y-2.5 text-xs">
           <div class="flex flex-wrap items-center gap-1.5">
-            <span class="font-bold text-slate-400 mr-1">Công cụ AI (2.1):</span>
+            <span class="font-bold text-slate-400 mr-1">Công cụ AI (4.1):</span>
             <div id="pass-tool-badges" class="flex flex-wrap gap-1.5"></div>
           </div>
           <div class="flex flex-wrap items-center gap-1.5">
-            <span class="font-bold text-slate-400 mr-1">Hình thức đào tạo (5):</span>
+            <span class="font-bold text-slate-400 mr-1">Mức cần tự động hóa (2B):</span>
             <div id="pass-format-badges" class="flex flex-wrap gap-1.5"></div>
           </div>
           <div class="flex flex-wrap items-center gap-1.5">
-            <span class="font-bold text-slate-400 mr-1">Chủ đề hỗ trợ (6):</span>
+            <span class="font-bold text-slate-400 mr-1">Chủ đề hỗ trợ (3):</span>
             <div id="pass-support-badges" class="flex flex-wrap gap-1.5"></div>
           </div>
         </div>
@@ -1297,7 +1286,7 @@
       {
         id: 'none',
         label: 'Chưa sử dụng AI vào công việc',
-        sub: 'Tự động bỏ chọn các mục "Có", bỏ qua Mục 2.1 và đưa Mục 3 về cấp 0',
+        sub: 'Tự động bỏ chọn các mục "Có", bỏ qua câu 4.1 và đưa câu 4.2 về cấp 0',
         icon: '🌱',
         accent: 'active-slate',
         exclusive: true
@@ -1417,35 +1406,11 @@
       { id: 'unknown', label: 'Chưa rõ — Cần đội ngũ Slimwork khảo sát', sub: 'Đề xuất đội ngũ Slimwork đánh giá trực tiếp tại bộ phận',  icon: '⚪', accent: 'active-slate',   badge: 'text-slate-300 bg-slate-500/15 border-slate-400/45' }
     ];
 
-    // MỤC 5: Hình thức đào tạo mong muốn (Chọn nhiều, bắt buộc)
-    const TRAINING_FORMATS = [
-      {
-        id: 'Online',
-        label: 'Online',
-        sub: 'Học trực tuyến tương tác trực tiếp qua nền tảng họp online',
-        icon: '💻',
-        accent: 'active-cyan',
-        badgeStyle: 'bg-[#00f2fe]/20 border-[#00f2fe]/55 text-[#00f2fe]',
-        chartColor: '#00f2fe'
-      },
-      {
-        id: 'Offline',
-        label: 'Offline',
-        sub: 'Đào tạo trực tiếp, thực hành cầm tay chỉ việc tại văn phòng / nhà máy',
-        icon: '🏢',
-        accent: 'active-purple',
-        badgeStyle: 'bg-[#a855f7]/20 border-[#a855f7]/55 text-purple-200',
-        chartColor: '#a855f7'
-      },
-      {
-        id: 'Video đào tạo',
-        label: 'Video đào tạo',
-        sub: 'Thư viện video bài bản, chia theo tình huống giúp chủ động xem mọi lúc',
-        icon: '🎬',
-        accent: 'active-pink',
-        badgeStyle: 'bg-[#ec4899]/20 border-[#ec4899]/55 text-pink-200',
-        chartColor: '#ec4899'
-      }
+    // MỤC 2B: Công việc trên có cần tự động hóa không? (Chọn 1, bắt buộc)
+    const NEED_OPTIONS = [
+      { id: 'high',   label: 'Rất cần',             sub: 'Tốn nhiều giờ mỗi tuần, muốn được tự động hóa sớm', icon: '🔥', accent: 'active-pink',  badgeStyle: 'bg-[#ec4899]/20 border-[#ec4899]/55 text-pink-200',   chartColor: '#ec4899' },
+      { id: 'medium', label: 'Cần, nhưng chưa gấp', sub: 'Có thể sắp xếp tự động hóa trong thời gian tới',     icon: '⏳', accent: 'active-amber', badgeStyle: 'bg-amber-500/15 border-amber-400/45 text-amber-300', chartColor: '#f59e0b' },
+      { id: 'none',   label: 'Chưa cần thiết',      sub: 'Làm thủ công vẫn ổn ở thời điểm hiện tại',           icon: '🧊', accent: 'active-slate', badgeStyle: 'bg-slate-500/15 border-slate-400/45 text-slate-300', chartColor: '#64748b' }
     ];
 
     // MỤC 6: Loại công việc / chủ đề mong muốn đội ngũ hỗ trợ (Chọn nhiều, bắt buộc)
@@ -1526,10 +1491,10 @@
         'Grok':           96,
         'Khác':           132
       },
-      formatCounts: {
-        'Online':        745,
-        'Offline':       518,
-        'Video đào tạo': 892
+      needCounts: {
+        'Rất cần':             812,
+        'Cần, nhưng chưa gấp': 604,
+        'Chưa cần thiết':      139
       },
       supportCounts: {
         'Tạo video':          540,
@@ -1564,7 +1529,7 @@
       level: null,
       automationIdea: '',
       feasibility: '',
-      trainingFormats: new Set(),
+      automationNeed: '',   // '' | 'high' | 'medium' | 'none'
       supportTopics: new Set(),
       supportOther: ''
     };
@@ -1993,7 +1958,7 @@
         </button>
       `).join('');
 
-      // Mục 4B: Mức độ khả thi
+      // Mục 2C: Mức độ khả thi
       document.getElementById('feasibility-grid').innerHTML = FEASIBILITY_OPTIONS.map((f, idx) => `
         <button type="button" data-feas-idx="${idx}" onclick="selectFeasibilityByIdx(${idx})"
           class="neon-card rounded-2xl p-4 text-left flex flex-col justify-between gap-2">
@@ -2008,22 +1973,22 @@
         </button>
       `).join('');
 
-      // Mục 5: Hình thức đào tạo (Online / Offline / Video đào tạo)
-      document.getElementById('format-grid').innerHTML = TRAINING_FORMATS.map((fmt, idx) => `
-        <button type="button" data-fmt-idx="${idx}" onclick="toggleFormatByIdx(${idx})"
-          class="neon-card rounded-2xl p-4 sm:p-5 text-left flex items-start gap-3.5">
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#070b1a] border border-slate-700/80 text-2xl">${fmt.icon}</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-base font-extrabold text-white">${fmt.label}</span>
-              <span class="fmt-check flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-slate-600 text-[11px] font-bold text-transparent transition-all">✓</span>
-            </div>
-            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">${fmt.sub}</p>
+      // Mục 2B: Có cần tự động hóa không
+      document.getElementById('need-grid').innerHTML = NEED_OPTIONS.map((n, idx) => `
+        <button type="button" data-need-idx="${idx}" onclick="selectNeedByIdx(${idx})"
+          class="neon-card rounded-2xl p-4 text-left flex flex-col justify-between gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">${n.icon}</span>
+            <span class="need-check opacity-0 font-cyber text-[10px] font-bold text-white transition-opacity">✓ CHỌN</span>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-snug">${n.label}</div>
+            <p class="text-xs text-slate-400 mt-1 leading-snug">${n.sub}</p>
           </div>
         </button>
       `).join('');
 
-      // Mục 6: Chủ đề / công việc mong muốn đội ngũ hỗ trợ
+      // Mục 03: Công việc mong muốn đội ngũ hỗ trợ
       document.getElementById('support-grid').innerHTML = SUPPORT_TOPICS.map((sp, idx) => `
         <button type="button" data-sup-idx="${idx}" onclick="toggleSupportByIdx(${idx})"
           class="neon-card rounded-2xl p-4 text-left flex items-start gap-3">
@@ -2120,7 +2085,7 @@
     function pickLevelCard(lvl) {
       selectLevel(lvl);
       collapseChoice('level-grid', document.querySelector(`#level-grid [data-level="${lvl}"]`), ['level-slider-wrap']);
-      scrollToNext(document.getElementById('sec-4'));
+      scrollToNext(document.getElementById('submit-survey-btn'));
     }
 
     function selectDepartmentByIdx(idx) {
@@ -2345,34 +2310,27 @@
         btn.querySelector('.feas-check').style.opacity = active ? '1' : '0';
       });
       collapseChoice('feasibility-grid', document.querySelector(`#feasibility-grid [data-feas-idx="${idx}"]`));
-      scrollToNext(document.getElementById('sec-5'));
+      scrollToNext(document.getElementById('sec-6'));
       updateProgressBar();
     }
 
-    function toggleFormatByIdx(idx) {
+    function selectNeedByIdx(idx) {
       playFx('click');
-      const fmt = TRAINING_FORMATS[idx];
-      if (!fmt) return;
-      clearSectionError('sec-5');
+      const nObj = NEED_OPTIONS[idx];
+      if (!nObj) return;
+      surveyState.automationNeed = nObj.id;
+      clearSectionError('sec-4');
 
-      if (surveyState.trainingFormats.has(fmt.id)) surveyState.trainingFormats.delete(fmt.id);
-      else surveyState.trainingFormats.add(fmt.id);
-
-      TRAINING_FORMATS.forEach((f, i) => {
-        const btn = document.querySelector(`#format-grid [data-fmt-idx="${i}"]`);
+      NEED_OPTIONS.forEach((n, i) => {
+        const btn = document.querySelector(`#need-grid [data-need-idx="${i}"]`);
         if (!btn) return;
-        const active = surveyState.trainingFormats.has(f.id);
-        btn.classList.remove('active-cyan', 'active-purple', 'active-pink');
-        const check = btn.querySelector('.fmt-check');
-        if (active) {
-          btn.classList.add(f.accent);
-          check.classList.add('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
-          check.classList.remove('border-slate-600', 'text-transparent');
-        } else {
-          check.classList.remove('bg-[#00f2fe]', 'border-[#00f2fe]', 'text-slate-950');
-          check.classList.add('border-slate-600', 'text-transparent');
-        }
+        const active = i === idx;
+        btn.classList.remove('active-pink', 'active-amber', 'active-slate');
+        if (active) btn.classList.add(n.accent);
+        btn.querySelector('.need-check').style.opacity = active ? '1' : '0';
       });
+      collapseChoice('need-grid', document.querySelector(`#need-grid [data-need-idx="${idx}"]`));
+      scrollToNext(document.getElementById('feasibility-grid'));
       updateProgressBar();
     }
 
@@ -2419,7 +2377,7 @@
       if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
       if (surveyState.level !== null) score += 14;
       if (surveyState.automationIdea.length > 0) score += 10;
-      if (surveyState.trainingFormats.size > 0) score += 11;
+      if (surveyState.automationNeed) score += 11;
       if (surveyState.supportTopics.size > 0) score += 11;
 
       const pct = Math.min(100, score);
@@ -2555,22 +2513,22 @@
       if (sec1Missing.length > 0) {
         missing.push({ sec: 'sec-1', label: 'Mục 01 (' + sec1Missing.join(', ') + ')' });
       }
-      if (surveyState.usageContexts.size === 0) {
-        missing.push({ sec: 'sec-2', label: 'Mục 02 (Hiện trạng sử dụng AI)' });
-      } else if (!surveyState.usageContexts.has('none') && !surveyState.paidAI) {
-        missing.push({ sec: 'sec-2', label: 'Mục 02 (câu Có trả phí / Không trả phí ở 2.1)' });
-      }
-      if (surveyState.level === null) {
-        missing.push({ sec: 'sec-3', label: 'Mục 03 (Mức độ sử dụng AI)' });
-      }
       if (surveyState.automationIdea.length === 0) {
-        missing.push({ sec: 'sec-4', label: 'Mục 04 (Câu 4A: công việc cần tự động hóa)' });
+        missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2A: công việc lặp lại)' });
       }
-      if (surveyState.trainingFormats.size === 0) {
-        missing.push({ sec: 'sec-5', label: 'Mục 05 (Hình thức đào tạo)' });
+      if (!surveyState.automationNeed) {
+        missing.push({ sec: 'sec-4', label: 'Mục 02 (câu 2B: có cần tự động hóa không)' });
       }
       if (surveyState.supportTopics.size === 0) {
-        missing.push({ sec: 'sec-6', label: 'Mục 06 (Chủ đề cần hỗ trợ)' });
+        missing.push({ sec: 'sec-6', label: 'Mục 03 (Công việc cần đội ngũ hỗ trợ)' });
+      }
+      if (surveyState.usageContexts.size === 0) {
+        missing.push({ sec: 'sec-2', label: 'Mục 04 (Hiện trạng sử dụng AI)' });
+      } else if (!surveyState.usageContexts.has('none') && !surveyState.paidAI) {
+        missing.push({ sec: 'sec-2', label: 'Mục 04 (câu Có trả phí / Không trả phí ở 4.1)' });
+      }
+      if (surveyState.level === null) {
+        missing.push({ sec: 'sec-3', label: 'Mục 04 (câu 4.2: Mức độ sử dụng AI)' });
       }
 
       if (missing.length > 0) {
@@ -2603,7 +2561,7 @@
           )
         : [];
 
-      const trainingFormatsDisplay = Array.from(surveyState.trainingFormats);
+      const needObj = NEED_OPTIONS.find((n) => n.id === surveyState.automationNeed);
 
       const supportTopicsDisplay = Array.from(surveyState.supportTopics).map((s) =>
         s === 'Khác' && surveyState.supportOther ? `Khác (${surveyState.supportOther})` : s
@@ -2633,8 +2591,8 @@
         automationIdea: surveyState.automationIdea || '',
         feasibility: surveyState.feasibility || 'unknown',
         feasibilityLabel: feasObj ? feasObj.label : 'Chưa rõ — Cần đội ngũ Slimwork khảo sát',
-        trainingFormats: trainingFormatsDisplay,
-        rawFormats: Array.from(surveyState.trainingFormats),
+        automationNeed: surveyState.automationNeed,
+        automationNeedLabel: needObj ? needObj.label : '',
         supportTopics: supportTopicsDisplay,
         rawSupportTopics: Array.from(surveyState.supportTopics)
       };
@@ -2665,7 +2623,7 @@
       const autoMind   = rec.automationIdea
         ? (rec.feasibility === 'high' ? 96 : rec.feasibility === 'medium' ? 84 : 74)
         : (rec.feasibility && rec.feasibility !== 'unknown' ? 58 : 38);
-      const growthDrive = Math.min(100, 48 + rec.rawFormats.length * 14 + rec.rawSupportTopics.length * 8);
+      const growthDrive = Math.min(100, 48 + rec.rawSupportTopics.length * 10 + (rec.automationNeed === 'high' ? 20 : rec.automationNeed === 'medium' ? 12 : 4));
       const overall    = Math.round((mastery + diversity + autoMind + growthDrive) / 4);
       return { mastery, diversity, autoMind, growthDrive, overall };
     }
@@ -2712,11 +2670,13 @@
         });
       }
 
-      // Step 3: Training Format (Q5) + Support Topics (Q6)
+      // Step 3: Hỗ trợ mong muốn (Mục 03) theo mức cần tự động hóa (2B)
       steps.push({
-        tag: `BƯỚC 3 • KÍCH HOẠT ĐÀO TẠO (${rec.rawFormats.join(' / ').toUpperCase()})`,
+        tag: rec.automationNeed === 'high' ? 'BƯỚC 3 • ƯU TIÊN HỖ TRỢ SỚM' : 'BƯỚC 3 • KÍCH HOẠT HỖ TRỢ SLIMWORK',
         title: `Trọng tâm hỗ trợ: ${rec.rawSupportTopics.slice(0, 3).join(', ')}`,
-        desc: `Đội ngũ Slimwork sẽ ưu tiên phân phối tài nguyên theo hình thức ${rec.rawFormats.join(', ')} sát nhất với nhu cầu công việc của bạn.`
+        desc: rec.automationNeed === 'high'
+          ? 'Bạn đánh giá công việc trên “Rất cần” tự động hóa — đội ngũ Slimwork sẽ ưu tiên làm việc trực tiếp cùng bộ phận của bạn.'
+          : 'Đội ngũ Slimwork sẽ ưu tiên hỗ trợ đúng các hạng mục bạn chọn, sát nhất với công việc hằng ngày của bạn.'
       });
 
       return steps;
@@ -2760,11 +2720,11 @@
           }).join('');
         }
 
-        // Badges: Mục 5 Training Formats
-        document.getElementById('pass-format-badges').innerHTML = rec.rawFormats.map((fId) => {
-          const meta = TRAINING_FORMATS.find((f) => f.id === fId) || TRAINING_FORMATS[0];
-          return `<span class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${meta.badgeStyle}">${meta.icon} ${escapeHTML(fId)}</span>`;
-        }).join('');
+        // Badge: Mục 2B Mức cần tự động hóa
+        const needMeta = NEED_OPTIONS.find((n) => n.id === rec.automationNeed);
+        document.getElementById('pass-format-badges').innerHTML = needMeta
+          ? `<span class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${needMeta.badgeStyle}">${needMeta.icon} ${escapeHTML(needMeta.label)}</span>`
+          : '<span class="text-slate-500">—</span>';
 
         // Badges: Mục 6 Support Topics
         document.getElementById('pass-support-badges').innerHTML = rec.rawSupportTopics.map((sId, idx) => {
@@ -2963,10 +2923,10 @@
       const ix = P + R + 32, iw = CW - R - 32;
       let iy = y + 4;
       [
-        ['🤖 Công cụ AI (2.1)', rec.aiTools21 && rec.aiTools21.length ? rec.aiTools21.join(', ') : 'Chưa sử dụng công cụ AI'],
+        ['🤖 Công cụ AI (4.1)', rec.aiTools21 && rec.aiTools21.length ? rec.aiTools21.join(', ') : 'Chưa sử dụng công cụ AI'],
         ['💳 Trả phí AI', rec.paidAILabel || '—'],
-        ['🎓 Hình thức đào tạo (5)', (rec.trainingFormats || []).join(', ') || '—'],
-        ['🧩 Chủ đề hỗ trợ (6)', (rec.supportTopics || []).join(', ') || '—']
+        ['🔁 Mức cần tự động hóa (2B)', rec.automationNeedLabel || '—'],
+        ['🧩 Chủ đề hỗ trợ (3)', (rec.supportTopics || []).join(', ') || '—']
       ].forEach(([label, val]) => {
         ctx.fillStyle = '#94a3b8'; ctx.font = `600 21px ${F}`; ctx.fillText(label, ix, iy);
         ctx.fillStyle = '#ffffff'; ctx.font = `700 26px ${F}`;
@@ -3166,7 +3126,7 @@
         chuc: 'Chúc mọi sự chờ đợi của bạn đều xứng đáng.' },
       { tag: '🔥 Khai phá', que: 'Quẻ Khai Phá', answer: 'DÁM THỬ THÌ SẼ THẤY',
         manifest: 'Tôi không ngại thử cái mới: sai thì sửa, đúng thì nhân rộng.',
-        giai: 'Ý tưởng tự động hóa bạn vừa ghi ở câu 4A đáng được thử nghiệm ngay tuần này.',
+        giai: 'Ý tưởng tự động hóa bạn vừa ghi ở câu 2A đáng được thử nghiệm ngay tuần này.',
         chuc: 'Chúc ý tưởng của bạn được duyệt ngay từ vòng đầu.' },
       { tag: '🎯 Tập trung', que: 'Quẻ Định Tâm', answer: 'LÀM XONG RỒI HÃY LƯỚT',
         manifest: 'Tôi làm trọn vẹn từng việc một, không ôm đồm.',
@@ -3616,7 +3576,7 @@
       surveyState.level = null;
       surveyState.automationIdea = '';
       surveyState.feasibility = '';
-      surveyState.trainingFormats.clear();
+      surveyState.automationNeed = '';
       surveyState.supportTopics.clear();
       surveyState.supportOther = '';
 
@@ -3632,7 +3592,7 @@
       document.getElementById('level-gauge-bar').style.width = '0%';
 
       renderSurveyUI();
-      ['dept-grid', 'paid-grid', 'level-grid', 'feasibility-grid'].forEach(expandChoice);
+      ['dept-grid', 'need-grid', 'paid-grid', 'level-grid', 'feasibility-grid'].forEach(expandChoice);
       syncUsageAndQ21UI();
       updateProgressBar();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3647,9 +3607,9 @@
         `• Họ tên: ${lastSubmittedRecord.name}`,
         `• Bộ phận: ${lastSubmittedRecord.department}`,
         `• Cấp độ AI: ${lastSubmittedRecord.tier} (Level ${lastSubmittedRecord.level}/5 — Chỉ số ${s.overall}/100)`,
-        `• Công cụ AI (2.1): ${lastSubmittedRecord.aiTools21.length ? lastSubmittedRecord.aiTools21.join(', ') : 'Chưa sử dụng'}`,
-        `• Hình thức đào tạo (5): ${lastSubmittedRecord.trainingFormats.join(', ')}`,
-        `• Chủ đề hỗ trợ (6): ${lastSubmittedRecord.supportTopics.join(', ')}`,
+        `• Mức cần tự động hóa (2B): ${lastSubmittedRecord.automationNeedLabel || '—'}`,
+        `• Chủ đề hỗ trợ (3): ${lastSubmittedRecord.supportTopics.join(', ')}`,
+        `• Công cụ AI (4.1): ${lastSubmittedRecord.aiTools21.length ? lastSubmittedRecord.aiTools21.join(', ') : 'Chưa sử dụng'}`,
         lastSubmittedRecord.automationIdea ? `• Ý tưởng tự động hóa: ${lastSubmittedRecord.automationIdea}` : ''
       ].filter(Boolean).join('\n');
       copyTextToClipboard(text, '📋 Đã sao chép Hồ sơ Năng lực AI — Slimwork!');
@@ -3733,9 +3693,9 @@
         ? { ...DEMO_BASELINE.tools21Counts }
         : { 'OpenAI ChatGPT': 0, 'Google Gemini': 0, 'Anthropic Claude': 0, 'DeepSeek': 0, 'Grok': 0, 'Khác': 0 };
 
-      const formatCounts = useDemo
-        ? { ...DEMO_BASELINE.formatCounts }
-        : { 'Online': 0, 'Offline': 0, 'Video đào tạo': 0 };
+      const needCounts = useDemo
+        ? { ...DEMO_BASELINE.needCounts }
+        : Object.fromEntries(NEED_OPTIONS.map((n) => [n.label, 0]));
 
       const supportCounts = useDemo
         ? { ...DEMO_BASELINE.supportCounts }
@@ -3756,9 +3716,7 @@
           if (tools21Counts[tId] !== undefined) tools21Counts[tId] += 1;
         });
 
-        (r.rawFormats || []).forEach((fId) => {
-          if (formatCounts[fId] !== undefined) formatCounts[fId] += 1;
-        });
+        if (r.automationNeedLabel && needCounts[r.automationNeedLabel] !== undefined) needCounts[r.automationNeedLabel] += 1;
 
         (r.rawSupportTopics || []).forEach((sId) => {
           if (supportCounts[sId] !== undefined) supportCounts[sId] += 1;
@@ -3779,7 +3737,7 @@
           const key = deptCounts[k] !== undefined ? k : 'Khác';
           deptCounts[key] += v;
         });
-        [[tools21Counts, sharedStats.tools], [formatCounts, sharedStats.formats], [supportCounts, sharedStats.support]].forEach(([target, src]) => {
+        [[tools21Counts, sharedStats.tools], [needCounts, sharedStats.need], [supportCounts, sharedStats.support]].forEach(([target, src]) => {
           Object.keys(target).forEach((k) => { target[k] = 0; });
           Object.entries(src || {}).forEach(([k, v]) => { if (target[k] !== undefined) target[k] += v; });
         });
@@ -3797,6 +3755,7 @@
           department: r.department,
           idea: r.automationIdea,
           feasibility: r.feasibility || 'unknown',
+          needLabel: r.automationNeedLabel || '',
           isReal: true
         }));
 
@@ -3812,11 +3771,12 @@
           department: it.name ? it.dept : '',
           idea: it.idea,
           feasibility: (FEASIBILITY_OPTIONS.find((f) => f.label === it.feas) || FEASIBILITY_OPTIONS[3]).id,
+          needLabel: it.need || '',
           isReal: !knownIdeaKeys.has(ideaKey(it))
         }));
       }
 
-      return { shared: sharedMode, total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, formatCounts, supportCounts, ideas: ideasOut };
+      return { shared: sharedMode, total, adoptionPct, avgLevel, ideasCount, paidCount, freeCount, deptCounts, tools21Counts, needCounts, supportCounts, ideas: ideasOut };
     }
 
     function animateValue(el, target, formatFn) {
@@ -3918,9 +3878,9 @@
         }
       });
 
-      // CHART 3: Hình thức Đào tạo mong muốn (Mục 5: Online, Offline, Video đào tạo)
-      const fmtLabels = Object.keys(m.formatCounts);
-      const fmtVals   = Object.values(m.formatCounts);
+      // CHART 3: Mức cần tự động hóa (Mục 2B)
+      const fmtLabels = Object.keys(m.needCounts);
+      const fmtVals   = Object.values(m.needCounts);
       const fmtZero   = fmtVals.every((v) => v === 0);
 
       const ctxFormat = document.getElementById('chart-format').getContext('2d');
@@ -3931,7 +3891,7 @@
           labels: fmtLabels,
           datasets: [{
             data: fmtZero ? [1] : fmtVals,
-            backgroundColor: fmtZero ? ['rgba(51,65,85,0.4)'] : ['#00f2fe', '#a855f7', '#ec4899'],
+            backgroundColor: fmtZero ? ['rgba(51,65,85,0.4)'] : NEED_OPTIONS.map((n) => n.chartColor),
             borderColor: '#050814',
             borderWidth: 3,
             hoverOffset: 8
@@ -4028,7 +3988,10 @@
                   <span class="text-xs font-bold text-white">${escapeHTML(item.name)}</span>
                   ${item.department ? `<span class="text-[11px] text-slate-400">• ${escapeHTML(item.department)}</span>` : ''}
                 </div>
-                <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold ${feas.badge}">${feas.icon} ${feas.label}</span>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  ${item.needLabel ? `<span class="rounded-full border border-[#ec4899]/45 bg-[#ec4899]/10 px-2 py-0.5 text-[10px] font-bold text-pink-200">🔁 ${escapeHTML(item.needLabel)}</span>` : ''}
+                  <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold ${feas.badge}">${feas.icon} ${feas.label}</span>
+                </div>
               </div>
               <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">"${escapeHTML(item.idea)}"</p>
             </div>
@@ -4104,7 +4067,7 @@
         tier: 'AI Master',
         automationIdea: 'Kiểm thử luồng đồng bộ Webhook từ Live Stage Slimwork',
         feasibilityLabel: 'Rất khả thi',
-        trainingFormats: ['Online', 'Video đào tạo'],
+        automationNeedLabel: 'Rất cần',
         supportTopics: ['Phân tích dữ liệu', 'Trình bày báo cáo']
       };
       try {
@@ -4135,15 +4098,15 @@
         'Mã NV (1C)',
         'Bộ phận',
         'Đang dùng AI',
-        'Hiện trạng sử dụng AI (Mục 2)',
-        'Công cụ AI đang dùng (Mục 2.1)',
+        'Hiện trạng sử dụng AI (Mục 04)',
+        'Công cụ AI đang dùng (4.1)',
         'Mức độ AI (0-5)',
         'Danh hiệu AI',
-        'Ý tưởng Tự động hóa (4A)',
-        'Mức độ khả thi (4B)',
-        'Hình thức đào tạo mong muốn (Mục 5)',
-        'Chủ đề & Công việc cần hỗ trợ (Mục 6)',
-        'Trả phí AI (Mục 2.1)'
+        'Công việc lặp lại (2A)',
+        'Mức độ khả thi (2C)',
+        'Mức cần tự động hóa (2B)',
+        'Công việc cần hỗ trợ (Mục 03)',
+        'Trả phí AI (4.1)'
       ];
 
       const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -4160,7 +4123,7 @@
         r.tier,
         r.automationIdea,
         r.feasibilityLabel,
-        (r.trainingFormats || []).join('; '),
+        r.automationNeedLabel || '',
         (r.supportTopics || []).join('; '),
         r.paidAILabel || ''
       ].map(esc).join(','));
