@@ -820,11 +820,6 @@
             <span>📥</span><span>Xuất Excel/CSV</span>
           </button>
 
-          <button type="button" onclick="openChangePasscodeModal()"
-            class="flex items-center gap-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/45 px-3.5 py-2 text-xs font-bold text-amber-200 transition">
-            <span>🔑</span><span>Đổi mã khóa</span>
-          </button>
-
           <button type="button" onclick="lockLiveStage()"
             class="ml-auto flex items-center gap-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/50 px-3.5 py-2 text-xs font-bold text-rose-300 transition">
             <span>🔒</span><span>Khóa lại</span>
@@ -997,52 +992,6 @@
           class="cta-neon-btn w-full rounded-2xl py-3.5 text-sm font-black tracking-wider text-slate-950 uppercase cursor-pointer">
           🔓 XÁC THỰC & MỞ LIVE STAGE
         </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- =======================================================================
-       MODAL 2: ĐỔI MÃ KHÓA QUẢN TRỊ
-       ======================================================================= -->
-  <div id="change-passcode-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#050814]/90 backdrop-blur-lg p-4">
-    <div id="change-passcode-box" class="glass-panel-neon w-full max-w-md rounded-3xl p-6 relative animate-fade-up">
-      <div class="flex items-center justify-between pb-3.5 border-b border-slate-800">
-        <div>
-          <span class="font-cyber text-[10px] font-bold tracking-widest text-purple-300 uppercase">SECURITY SETTINGS</span>
-          <h3 class="text-lg font-black text-white mt-0.5">🔑 Đổi Mã Khóa Live Stage</h3>
-        </div>
-        <button type="button" onclick="closeChangePasscodeModal()" class="flex h-8 w-8 items-center justify-center rounded-xl bg-[#070b1a] border border-slate-700 text-slate-300">✕</button>
-      </div>
-
-      <form id="change-passcode-form" class="space-y-3.5 pt-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mã khóa hiện tại:</label>
-          <input type="password" id="old-passcode-input" required autocomplete="off" placeholder="Nhập mã khóa đang sử dụng"
-            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mã khóa mới (tối thiểu 4 ký tự):</label>
-          <input type="password" id="new-passcode-input" required minlength="4" autocomplete="off" placeholder="Nhập mã khóa mới"
-            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Xác nhận mã khóa mới:</label>
-          <input type="password" id="confirm-passcode-input" required minlength="4" autocomplete="off" placeholder="Nhập lại mã khóa mới"
-            class="neon-input w-full rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
-        </div>
-
-        <div id="change-passcode-error" class="hidden rounded-xl bg-rose-500/15 border border-rose-500/50 px-3 py-2 text-xs font-bold text-rose-300"></div>
-
-        <div class="flex gap-2.5 pt-2">
-          <button type="button" onclick="closeChangePasscodeModal()"
-            class="flex-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 py-2.5 text-xs font-bold text-slate-200">
-            Hủy bỏ
-          </button>
-          <button type="submit"
-            class="flex-1 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#a855f7] py-2.5 text-xs font-black text-slate-950 uppercase">
-            💾 Lưu mã mới
-          </button>
-        </div>
       </form>
     </div>
   </div>
@@ -1321,11 +1270,10 @@
     /* =====================================================================
        1. CONSTANTS, SECURITY CONFIG & MASTER DATA ([SLIMWORK])
        ===================================================================== */
-    const DEFAULT_PASSCODE         = 'Audit@2027';
     const ZALO_GROUP_URL           = 'https://zalo.me/g/gmvhmr0tyqxeiooqfmzy';  // dán link mời group Zalo "AI & Cải tiến liên tục" vào đây (dạng https://zalo.me/g/...)
     const DEFAULT_WEBHOOK_URL      = 'https://script.google.com/macros/s/AKfycbyG_0TDJuRO4759-Y477dzh5g9AQkqAPA6Ewdt1wnfFYNhefW6uBTs1714HEL0vqEwQAQ/exec';  // dán URL Apps Script (/exec) vào đây để mọi nhân viên gửi về cùng một nơi
-    const STORAGE_KEY_PASSCODE     = 'slimwork_ai_passcode_v1';
     const SESSION_KEY_UNLOCKED     = 'slimwork_ai_stage_unlocked_v1';
+    const SESSION_KEY_PASS         = 'slimwork_ai_stage_pass_v1';   // mã do người xem nhập, chỉ giữ trong phiên; việc kiểm mã do Apps Script làm
     const STORAGE_KEY_RESPONSES    = 'slimwork_ai_responses_v1';
     const STORAGE_KEY_WEBHOOK      = 'slimwork_ai_webhook_v1';
 
@@ -1638,17 +1586,13 @@
     /* =====================================================================
        4. SECURITY GATE (MÃ KHÓA LIVE STAGE — MẶC ĐỊNH "SLIMWORK", KHÔNG LỘ UI)
        ===================================================================== */
-    function getActivePasscode() {
-      try {
-        return localStorage.getItem(STORAGE_KEY_PASSCODE) || DEFAULT_PASSCODE;
-      } catch (e) {
-        return DEFAULT_PASSCODE;
-      }
+    function getStagePass() {
+      try { return sessionStorage.getItem(SESSION_KEY_PASS) || ''; } catch (e) { return ''; }
     }
 
     function isStageUnlocked() {
       try {
-        return sessionStorage.getItem(SESSION_KEY_UNLOCKED) === 'true';
+        return sessionStorage.getItem(SESSION_KEY_UNLOCKED) === 'true' && !!getStagePass();
       } catch (e) {
         return false;
       }
@@ -1707,17 +1651,31 @@
       input.focus();
     }
 
-    document.getElementById('security-unlock-form').addEventListener('submit', function (e) {
+    document.getElementById('security-unlock-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const input = document.getElementById('passcode-input');
       const box = document.getElementById('security-modal-box');
       const errEl = document.getElementById('passcode-error-msg');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
       const entered = input.value.trim();
+      if (!entered) { input.focus(); return; }
 
-      if (entered === getActivePasscode()) {
+      const idleLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ ĐANG XÁC THỰC...';
+      errEl.classList.add('hidden');
+
+      let data = null, netErr = false;
+      try { data = await fetchStageStats(entered); } catch (err) { netErr = true; }
+      submitBtn.disabled = false;
+      submitBtn.textContent = idleLabel;
+
+      if (data && data.status === 'ok') {
         try {
           sessionStorage.setItem(SESSION_KEY_UNLOCKED, 'true');
+          sessionStorage.setItem(SESSION_KEY_PASS, entered);
         } catch (err) {}
+        applySharedStats(data);
         playFx('success');
         updateLockIconUI();
         closeSecurityModal();
@@ -1725,6 +1683,9 @@
         showToast('🔓 Đã mở khóa Live Stage [Slimwork] thành công!', 'emerald');
       } else {
         playFx('error');
+        errEl.textContent = (netErr || !data || data.status !== 'denied')
+          ? '⚠️ Chưa kết nối được máy chủ để kiểm mã. Kiểm tra mạng rồi thử lại.'
+          : '⛔ Mã khóa không chính xác. Quyền truy cập bị từ chối!';
         errEl.classList.remove('hidden');
         box.classList.remove('shake-error');
         void box.offsetWidth;
@@ -1737,57 +1698,13 @@
       playFx('click');
       try {
         sessionStorage.removeItem(SESSION_KEY_UNLOCKED);
+        sessionStorage.removeItem(SESSION_KEY_PASS);
       } catch (e) {}
+      sharedStats = null;
       updateLockIconUI();
       switchView('survey');
       showToast('🔒 Đã khóa Live Stage để bảo mật.', 'cyan');
     }
-
-    function openChangePasscodeModal() {
-      if (!isStageUnlocked()) { openSecurityModal(); return; }
-      playFx('click');
-      document.getElementById('change-passcode-form').reset();
-      document.getElementById('change-passcode-error').classList.add('hidden');
-      const modal = document.getElementById('change-passcode-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      setTimeout(() => document.getElementById('old-passcode-input').focus(), 80);
-    }
-
-    function closeChangePasscodeModal() {
-      const modal = document.getElementById('change-passcode-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    document.getElementById('change-passcode-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const oldVal = document.getElementById('old-passcode-input').value.trim();
-      const newVal = document.getElementById('new-passcode-input').value.trim();
-      const cfmVal = document.getElementById('confirm-passcode-input').value.trim();
-      const errEl  = document.getElementById('change-passcode-error');
-      const box    = document.getElementById('change-passcode-box');
-
-      const showErr = (msg) => {
-        playFx('error');
-        errEl.textContent = msg;
-        errEl.classList.remove('hidden');
-        box.classList.remove('shake-error');
-        void box.offsetWidth;
-        box.classList.add('shake-error');
-      };
-
-      if (oldVal !== getActivePasscode()) { showErr('⛔ Mã khóa hiện tại không chính xác.'); return; }
-      if (newVal.length < 4)              { showErr('⚠️ Mã khóa mới phải có ít nhất 4 ký tự.'); return; }
-      if (newVal !== cfmVal)              { showErr('⚠️ Xác nhận mã khóa mới không khớp.'); return; }
-
-      try {
-        localStorage.setItem(STORAGE_KEY_PASSCODE, newVal);
-      } catch (err) {}
-      playFx('success');
-      closeChangePasscodeModal();
-      showToast('🔑 Đã lưu mã khóa Live Stage mới thành công!', 'emerald');
-    });
 
     /* =====================================================================
        5. STAGE QR CODE MODAL (QRCode.js)
@@ -2543,18 +2460,49 @@
     let sharedResponseCount = null;
     let sharedStats = null;
     let knownIdeaKeys = null;   // ý tưởng đã có khi mở Live Stage; cái đến sau gắn nhãn LIVE MỚI
+    function webhookBase() {
+      return localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
+    }
+
+    // Số liệu chi tiết (có tên, ý tưởng) chỉ trả về khi gửi đúng mã khóa; Apps Script kiểm mã.
+    async function fetchStageStats(pass) {
+      const base = webhookBase();
+      if (!base) throw new Error('no webhook');
+      const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=stats&pass=' + encodeURIComponent(pass));
+      return await res.json();
+    }
+
+    function applySharedStats(data) {
+      if (!data || data.status !== 'ok' || typeof data.total !== 'number') return false;
+      const changed = JSON.stringify(data) !== JSON.stringify(sharedStats);
+      sharedStats = data;
+      sharedResponseCount = data.total;
+      updateLiveCountBadges();
+      if (changed && currentView === 'stage') renderLiveStageDashboard();
+      return true;
+    }
+
     async function refreshSharedCount() {
-      const base = localStorage.getItem(STORAGE_KEY_WEBHOOK) || DEFAULT_WEBHOOK_URL;
+      const base = webhookBase();
       if (!base) return;
       try {
-        const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=stats');
-        const data = await res.json();
-        if (data && data.status === 'ok' && typeof data.total === 'number') {
-          const changed = JSON.stringify(data) !== JSON.stringify(sharedStats);
-          sharedStats = data;
-          sharedResponseCount = data.total;
+        const pass = getStagePass();
+        if (pass && isStageUnlocked()) {
+          const data = await fetchStageStats(pass);
+          if (applySharedStats(data)) return;
+          if (data && data.status === 'denied') {   // mã đã bị đổi ở Apps Script: khóa lại
+            try { sessionStorage.removeItem(SESSION_KEY_UNLOCKED); sessionStorage.removeItem(SESSION_KEY_PASS); } catch (e) {}
+            sharedStats = null;
+            updateLockIconUI();
+            if (currentView === 'stage') switchView('survey');
+            showToast('🔒 Mã khóa đã thay đổi, vui lòng mở khóa lại.', 'cyan');
+          }
+        }
+        const res = await fetch(base + (base.includes('?') ? '&' : '?') + 'action=count');
+        const c = await res.json();
+        if (c && c.status === 'ok' && typeof c.count === 'number') {
+          sharedResponseCount = c.count;
           updateLiveCountBadges();
-          if (changed && currentView === 'stage') renderLiveStageDashboard();
         }
       } catch (err) { /* giu so cuc bo */ }
     }
@@ -4316,7 +4264,6 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeSecurityModal();
-        closeChangePasscodeModal();
         closeQRModal();
         closeConnectModal();
         closeProfileModal();
