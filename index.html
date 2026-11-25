@@ -19,9 +19,6 @@
   <!-- canvas-confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <!-- html2canvas CDN (lưu Thẻ Hồ sơ Năng lực AI thành ảnh PNG) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <!-- QRCode.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -2812,40 +2809,212 @@
       }, 700);
     }
 
-    async function saveProfilePNG() {
-      const card = document.getElementById('pass-phase');
-      const btn = document.getElementById('save-png-btn');
-      if (typeof html2canvas !== 'function') {
-        showToast('⚠️ Chưa tải được thư viện tạo ảnh. Kiểm tra mạng rồi thử lại.', 'amber');
-        return;
+    // ---- Ảnh PNG Thẻ Hồ sơ: vẽ trực tiếp bằng canvas, bố cục gọn (rộng 1080px) để xem trên điện thoại ----
+    function pngWrap(ctx, text, maxW) {
+      const words = String(text || '').split(/\s+/).filter(Boolean);
+      const lines = [];
+      let line = '';
+      words.forEach((w) => {
+        const test = line ? line + ' ' + w : w;
+        if (!line || ctx.measureText(test).width <= maxW) { line = test; } else { lines.push(line); line = w; }
+      });
+      if (line) lines.push(line);
+      return lines;
+    }
+
+    function pngLines(ctx, text, maxW, maxLines) {
+      let lines = pngWrap(ctx, text, maxW);
+      if (lines.length > maxLines) {
+        lines = lines.slice(0, maxLines);
+        let last = lines[maxLines - 1];
+        while (last.length > 1 && ctx.measureText(last + '…').width > maxW) last = last.slice(0, -1);
+        lines[maxLines - 1] = last + '…';
       }
+      return lines;
+    }
+
+    function pngText(ctx, text, x, y, maxW, lineH, maxLines) {
+      const lines = pngLines(ctx, text, maxW, maxLines);
+      lines.forEach((l, k) => ctx.fillText(l, x, y + k * lineH));
+      return lines.length * lineH;
+    }
+
+    function pngRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    async function saveProfilePNG() {
+      const rec = lastSubmittedRecord;
+      const btn = document.getElementById('save-png-btn');
+      if (!rec) { showToast('⚠️ Chưa có hồ sơ để lưu ảnh.', 'amber'); return; }
       const oldLabel = btn.textContent;
       btn.disabled = true;
       btn.textContent = '⏳ Đang tạo ảnh...';
       try {
-        const canvas = await html2canvas(card, {
-          backgroundColor: '#0a1024',
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          scrollX: 0,
-          scrollY: 0,
-          windowWidth: 480,   // dựng theo bố cục điện thoại (1 cột) để ảnh xem rõ trên điện thoại
-          ignoreElements: (el) => el.hasAttribute && el.hasAttribute('data-no-capture'),
-          onclone: (doc) => {
-            const c = doc.getElementById('pass-phase');
-            c.style.animation = 'none';
-            c.style.opacity = '1';
-            c.style.transform = 'none';
-            c.style.background = '#0a1024';
-            c.style.backdropFilter = 'none';
-            c.style.webkitBackdropFilter = 'none';
-          }
+        const F = '"Be Vietnam Pro", system-ui, sans-serif';
+        try {
+          await Promise.all(['500', '600', '700', '800', '900'].map((w) => document.fonts.load(`${w} 32px "Be Vietnam Pro"`)));
+        } catch (e) { /* dùng font hệ thống */ }
+
+        const W = 1080, P = 64, CW = W - P * 2;
+        const cv = document.createElement('canvas');
+        cv.width = W; cv.height = 2000;
+        const ctx = cv.getContext('2d');
+        ctx.textBaseline = 'top';
+
+        // Nền + vạch màu trên cùng
+        const bg = ctx.createLinearGradient(0, 0, W, 1500);
+        bg.addColorStop(0, '#070b1a'); bg.addColorStop(1, '#170a26');
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, W, cv.height);
+        const bar = ctx.createLinearGradient(0, 0, W, 0);
+        bar.addColorStop(0, '#00f2fe'); bar.addColorStop(0.5, '#a855f7'); bar.addColorStop(1, '#ec4899');
+        ctx.fillStyle = bar; ctx.fillRect(0, 0, W, 10);
+
+        // Tiêu đề, tên, bộ phận
+        let y = 52;
+        ctx.fillStyle = '#00f2fe'; ctx.font = `800 24px ${F}`;
+        ctx.fillText('THẺ HỒ SƠ NĂNG LỰC AI • SLIMWORK', P, y);
+        y += 48;
+        let size = 64;
+        ctx.font = `900 ${size}px ${F}`;
+        while (size > 36 && ctx.measureText(rec.name).width > CW) { size -= 2; ctx.font = `900 ${size}px ${F}`; }
+        ctx.fillStyle = '#ffffff'; ctx.fillText(rec.name, P, y);
+        y += size + 16;
+        ctx.fillStyle = '#cbd5e1'; ctx.font = `600 28px ${F}`;
+        y += pngText(ctx, rec.department, P, y, CW, 38, 2);
+        ctx.fillStyle = '#64748b'; ctx.font = `500 22px ${F}`;
+        ctx.fillText(`Mã hồ sơ: ${rec.id}`, P, y + 6);
+        y += 54;
+
+        // Hộp cấp độ AI
+        const tierIcon  = document.getElementById('pass-tier-icon').textContent.trim();
+        const tierTitle = document.getElementById('pass-tier-title').textContent.trim();
+        const tierLevel = document.getElementById('pass-tier-level').textContent.trim();
+        pngRoundRect(ctx, P, y, CW, 120, 28);
+        const tg = ctx.createLinearGradient(P, y, P + CW, y + 120);
+        tg.addColorStop(0, 'rgba(0,242,254,0.16)'); tg.addColorStop(1, 'rgba(168,85,247,0.30)');
+        ctx.fillStyle = tg; ctx.fill();
+        ctx.strokeStyle = 'rgba(0,242,254,0.6)'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.font = `60px ${F}`; ctx.fillStyle = '#ffffff'; ctx.fillText(tierIcon, P + 30, y + 28);
+        ctx.fillStyle = '#00f2fe'; ctx.font = `900 40px ${F}`; ctx.fillText(tierTitle, P + 120, y + 20);
+        ctx.fillStyle = '#f9a8d4'; ctx.font = `700 26px ${F}`; ctx.fillText(tierLevel, P + 120, y + 72);
+        y += 150;
+
+        // Radar (trái) + thông tin chính (phải)
+        const R = 380;
+        pngRoundRect(ctx, P, y, R, R, 28);
+        ctx.fillStyle = '#050814'; ctx.fill();
+        ctx.strokeStyle = 'rgba(148,163,184,0.25)'; ctx.lineWidth = 2; ctx.stroke();
+        // Vẽ riêng một biểu đồ Radar cỡ lớn cho ảnh (chữ rõ hơn bản trên màn hình)
+        try {
+          const sc = computeRadarScores(rec);
+          const rcv = document.createElement('canvas');
+          rcv.width = 720; rcv.height = 720;
+          const tmp = new Chart(rcv.getContext('2d'), {
+            type: 'radar',
+            data: {
+              labels: [['Mức độ', 'thành thạo'], ['Đa dạng', 'công cụ'], ['Tư duy', 'tự động hóa'], ['Động lực', 'học & hỗ trợ']],
+              datasets: [{
+                data: [sc.mastery, sc.diversity, sc.autoMind, sc.growthDrive],
+                backgroundColor: 'rgba(0, 242, 254, 0.26)', borderColor: '#00f2fe', borderWidth: 5,
+                pointBackgroundColor: '#ec4899', pointBorderColor: '#ffffff', pointBorderWidth: 3, pointRadius: 9
+              }]
+            },
+            options: {
+              responsive: false, animation: false, devicePixelRatio: 1,
+              layout: { padding: 16 },
+              scales: { r: {
+                min: 0, max: 100,
+                ticks: { display: false, stepSize: 25 },
+                grid: { color: 'rgba(148, 163, 184, 0.28)', lineWidth: 2 },
+                angleLines: { color: 'rgba(148, 163, 184, 0.32)', lineWidth: 2 },
+                pointLabels: { color: '#e2e8f0', font: { family: 'Be Vietnam Pro', size: 30, weight: '700' } }
+              } },
+              plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            }
+          });
+          ctx.drawImage(rcv, P + 10, y + 10, R - 20, R - 20);
+          tmp.destroy();
+        } catch (e) { /* bỏ qua radar nếu lỗi */ }
+        const ix = P + R + 36, iw = CW - R - 36;
+        let iy = y + 4;
+        [
+          ['🤖 Công cụ AI', rec.aiTools21 && rec.aiTools21.length ? rec.aiTools21.join(', ') : 'Chưa sử dụng'],
+          ['🎓 Muốn đào tạo', (rec.trainingFormats || []).join(', ') || '—'],
+          ['🧩 Cần hỗ trợ', (rec.supportTopics || []).join(', ') || '—']
+        ].forEach(([label, val]) => {
+          ctx.fillStyle = '#94a3b8'; ctx.font = `600 22px ${F}`; ctx.fillText(label, ix, iy);
+          ctx.fillStyle = '#ffffff'; ctx.font = `700 27px ${F}`;
+          iy += 34 + pngText(ctx, val, ix, iy + 34, iw, 36, 2) + 24;
         });
-        const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+        y += Math.max(R, iy - y) + 40;
+
+        // Lộ trình 3 bước (chỉ tiêu đề)
+        ctx.fillStyle = '#c4b5fd'; ctx.font = `800 24px ${F}`;
+        ctx.fillText('🎯 LỘ TRÌNH 3 BƯỚC', P, y);
+        y += 44;
+        buildRoadmap(rec).forEach((st, k) => {
+          ctx.fillStyle = '#00f2fe'; ctx.font = `800 26px ${F}`; ctx.fillText(`${k + 1}.`, P, y);
+          ctx.fillStyle = '#e2e8f0'; ctx.font = `600 26px ${F}`;
+          y += pngText(ctx, st.title, P + 40, y, CW - 40, 34, 2) + 12;
+        });
+        y += 24;
+
+        // Quẻ vận may (nếu đã rút), không thì lời mời group Zalo
+        const drawn = !document.getElementById('fortune-result').classList.contains('hidden');
+        if (drawn) {
+          const tag = document.getElementById('fortune-tag').textContent;
+          const que = document.getElementById('fortune-que').textContent;
+          const ans = document.getElementById('fortune-answer').textContent;
+          ctx.font = `600 25px ${F}`;
+          const mLines = pngLines(ctx, '✨ ' + document.getElementById('fortune-manifest').textContent, CW - 60, 2);
+          const cLines = pngLines(ctx, '🎁 ' + document.getElementById('fortune-chuc').textContent, CW - 60, 2);
+          const topH = 116;
+          const botH = 24 + (mLines.length + cLines.length) * 34 + 10 + 24;
+          pngRoundRect(ctx, P, y, CW, topH + botH, 28);
+          ctx.save(); ctx.clip();
+          ctx.fillStyle = '#0a0a0a'; ctx.fillRect(P, y, CW, topH);
+          ctx.fillStyle = '#f7c6cf'; ctx.fillRect(P, y + topH, CW, botH);
+          ctx.restore();
+          ctx.fillStyle = '#f9a8d4'; ctx.font = `700 22px ${F}`;
+          ctx.fillText(`🔮 THỬ VẬN MAY • ${tag} • ${que}`, P + 30, y + 20);
+          ctx.fillStyle = '#ffffff'; ctx.font = `900 38px ${F}`;
+          pngText(ctx, ans, P + 30, y + 56, CW - 60, 44, 1);
+          ctx.fillStyle = '#1a1a1a'; ctx.font = `600 25px ${F}`;
+          let fy = y + topH + 24;
+          mLines.forEach((l) => { ctx.fillText(l, P + 30, fy); fy += 34; });
+          fy += 10;
+          cLines.forEach((l) => { ctx.fillText(l, P + 30, fy); fy += 34; });
+          y += topH + botH + 36;
+        } else {
+          pngRoundRect(ctx, P, y, CW, 92, 28);
+          const zg = ctx.createLinearGradient(P, y, P + CW, y);
+          zg.addColorStop(0, '#0068ff'); zg.addColorStop(1, '#00c6ff');
+          ctx.fillStyle = zg; ctx.fill();
+          ctx.fillStyle = '#ffffff'; ctx.font = `800 28px ${F}`;
+          pngText(ctx, '💬 Tham gia group Zalo: AI & Cải tiến liên tục', P + 30, y + 30, CW - 60, 34, 1);
+          y += 92 + 36;
+        }
+
+        // Chân trang
+        ctx.fillStyle = '#64748b'; ctx.font = `500 20px ${F}`;
+        y += pngText(ctx, `[CSR] Khảo sát nhu cầu Slimwork công việc thông qua ứng dụng A.I • ${rec.timestamp || ''}`, P, y, CW, 28, 2);
+        const H = y + 48;
+
+        // Cắt đúng chiều cao nội dung
+        const out = document.createElement('canvas');
+        out.width = W; out.height = H;
+        out.getContext('2d').drawImage(cv, 0, 0, W, H, 0, 0, W, H);
+
+        const blob = await new Promise((resolve) => out.toBlob(resolve, 'image/png'));
         if (!blob) throw new Error('Không tạo được ảnh');
-        const rec = lastSubmittedRecord || {};
-        const safeName = String(rec.name || 'NhanVien').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'NhanVien';
+        const safeName = String(rec.name || 'NhanVien').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'NhanVien';
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
