@@ -502,8 +502,8 @@
             <label class="block text-sm font-bold text-[#00f2fe] mb-3">1A. Bạn đang làm việc tại bộ phận nào? (Chọn 1 thẻ)</label>
             <div id="dept-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3"></div>
             <div id="dept-note-wrap" class="mt-3">
-              <label for="dept-note-input" class="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">Ghi rõ bộ phận nhỏ của bạn trong khối/team đã chọn <span class="text-rose-400">*</span></label>
-              <input type="text" id="dept-note-input" placeholder="VD: Kế toán, Nhân Sự, Sale 1, Sale 2, R&D 1, R&D 2..."
+              <label for="dept-note-input" class="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">Ghi rõ bộ phận nhỏ của bạn trong Division/Team đã chọn <span class="text-rose-400">*</span></label>
+              <input type="text" id="dept-note-input" placeholder="VD: Kế toán, Nhân sự, R&D 1, R&D 2..."
                 class="neon-input w-full rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500" />
             </div>
           </div>
@@ -927,7 +927,7 @@
       <div class="glass-panel rounded-3xl p-5 sm:p-6">
         <div class="mb-4">
           <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2"><span>🏷️</span> Bộ phận nhỏ do nhân viên ghi (Mục 1A)</h3>
-          <p class="text-xs text-slate-400">Số phản hồi theo Khối/Team › bộ phận nhỏ, sắp xếp từ nhiều đến ít</p>
+          <p class="text-xs text-slate-400">Số phản hồi theo Division/Team › bộ phận nhỏ, sắp xếp từ nhiều đến ít</p>
         </div>
         <div id="sub-dept-list" class="flex flex-wrap gap-2"></div>
       </div>
@@ -1276,11 +1276,12 @@
     const STORAGE_KEY_RESPONSES    = 'slimwork_ai_responses_v1';
     const STORAGE_KEY_WEBHOOK      = 'slimwork_ai_webhook_v1';
 
-    // MỤC 1A: 11 khối/team + 1 ô ghi chú bộ phận nhỏ (Acc / HR / Sale 1 / R&D 2...)
+    // MỤC 1A: 12 Division/Team + 1 ô ghi chú bộ phận nhỏ (Acc / HR / R&D 2...)
     const DEPARTMENTS = [
-      { id: 'Khối Production',          icon: '🏭', short: 'Khối Production' },
-      { id: 'Khối Sale',                icon: '📈', short: 'Khối Sale' },
-      { id: 'Khối R&D',                 icon: '⚙️', short: 'Khối R&D' },
+      { id: 'Production Division',      icon: '🏭', short: 'Production Division' },
+      { id: 'Sales 1 Division',         icon: '📈', short: 'Sales 1 Division' },
+      { id: 'Sales 2 Division',         icon: '📊', short: 'Sales 2 Division' },
+      { id: 'R&D Division',             icon: '⚙️', short: 'R&D Division' },
       { id: 'Business Management Team', icon: '🧭', short: 'Business Management Team' },
       { id: 'Business Support Team',    icon: '🛠️', short: 'Business Support Team' },
       { id: 'ONE Team',                 icon: '⚡', short: 'ONE Team' },
@@ -2512,7 +2513,7 @@
 
       const missing = [];
       const sec1Missing = [];
-      if (!surveyState.department) sec1Missing.push('chọn Khối/Team (1A)');
+      if (!surveyState.department) sec1Missing.push('chọn Division/Team (1A)');
       if (!surveyState.departmentNote) sec1Missing.push('ghi rõ bộ phận nhỏ');
       if (surveyState.name.length < 2) sec1Missing.push('nhập Họ và tên (1B)');
       if (!surveyState.employeeId) sec1Missing.push('nhập Mã số nhân viên (1C)');
@@ -2641,7 +2642,7 @@
       if (rec.level <= 1) {
         steps.push({
           tag: 'BƯỚC 1 • KHỞI ĐỘNG NỀN TẢNG SLIMWORK',
-          title: `Thiết lập bộ Prompt nền tảng cho khối ${rec.department}`,
+          title: `Thiết lập bộ Prompt nền tảng cho ${rec.department}`,
           desc: 'Bắt đầu với các tác vụ nhanh hằng ngày (soạn thảo, dịch văn bản, tóm tắt họp) kết hợp quy tắc an toàn dữ liệu nội bộ.'
         });
       } else if (rec.level <= 3) {
