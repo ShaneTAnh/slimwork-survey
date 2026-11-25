@@ -609,7 +609,7 @@
           </div>
 
           <!-- Interactive Neon Slider -->
-          <div class="mb-5 px-1">
+          <div id="level-slider-wrap" class="mb-5 px-1">
             <div class="flex items-center justify-between text-[11px] font-cyber text-slate-400 mb-2">
               <span>LVL 0</span><span>LVL 1</span><span>LVL 2</span><span>LVL 3</span><span>LVL 4</span><span>LVL 5</span>
             </div>
@@ -2056,7 +2056,7 @@
 
       // Mục 3: 6 cấp độ 0–5
       document.getElementById('level-grid').innerHTML = AI_LEVELS.map((l) => `
-        <button type="button" data-level="${l.level}" onclick="selectLevel(${l.level})"
+        <button type="button" data-level="${l.level}" onclick="pickLevelCard(${l.level})"
           class="neon-card rounded-2xl p-3 text-center flex flex-col items-center justify-center gap-1">
           <span class="text-xl">${l.icon}</span>
           <span class="font-cyber text-lg sm:text-xl font-black text-white">${l.level}</span>
@@ -2148,6 +2148,56 @@
       });
     }
 
+    // ---- Câu chỉ chọn 1: chọn xong thì thu gọn, chỉ còn mục đã chọn + nút "Chọn lại", rồi tự cuộn tới bước sau ----
+    function collapseChoice(gridId, activeBtn, alsoHide = []) {
+      const grid = document.getElementById(gridId);
+      if (!grid || !activeBtn) return;
+      [...grid.children].forEach((el) => {
+        const keep = el === activeBtn;
+        el.classList.toggle('hidden', !keep);
+        el.style.gridColumn = keep ? '1 / -1' : '';
+      });
+      alsoHide.forEach((id) => { const e = document.getElementById(id); if (e) e.classList.add('hidden'); });
+      let reset = document.getElementById(gridId + '-reset');
+      if (!reset) {
+        reset = document.createElement('button');
+        reset.type = 'button';
+        reset.id = gridId + '-reset';
+        reset.className = 'mt-2 inline-flex items-center gap-1.5 rounded-xl border border-slate-600 bg-[#070b1a] hover:bg-slate-800 px-3.5 py-2 text-xs font-bold text-slate-200 transition';
+        reset.textContent = '↺ Chọn lại';
+        reset.addEventListener('click', () => { playFx('click'); expandChoice(gridId); });
+        grid.insertAdjacentElement('afterend', reset);
+      }
+      reset.dataset.alsoHide = alsoHide.join(',');
+      reset.classList.remove('hidden');
+      grid.dataset.collapsed = '1';
+    }
+
+    function expandChoice(gridId) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      [...grid.children].forEach((el) => { el.classList.remove('hidden'); el.style.gridColumn = ''; });
+      const reset = document.getElementById(gridId + '-reset');
+      if (reset) {
+        (reset.dataset.alsoHide || '').split(',').filter(Boolean).forEach((id) => {
+          const e = document.getElementById(id);
+          if (e) e.classList.remove('hidden');
+        });
+        reset.classList.add('hidden');
+      }
+      delete grid.dataset.collapsed;
+    }
+
+    function scrollToNext(el) {
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+    }
+
+    function pickLevelCard(lvl) {
+      selectLevel(lvl);
+      collapseChoice('level-grid', document.querySelector(`#level-grid [data-level="${lvl}"]`), ['level-slider-wrap']);
+      scrollToNext(document.getElementById('sec-4'));
+    }
+
     function selectDepartmentByIdx(idx) {
       playFx('click');
       const deptObj = DEPARTMENTS[idx];
@@ -2160,6 +2210,10 @@
         btn.classList.toggle('active-cyan', active);
         btn.querySelector('.dept-check').style.opacity = active ? '1' : '0';
       });
+      collapseChoice('dept-grid', document.querySelector(`#dept-grid [data-dept-idx="${idx}"]`));
+      const noteInput = document.getElementById('dept-note-input');
+      scrollToNext(noteInput);
+      if (!noteInput.value) setTimeout(() => noteInput.focus({ preventScroll: true }), 450);
 
       updateProgressBar();
     }
@@ -2296,6 +2350,7 @@
       playFx('click');
       surveyState.paidAI = (surveyState.paidAI === val) ? '' : val;
       updatePaidUI();
+      if (surveyState.paidAI) scrollToNext(document.getElementById('sec-3'));
     }
 
     function updatePaidUI() {
@@ -2304,6 +2359,11 @@
         btn.classList.toggle('active-cyan', active);
         btn.querySelector('.paid-check').style.opacity = active ? '1' : '0';
       });
+      if (surveyState.paidAI) {
+        collapseChoice('paid-grid', document.querySelector(`#paid-grid [data-paid="${surveyState.paidAI}"]`));
+      } else {
+        expandChoice('paid-grid');
+      }
     }
 
     function selectLevel(lvl, silent = false) {
@@ -2337,6 +2397,11 @@
       document.getElementById('tier-badge-desc').textContent = info.desc;
       document.getElementById('level-gauge-bar').style.width = `${Math.max(8, (lvl / 5) * 100)}%`;
 
+      const levelGrid = document.getElementById('level-grid');
+      if (levelGrid && levelGrid.dataset.collapsed) {
+        collapseChoice('level-grid', levelGrid.querySelector(`[data-level="${lvl}"]`), ['level-slider-wrap']);
+      }
+
       updateProgressBar();
     }
 
@@ -2367,6 +2432,8 @@
         if (active) btn.classList.add(f.accent);
         btn.querySelector('.feas-check').style.opacity = active ? '1' : '0';
       });
+      collapseChoice('feasibility-grid', document.querySelector(`#feasibility-grid [data-feas-idx="${idx}"]`));
+      scrollToNext(document.getElementById('sec-5'));
       updateProgressBar();
     }
 
@@ -3297,6 +3364,7 @@
       document.getElementById('level-gauge-bar').style.width = '0%';
 
       renderSurveyUI();
+      ['dept-grid', 'paid-grid', 'level-grid', 'feasibility-grid'].forEach(expandChoice);
       syncUsageAndQ21UI();
       updateProgressBar();
       window.scrollTo({ top: 0, behavior: 'smooth' });
