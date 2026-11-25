@@ -1208,6 +1208,54 @@
           </div>
         </div>
 
+        <!-- Thử vận may công việc (cảm hứng từ "The Book of Answers") -->
+        <div id="fortune-section" class="pb-4">
+          <div class="rounded-3xl border border-pink-300/40 bg-gradient-to-br from-[#0b0b10] via-[#140a14] to-[#2a1420] p-4 sm:p-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <h4 class="font-cyber text-xs font-bold uppercase tracking-wider text-pink-200">🔮 Thử vận may công việc</h4>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Nhắm mắt, nghĩ về một việc bạn đang băn khoăn, rồi lật một trang “Vị thần Quyết định”.</p>
+              </div>
+              <span id="fortune-count" class="hidden font-cyber text-[10px] rounded-full border border-pink-300/50 bg-pink-300/10 px-2.5 py-0.5 text-pink-200"></span>
+            </div>
+
+            <!-- Bìa sách (trước khi rút quẻ) -->
+            <div id="fortune-cover" data-no-capture class="grid grid-cols-2 gap-2.5 mb-3">
+              <div class="rounded-2xl bg-[#0a0a0a] border border-slate-700 px-3 py-4 text-white">
+                <div class="text-sm font-bold leading-tight">Vị thần <span class="text-[10px] font-medium text-slate-300">của những</span></div>
+                <div class="text-lg sm:text-xl font-black leading-none tracking-tight">QUYẾT ĐỊNH</div>
+                <div class="text-[9px] text-slate-400 mt-1">Công việc • Tài lộc</div>
+              </div>
+              <div class="rounded-2xl bg-[#f7c6cf] border border-pink-200 px-3 py-4 text-[#1a1a1a]">
+                <div class="text-sm font-bold leading-tight">Vị thần <span class="text-[10px] font-medium text-slate-700">của những</span></div>
+                <div class="text-lg sm:text-xl font-black leading-none tracking-tight">QUYẾT ĐỊNH</div>
+                <div class="text-[9px] text-slate-600 mt-1">Đào hoa • Hào môn</div>
+              </div>
+            </div>
+
+            <!-- Kết quả quẻ -->
+            <div id="fortune-result" class="hidden rounded-2xl overflow-hidden border border-pink-200/60 mb-3">
+              <div class="bg-[#0a0a0a] px-4 py-4 text-white">
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <span id="fortune-tag" class="inline-flex items-center rounded-full bg-[#f7c6cf] px-2.5 py-1 text-[10px] leading-none font-black text-[#1a1a1a]">—</span>
+                  <span id="fortune-que" class="text-[10px] font-bold text-pink-200">—</span>
+                </div>
+                <div id="fortune-answer" class="text-xl sm:text-2xl font-black leading-tight tracking-tight">—</div>
+              </div>
+              <div class="bg-[#f7c6cf] px-4 py-3.5 text-[#1a1a1a] space-y-2 text-xs sm:text-sm leading-relaxed">
+                <p><strong>✨ Manifest:</strong> <span id="fortune-manifest">—</span></p>
+                <p><strong>📜 Vận giải:</strong> <span id="fortune-giai">—</span></p>
+                <p><strong>🎁 Câu chúc:</strong> <span id="fortune-chuc">—</span></p>
+              </div>
+            </div>
+
+            <button type="button" id="fortune-btn" data-no-capture onclick="drawFortune()"
+              class="w-full rounded-2xl bg-gradient-to-r from-[#f7c6cf] to-[#f472b6] px-5 py-3 text-sm sm:text-base font-black text-[#1a1a1a] shadow-[0_0_22px_rgba(244,114,182,0.4)] hover:brightness-105 transition">
+              🔮 Lật trang thử vận may
+            </button>
+          </div>
+        </div>
+
         <!-- Nút tham gia group Zalo (không đưa vào ảnh PNG) -->
         <div data-no-capture class="pb-4">
           <button type="button" id="zalo-join-btn" onclick="openZaloGroup()"
@@ -2660,6 +2708,7 @@
     }
 
     function openProfileModal(rec) {
+      resetFortune();
       const modal = document.getElementById('profile-modal');
       const scan  = document.getElementById('scan-phase');
       const pass  = document.getElementById('pass-phase');
@@ -2812,6 +2861,145 @@
         btn.disabled = false;
         btn.textContent = oldLabel;
       }
+    }
+
+    // Bộ quẻ "Thử vận may công việc": nội dung tự viết, mang tính vui vẻ, khích lệ
+    const FORTUNES = [
+      { tag: '💼 Công việc', que: 'Quẻ Thuận Buồm', answer: 'CỨ LÀM ĐI, TRỜI SẼ ĐỠ',
+        manifest: 'Tôi làm việc thông minh hơn chứ không cực hơn; việc lặp lại nào cũng tìm được cách tự động hóa.',
+        giai: 'Tuần này một nút thắt tồn đọng sẽ được gỡ nhờ một công cụ nhỏ mà bạn vốn coi thường.',
+        chuc: 'Chúc deadline nhẹ như mây, sếp duyệt nhanh như gió.' },
+      { tag: '💰 Tài lộc', que: 'Quẻ Lộc Tới', answer: 'TIỀN ĐANG TRÊN ĐƯỜNG ĐẾN',
+        manifest: 'Tôi xứng đáng nhận thành quả tương xứng với công sức mình bỏ ra.',
+        giai: 'Một sự ghi nhận bất ngờ đang chờ phía trước; cứ làm thật tốt việc trước mắt, lộc tự tìm đến.',
+        chuc: 'Chúc ví dày, tim nhẹ, KPI xanh lè.' },
+      { tag: '💍 Hào môn', que: 'Quẻ Hào Môn', answer: 'HÀO MÔN ĐANG GÕ CỬA',
+        manifest: 'Tôi tỏa sáng đúng lúc, đúng chỗ và gặp đúng người.',
+        giai: 'Vận làm dâu (làm rể) hào môn đang lên. Trước mắt là “hào môn” Excel: file nào cũng ngoan ngoãn nghe lời bạn.',
+        chuc: 'Chúc bạn sớm gặp người thương có tâm, có tầm và có cả… hệ thống tự động hóa.' },
+      { tag: '🌸 Đào hoa', que: 'Quẻ Đào Hoa', answer: 'ĐÀO HOA NỞ RỘ',
+        manifest: 'Tôi tự tin, rạng rỡ và luôn thu hút năng lượng tích cực.',
+        giai: 'Người ta để ý bạn không chỉ vì nụ cười mà vì báo cáo của bạn luôn nộp đúng hạn.',
+        chuc: 'Chúc độc thân thì sớm có đôi, có đôi thì mãi hạnh phúc.' },
+      { tag: '🚀 Thăng tiến', que: 'Quẻ Thăng Cấp', answer: 'BƯỚC LÊN MỘT BẬC',
+        manifest: 'Tôi học nhanh, làm chắc và được ghi nhận xứng đáng.',
+        giai: 'Một kỹ năng AI mới sẽ là chiếc thang đưa bạn lên tầng tiếp theo trong năm nay.',
+        chuc: 'Chúc chức to, việc gọn, lương cao.' },
+      { tag: '🤖 Trợ thủ AI', que: 'Quẻ Trợ Thủ', answer: 'HỎI AI TRƯỚC, HỎI SẾP SAU',
+        manifest: 'Mỗi ngày tôi giao cho AI một việc nhàm chán để dành thời gian cho việc đáng giá.',
+        giai: 'Một câu lệnh (prompt) viết đúng sẽ tiết kiệm cho bạn trọn một buổi chiều.',
+        chuc: 'Chúc AI hiểu ý bạn còn hơn cả người yêu cũ.' },
+      { tag: '🌿 Cân bằng', que: 'Quẻ An Nhiên', answer: 'NGHỈ MỘT CHÚT CŨNG ĐƯỢC',
+        manifest: 'Tôi làm việc hiệu quả nên có thời gian cho bản thân và gia đình.',
+        giai: 'Hãy để máy làm việc lặp lại, còn bạn về nhà đúng giờ, ăn cơm nóng.',
+        chuc: 'Chúc bạn ngủ ngon, ăn khỏe, không phải tăng ca.' },
+      { tag: '🤝 Quý nhân', que: 'Quẻ Quý Nhân', answer: 'QUÝ NHÂN Ở NGAY BÀN BÊN',
+        manifest: 'Tôi sẵn lòng chia sẻ và luôn có người sẵn lòng giúp tôi.',
+        giai: 'Người ngồi cạnh bạn đang giữ lời giải cho việc bạn đang kẹt. Cứ mở lời hỏi.',
+        chuc: 'Chúc cả team đồng lòng, việc nào cũng trơn tru.' },
+      { tag: '⏳ Chờ thời', que: 'Quẻ Chờ Thời', answer: 'CHƯA PHẢI LÚC, NHƯNG SẮP RỒI',
+        manifest: 'Tôi kiên nhẫn với tiến trình và tin vào kết quả.',
+        giai: 'Điều bạn mong sẽ đến; chỉ cần thêm một bước chuẩn hóa dữ liệu nữa thôi.',
+        chuc: 'Chúc mọi sự chờ đợi của bạn đều xứng đáng.' },
+      { tag: '🔥 Khai phá', que: 'Quẻ Khai Phá', answer: 'DÁM THỬ THÌ SẼ THẤY',
+        manifest: 'Tôi không ngại thử cái mới: sai thì sửa, đúng thì nhân rộng.',
+        giai: 'Ý tưởng tự động hóa bạn vừa ghi ở câu 4A đáng được thử nghiệm ngay tuần này.',
+        chuc: 'Chúc ý tưởng của bạn được duyệt ngay từ vòng đầu.' },
+      { tag: '🎯 Tập trung', que: 'Quẻ Định Tâm', answer: 'LÀM XONG RỒI HÃY LƯỚT',
+        manifest: 'Tôi làm trọn vẹn từng việc một, không ôm đồm.',
+        giai: 'Tắt bớt thông báo 60 phút, bạn sẽ ngạc nhiên vì mình làm được nhiều thế nào.',
+        chuc: 'Chúc bạn một ngày không họp chen ngang.' },
+      { tag: '🎉 Tin vui', que: 'Quẻ Hỷ Sự', answer: 'TIN VUI ĐẾN TRƯỚC CUỐI TUẦN',
+        manifest: 'Tôi đón nhận điều tốt đẹp một cách nhẹ nhàng và biết ơn.',
+        giai: 'Một email hoặc tin nhắn sắp tới sẽ làm bạn cười cả buổi.',
+        chuc: 'Chúc cuối tuần của bạn rực rỡ như bảng KPI tháng này.' },
+      { tag: '🪶 Nhẹ gánh', que: 'Quẻ Buông Bớt', answer: 'BUÔNG BỚT, NHẸ GÁNH',
+        manifest: 'Tôi biết việc nào nên làm, việc nào nên giao và việc nào nên bỏ.',
+        giai: 'Có ít nhất một báo cáo lặp lại hàng tuần có thể giao hẳn cho máy làm.',
+        chuc: 'Chúc vai bạn nhẹ, tâm bạn an.' },
+      { tag: '🧭 Lựa chọn', que: 'Quẻ Giản Dị', answer: 'CHỌN CÁCH ĐƠN GIẢN HƠN',
+        manifest: 'Tôi tin rằng giải pháp tốt thường là giải pháp đơn giản.',
+        giai: 'Đừng vẽ thêm bước. Cách ngắn nhất đang nằm ngay trước mắt bạn.',
+        chuc: 'Chúc mọi quy trình của bạn gọn như một cú nhấp chuột.' },
+      { tag: '📚 Học hỏi', que: 'Quẻ Khai Trí', answer: 'HỌC THÊM MỘT KỸ NĂNG',
+        manifest: 'Mỗi tuần tôi giỏi hơn chính mình của tuần trước một chút.',
+        giai: 'Một buổi đào tạo sắp tới chính là cơ hội bạn đang chờ; đừng bỏ lỡ.',
+        chuc: 'Chúc bạn học đâu nhớ đó, làm đâu chắc đó.' },
+      { tag: '✅ Quyết định', que: 'Quẻ Đồng Thuận', answer: 'CÂU TRẢ LỜI LÀ: CÓ',
+        manifest: 'Tôi tin vào trực giác và dám quyết định.',
+        giai: 'Việc bạn vừa nghĩ trong đầu: cứ làm. Thời điểm đang thuận.',
+        chuc: 'Chúc mọi quyết định của bạn đều đúng và nhanh.' },
+      { tag: '📊 Dữ liệu', que: 'Quẻ Minh Bạch', answer: 'HÃY ĐỂ DỮ LIỆU LÊN TIẾNG',
+        manifest: 'Tôi ra quyết định dựa trên số liệu rõ ràng, không cảm tính.',
+        giai: 'Một biểu đồ đơn giản sẽ thuyết phục người khác nhanh hơn mười trang giải thích.',
+        chuc: 'Chúc số liệu của bạn luôn khớp ngay lần đối chiếu đầu tiên.' },
+      { tag: '🌟 Đồng đội', que: 'Quẻ Đồng Tâm', answer: 'CẢ TEAM CÙNG LÊN',
+        manifest: 'Thành công của tôi gắn với thành công của đồng đội.',
+        giai: 'Chia sẻ một mẹo AI cho cả phòng, phúc báo sẽ quay về gấp đôi.',
+        chuc: 'Chúc phòng ban của bạn về đích đầu tiên.' },
+      { tag: '🍀 May mắn', que: 'Quẻ Cát Tường', answer: 'VẬN MAY ĐANG Ở PHÍA BẠN',
+        manifest: 'Tôi là người may mắn và tôi biết nắm bắt cơ hội.',
+        giai: 'Ba ngày tới là thời điểm đẹp để đề xuất điều bạn ấp ủ lâu nay.',
+        chuc: 'Chúc bạn ra đường gặp quý nhân, vào công ty gặp tin vui.' },
+      { tag: '💎 Hào môn', que: 'Quẻ Kim Ngọc', answer: 'SANG CHẢNH LÀ ĐƯỢC',
+        manifest: 'Tôi sống chỉn chu, làm việc chỉn chu và xứng đáng với điều tốt nhất.',
+        giai: 'Vận hào môn sáng rực: người ta sẽ trầm trồ vì bạn vừa giỏi việc vừa biết tận hưởng.',
+        chuc: 'Chúc bạn sớm “gả” mình vào một cuộc sống sung túc và đủ đầy.' }
+    ];
+    let lastFortuneIdx = -1;
+    let fortuneDraws = 0;
+
+    function resetFortune() {
+      lastFortuneIdx = -1;
+      fortuneDraws = 0;
+      document.getElementById('fortune-result').classList.add('hidden');
+      document.getElementById('fortune-cover').classList.remove('hidden');
+      document.getElementById('fortune-count').classList.add('hidden');
+      const btn = document.getElementById('fortune-btn');
+      btn.disabled = false;
+      btn.textContent = '🔮 Lật trang thử vận may';
+    }
+
+    function showFortune(f) {
+      document.getElementById('fortune-tag').textContent = f.tag;
+      document.getElementById('fortune-que').textContent = f.que;
+      document.getElementById('fortune-answer').textContent = f.answer;
+      document.getElementById('fortune-manifest').textContent = f.manifest;
+      document.getElementById('fortune-giai').textContent = f.giai;
+      document.getElementById('fortune-chuc').textContent = f.chuc;
+    }
+
+    function drawFortune() {
+      const btn = document.getElementById('fortune-btn');
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.textContent = '✨ Đang lật trang...';
+      playFx('click');
+      document.getElementById('fortune-cover').classList.add('hidden');
+      document.getElementById('fortune-result').classList.remove('hidden');
+
+      let idx;
+      do { idx = Math.floor(Math.random() * FORTUNES.length); } while (FORTUNES.length > 1 && idx === lastFortuneIdx);
+
+      // Hiệu ứng lật trang nhanh trước khi dừng ở quẻ chính
+      let ticks = 0;
+      const timer = setInterval(() => {
+        showFortune(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]);
+        ticks += 1;
+        if (ticks >= 10) {
+          clearInterval(timer);
+          lastFortuneIdx = idx;
+          fortuneDraws += 1;
+          showFortune(FORTUNES[idx]);
+          const cnt = document.getElementById('fortune-count');
+          cnt.textContent = `Lượt rút #${fortuneDraws}`;
+          cnt.classList.remove('hidden');
+          playFx('level');
+          triggerNeonConfetti();
+          btn.disabled = false;
+          btn.textContent = '🔁 Rút quẻ khác';
+        }
+      }, 80);
     }
 
     function openZaloGroup() {
