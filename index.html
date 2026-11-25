@@ -510,6 +510,17 @@
                 class="neon-input w-full rounded-2xl pl-11 pr-4 py-3.5 text-sm sm:text-base text-white placeholder-slate-500" />
             </div>
           </div>
+
+          <!-- 1C: Mã số nhân viên -->
+          <div class="mt-5">
+            <label for="employee-id" class="block text-sm font-bold text-[#00f2fe] mb-2">1C. Mã số nhân viên: <span class="text-rose-400">*</span></label>
+            <div class="flex items-stretch">
+              <span class="inline-flex items-center rounded-l-2xl border border-r-0 border-[#00f2fe]/45 bg-[#00f2fe]/10 px-4 text-sm sm:text-base font-bold text-[#00f2fe] whitespace-nowrap">300 -</span>
+              <input type="text" id="employee-id" inputmode="numeric" autocomplete="off" required
+                placeholder="Nhập phần số sau 300-"
+                class="neon-input w-full rounded-r-2xl rounded-l-none px-4 py-3.5 text-sm sm:text-base text-white placeholder-slate-500" />
+            </div>
+          </div>
         </div>
 
         <!-- ================================================================
@@ -572,7 +583,7 @@
 
             <!-- 2.1: Trả phí / không trả phí -->
             <div id="paid-wrap" class="mt-4 rounded-2xl bg-[#070b1a]/70 border border-slate-700/70 p-4">
-              <p class="text-sm font-bold text-[#00f2fe] mb-2.5">Bạn có trả phí (gói Plus / Pro / Team...) cho công cụ AI để phục vụ công việc không?</p>
+              <p class="text-sm font-bold text-[#00f2fe] mb-2.5">Bạn có trả phí (gói Plus / Pro / Team...) cho công cụ AI để phục vụ công việc không? <span class="text-rose-400">*</span></p>
               <div id="paid-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <button type="button" data-paid="paid" onclick="selectPaid('paid')"
                   class="neon-card rounded-2xl px-4 py-3 text-left flex items-center gap-3">
@@ -1596,6 +1607,7 @@
       department: '',
       departmentNote: '',
       name: '',
+      employeeId: '',
       usageContexts: new Set(),
       usageOther: '',
       aiTools21: new Set(),
@@ -2116,6 +2128,11 @@
         clearSectionError('sec-1');
         updateProgressBar();
       });
+      document.getElementById('employee-id').addEventListener('input', (e) => {
+        surveyState.employeeId = e.target.value.replace(/\s+/g, '').replace(/^300-?/, '');
+        clearSectionError('sec-1');
+        updateProgressBar();
+      });
       document.getElementById('dept-note-input').addEventListener('input', (e) => {
         surveyState.departmentNote = e.target.value.trim();
         clearSectionError('sec-1');
@@ -2480,7 +2497,7 @@
       let score = 0;
       const deptValid = surveyState.department && surveyState.departmentNote.length > 0;
       if (deptValid) score += 14;
-      if (surveyState.name.length >= 2) score += 14;
+      if (surveyState.name.length >= 2 && surveyState.employeeId) score += 14;
       if (surveyState.usageContexts.size > 0) score += 14;
       if (surveyState.usageContexts.has('none') || surveyState.aiTools21.size > 0) score += 12;
       if (surveyState.level !== null) score += 14;
@@ -2586,11 +2603,14 @@
       if (!surveyState.department) sec1Missing.push('chọn Khối/Team (1A)');
       if (!surveyState.departmentNote) sec1Missing.push('ghi rõ bộ phận nhỏ');
       if (surveyState.name.length < 2) sec1Missing.push('nhập Họ và tên (1B)');
+      if (!surveyState.employeeId) sec1Missing.push('nhập Mã số nhân viên (1C)');
       if (sec1Missing.length > 0) {
         missing.push({ sec: 'sec-1', label: 'Mục 01 (' + sec1Missing.join(', ') + ')' });
       }
       if (surveyState.usageContexts.size === 0) {
         missing.push({ sec: 'sec-2', label: 'Mục 02 (Hiện trạng sử dụng AI)' });
+      } else if (!surveyState.usageContexts.has('none') && !surveyState.paidAI) {
+        missing.push({ sec: 'sec-2', label: 'Mục 02 (câu Có trả phí / Không trả phí ở 2.1)' });
       }
       if (surveyState.level === null) {
         missing.push({ sec: 'sec-3', label: 'Mục 03 (Mức độ sử dụng AI)' });
@@ -2648,6 +2668,7 @@
         id: 'SW-' + Date.now().toString(36).toUpperCase(),
         timestamp: new Date().toLocaleString('vi-VN'),
         name: surveyState.name,
+        employeeId: `300-${surveyState.employeeId}`,
         department: deptFinal,
         departmentNote: surveyState.departmentNote,
         baseDepartment: surveyState.department,
@@ -2774,7 +2795,7 @@
 
         const scores = computeRadarScores(rec);
         document.getElementById('pass-name').textContent = rec.name;
-        document.getElementById('pass-dept').textContent = `Bộ phận: ${rec.department} • Mã hồ sơ: ${rec.id}`;
+        document.getElementById('pass-dept').textContent = `Bộ phận: ${rec.department} • Mã NV: ${rec.employeeId || '—'} • Mã hồ sơ: ${rec.id}`;
         document.getElementById('pass-tier-icon').textContent = rec.tierIcon;
         document.getElementById('pass-tier-title').textContent = rec.tier.toUpperCase();
         document.getElementById('pass-tier-level').textContent = `LEVEL ${rec.level} / 5 • CHỈ SỐ ${scores.overall}/100`;
@@ -2935,7 +2956,7 @@
       ctx.fillStyle = '#cbd5e1'; ctx.font = `600 27px ${F}`;
       y += pngText(ctx, `Bộ phận: ${rec.department}`, P, y, CW, 38, MAXL);
       ctx.fillStyle = '#94a3b8'; ctx.font = `500 23px ${F}`;
-      ctx.fillText(`Mã hồ sơ: ${rec.id}`, P, y + 4);
+      ctx.fillText(`Mã NV: ${rec.employeeId || '—'}  •  Mã hồ sơ: ${rec.id}`, P, y + 4);
       y += 50;
 
       // --- Cấp độ AI ---
@@ -3318,6 +3339,7 @@
       surveyState.department = '';
       surveyState.departmentNote = '';
       surveyState.name = '';
+      surveyState.employeeId = '';
       surveyState.usageContexts.clear();
       surveyState.usageOther = '';
       surveyState.aiTools21.clear();
@@ -3842,6 +3864,7 @@
         'Mã hồ sơ',
         'Thời gian',
         'Họ tên',
+        'Mã NV (1C)',
         'Bộ phận',
         'Đang dùng AI',
         'Hiện trạng sử dụng AI (Mục 2)',
@@ -3860,6 +3883,7 @@
         r.id,
         r.timestamp,
         r.name,
+        r.employeeId || '',
         r.department,
         r.usingAI ? 'Có' : 'Chưa',
         (r.usageContexts || []).join('; '),
